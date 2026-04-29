@@ -171,3 +171,28 @@ Registra un movimiento internacional de tipo **retiro** o **aporte patrimonial**
 - Use **Cuentas Internacionales** para validar la cuenta Alpaca asociada
 - Use **Actividad y Custodias** para revisar el impacto posterior del movimiento en la cuenta
 - Use **Órdenes Internacionales** para operar instrumentos una vez disponibles los fondos
+
+
+---
+
+## Tipos de movimiento patrimonial
+
+| Código | Tipo |
+|---|---|
+| `APO_PAT_IT` | Aporte patrimonial internacional (entrada de fondos a la cuenta Alpaca) |
+| `RET_PAT_IT` | Retiro patrimonial internacional (salida de fondos desde la cuenta Alpaca) |
+
+## `GET /MovimientosAlpaca/patrimoniales/{numCuenta}`
+
+Lista los movimientos patrimoniales (aportes y retiros) de una cuenta Alpaca.
+
+### Filtros disponibles
+
+| Parámetro | Descripción |
+|---|---|
+| `tipoMovimiento` | `APO_PAT_IT` o `RET_PAT_IT` |
+| `fechaDesde` | Fecha de inicio (ISO) |
+| `fechaHasta` | Fecha de fin (ISO) |
+| `estado` | Estado del movimiento (pendiente, ejecutado, rechazado) |
+| `montoMinimo` | Monto mínimo a filtrar |
+| `montoMaximo` | Monto máximo a filtrar |
