@@ -141,3 +141,40 @@ GET /api/publicapi/creasys/Asset?search=tech&page=1&pageSize=20
 ## Siguiente paso
 
 Continúa con **Órdenes Internacionales** para enviar una orden con `CodBolsa = "ALPACA"` usando el símbolo encontrado.
+
+
+---
+
+## Tipos de feed en `LastQuote`
+
+El parámetro `feed` permite elegir el origen de la cotización:
+
+| Feed | Descripción |
+|---|---|
+| `sip` | Securities Information Processor — feed consolidado oficial |
+| `iex` | IEX Exchange — feed gratuito, menor cobertura |
+| `delayed_sip` | SIP con delay de 15 minutos |
+| `boats` | Blue Ocean ATS — sesión overnight |
+| `overnight` | Datos del horario extendido |
+| `otc` | Over-The-Counter |
+
+## `GET /ClockAlpaca`
+
+Retorna el estado actual del mercado: si está abierto, próxima apertura y próximo cierre. Útil para validar antes de enviar órdenes.
+
+## `GET /Asset/LogoParquet/{nemotecnico}`
+
+Retorna el logo del instrumento (formato parquet) para mostrar en UI.
+
+## Market Data
+
+Endpoints disponibles para data histórica e intradía:
+
+| Endpoint | Descripción |
+|---|---|
+| `bars` | Velas OHLCV por intervalo |
+| `quotes` | Cotizaciones bid/ask |
+| `snapshots` | Foto actual del instrumento (last trade + last quote + minute bar) |
+| `trades` | Operaciones individuales |
+| `auctions` | Subastas de apertura y cierre |
+| `meta` | Metadata del instrumento |
