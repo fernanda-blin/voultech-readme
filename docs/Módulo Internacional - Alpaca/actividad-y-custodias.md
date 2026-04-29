@@ -246,3 +246,30 @@ Obtiene las posiciones de una cuenta Alpaca específica.
 ## Siguiente paso
 
 Continúe con **Movimientos Internacionales** para registrar aportes o retiros patrimoniales entre cuentas locales y cuentas Alpaca.
+
+
+---
+
+## Parámetros de `ObtenerActividadCuenta`
+
+| Parámetro | Tipo | Descripción |
+|---|---|---|
+| `NumCuenta` | string | Número de cuenta Alpaca |
+| `activity_types` | string | Tipos de actividad separados por coma (ej: `FILL,DIV`) |
+| `category` | string | Categoría (`trade_activity`, `non_trade_activity`) |
+| `date` | string (ISO) | Fecha exacta |
+| `after` | string (ISO) | Actividades después de esta fecha |
+| `until` | string (ISO) | Actividades hasta esta fecha |
+| `direction` | string | `asc` o `desc` |
+| `page_size` | int | Cantidad por página |
+| `page_token` | string | Token de paginación |
+
+## Tipos de actividad
+
+| Código | Significado |
+|---|---|
+| `FILL` | Ejecución de una orden |
+| `JNLC` | Movimiento de cash (journal cash) |
+| `DIV` | Dividendo |
+| `FEE` | Cargo / comisión |
+| `OPCSH` | Operación cash |
