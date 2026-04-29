@@ -1,0 +1,11 @@
+- get_api-publicapi-creasys-asesor
+- get_api-publicapi-shared-cierre-datosenproceso
+- get_api-publicapi-shared-cierre-cuentas
+- get_api-publicapi-shared-cierre-sistema
+- get_api-publicapi-shared-cierre-mincomun
+- get_api-publicapi-creasys-mxmesa
+- post_api-publicapi-shared-ordermovement-updatemovement
+- post_api-publicapi-shared-ordermovement-updatemovementbufferprotocol
+- put_api-publicapi-creasys-usuario-cambiorolprospecto
+- put_api-publicapi-creasys-usuario-relacionusuariocliente
+- get_api-shared-environment
