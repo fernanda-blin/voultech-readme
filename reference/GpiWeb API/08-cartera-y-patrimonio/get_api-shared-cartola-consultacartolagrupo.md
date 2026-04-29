@@ -2,5 +2,5 @@
 api:
   file: public-api.json
   operationId: get_api-shared-cartola-consultacartolagrupo
-hidden: true
+hidden: false
 ---
