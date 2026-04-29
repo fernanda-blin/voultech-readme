@@ -206,3 +206,35 @@ Obtiene el saldo de una cuenta Alpaca específica.
 ## Siguiente paso
 
 Continúa con **Assets e Instrumentos** para buscar símbolos disponibles, o con **Órdenes Internacionales** para enviar tu primera orden.
+
+
+---
+
+## Valores válidos de `fundingSource`
+
+Al crear una cuenta Alpaca, el campo `fundingSource` indica el origen de los fondos. Valores aceptados:
+
+| Valor | Descripción |
+|---|---|
+| `employment_income` | Ingresos por empleo |
+| `investments` | Inversiones |
+| `inheritance` | Herencia |
+| `business_income` | Ingresos por negocio propio |
+| `savings` | Ahorros |
+| `family` | Familia |
+
+## Campos del saldo (`SaldoAlpaca`)
+
+La respuesta de `SaldoAlpaca` incluye, entre otros:
+
+| Campo | Descripción |
+|---|---|
+| `equity` | Valor total actual de la cuenta (cash + posiciones) |
+| `last_equity` | Equity al cierre del día anterior |
+| `buying_power` | Poder de compra disponible |
+| `cash` | Efectivo disponible |
+| `portfolio_value` | Valor del portafolio |
+| `long_market_value` | Valor de mercado de posiciones long |
+| `short_market_value` | Valor de mercado de posiciones short |
+
+> 📌 **Nota:** para precios en tiempo real conviene combinar `SaldoAlpaca` con WebSocket o polling sobre `LastQuote`, ya que el saldo no actualiza tick a tick.
