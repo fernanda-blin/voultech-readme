@@ -1,141 +1,173 @@
 ---
-title: "Movimientos Internacionales"
-excerpt: "Registra y consulta aportes y retiros patrimoniales entre cuentas locales y cuentas Alpaca."
+title: Movimientos Internacionales
+excerpt: >-
+  Consulte y registre aportes y retiros patrimoniales internacionales entre
+  cuentas locales y cuentas Alpaca.
+deprecated: false
+hidden: false
+metadata:
+  robots: index
 ---
+Registre y consulte movimientos patrimoniales internacionales entre cuentas locales y cuentas Alpaca.
 
-Registra y consulta movimientos patrimoniales internacionales entre cuentas locales y cuentas Alpaca.
+## Alcance de esta página
 
-## Qué cubre esta página
+Esta guía cubre los endpoints del módulo internacional para:
 
-- Registrar aportes y retiros patrimoniales internacionales
-- Consultar movimientos patrimoniales por cuenta
-- Consultar listado general de movimientos con filtros
+- consultar movimientos internacionales por rango de fechas o filtros específicos
+- registrar aportes y retiros patrimoniales internacionales
 
----
+<br />
 
-## Registrar movimiento internacional
+## Consultar movimientos internacionales
 
-`POST /api/publicapi/creasys/MovimientosAlpaca/MovimientoInternacionalAlpaca`
+**→ GET** `/api/publicapi/creasys/MovimientosAlpaca`
 
-Registra un movimiento internacional de tipo **retiro** o **aporte patrimonial** entre cuentas locales y cuentas Alpaca.
+Obtiene una lista de movimientos en un rango de fecha determinado o filtrados por ID, UUID u otros criterios.
 
-### Tipos de movimiento
+### Parámetros de consulta
 
-| Código | Descripción |
-|--------|-------------|
-| `APO_PAT_IT` | Aporte patrimonial (Voultech → Alpaca) |
-| `RET_PAT_IT` | Retiro patrimonial (Alpaca → Voultech) |
+| Parámetro | Descripción | Obligatorio |
+|---|---|---|
+| `Desde` | Fecha de inicio en formato `YYYY-MM-DD` | Sí, si no se proporciona `Id` o `Uuid` |
+| `Hasta` | Fecha de término en formato `YYYY-MM-DD` | Sí, si no se proporciona `Id` o `Uuid` |
+| `Identificador` | Identificador del cliente | No |
+| `NumCuenta` | Número de cuenta | No |
+| `CodTipoMovimiento` | Código del tipo de movimiento | No |
+| `IdMovCaja` | ID del movimiento de caja | No |
+| `Id` | ID del movimiento | No |
+| `Uuid` | UUID del movimiento | No |
+| `PageNumber` | Número de página para paginación | No |
+| `PageSize` | Tamaño de página para paginación | No |
 
-### Parámetros
+### Respuesta
 
-| Parámetro | Tipo | Obligatorio | Descripción |
-|-----------|------|-------------|-------------|
-| `codTipoMovimiento` | string | **Sí** | `APO_PAT_IT` o `RET_PAT_IT` |
-| `numCuenta` | string | **Sí** | Número de cuenta (máx. 15 caracteres) |
-| `monto` | decimal | **Sí** | Monto del movimiento (> 0) |
-| `codMoneda` | string | **Sí** | Código de moneda (máx. 3 caracteres, ej: `USD`) |
-| `obsMovimiento` | string | No | Observaciones (máx. 100 caracteres) |
-| `dscMedioPagoCobro` | string | No | Medio de pago/cobro (máx. 20 caracteres) |
-| `id` | int | No | ID asociado |
-| `uuid` | string | No | UUID para trazabilidad e idempotencia |
-
-### Request
-
-```json
-{
-  "codMoneda": "USD",
-  "monto": 5,
-  "numCuenta": "18784154/0",
-  "id": 864857,
-  "codTipoMovimiento": "RET_PAT_IT",
-  "obsMovimiento": "Retiro a caja USD",
-  "dscMedioPagoCobro": "TRANSFERENCIA"
-}
-```
-
-### Respuesta (200 OK)
-
-```json
-{
-  "id": 14380256,
-  "codTipoMovimiento": "RET_PAT_IT",
-  "numCuenta": "18784154/0",
-  "fechaMovimiento": "2025-12-01T00:00:00-03:00",
-  "monto": 5,
-  "codMoneda": "USD",
-  "uuidJournal": "85de80c1-5389-4e0e-a9a9-3b5cab378121"
-}
-```
-
-> 💡 Usa `uuid` para mantener trazabilidad e idempotencia sobre cada movimiento internacional registrado.
-
----
-
-## Consultar movimientos patrimoniales por cuenta
-
-`GET /api/publicapi/creasys/MovimientosAlpaca/patrimoniales/{numCuenta}`
-
-Listado de movimientos patrimoniales para una cuenta específica, con filtros opcionales.
-
-### Parámetros
-
-| Parámetro | Tipo | Descripción |
-|-----------|------|-------------|
-| `numCuenta` (path) | string | Número de cuenta Voultech |
-| `idMovimiento` | int | ID específico del movimiento |
-| `fechaDesde` | date | Fecha inicial del rango (YYYY-MM-DD) |
-| `fechaHasta` | date | Fecha final del rango (YYYY-MM-DD) |
-| `CuentaOrigen` | string | UUID de cuenta origen en Alpaca |
-| `CuentaDestino` | string | UUID de cuenta destino en Alpaca |
-| `estadoActual` | string | Estado del journal: `executed`, `pending`, `canceled` |
-
-### Respuesta (200 OK)
-
-```json
+```json title="Respuesta (200 OK)"
 [
   {
-    "idMovimiento": 14380227,
-    "fechaMovimiento": "2025-12-01T00:00:00",
-    "codOrigen": "RET_PAT_IT",
-    "monto": 5.0,
-    "descripcion": "RETIRO PATRIMONIAL ALPACA",
-    "entryType": "JNLC",
-    "cuentaOrigen": "57c57391-426b-3474-99d7-d94830d0447e",
-    "cuentaDestino": "5d2b13eb-0765-4364-8115-a65c7695303d",
-    "journalAmount": 5.0,
-    "estadoActual": "executed",
-    "numeroCuenta": "18784154/0"
+    "id": 12345,
+    "codTipoMovimiento": "RET_PAT_IT",
+    "numCuenta": "19130340/0",
+    "tipoMovimiento": "Retiro Patrimonial Internacional",
+    "dscMovimiento": "Retiro patrimonial internacional",
+    "fechaMovimiento": "2025-08-06T15:10:06-04:00",
+    "fechaLiquidacion": "2025-08-06T15:10:06-04:00",
+    "monto": 1000.00,
+    "codMoneda": "USD",
+    "dscCajaCuenta": "Cuenta Principal",
+    "dscEstadoMovimiento": "Completado"
+  },
+  {
+    "id": 12346,
+    "codTipoMovimiento": "APO_PAT_IT",
+    "numCuenta": "19130340/0",
+    "tipoMovimiento": "Aporte Patrimonial Internacional",
+    "dscMovimiento": "Aporte patrimonial internacional",
+    "fechaMovimiento": "2025-08-05T10:15:20-04:00",
+    "fechaLiquidacion": "2025-08-05T10:15:20-04:00",
+    "monto": 2500.00,
+    "codMoneda": "USD",
+    "dscCajaCuenta": "Cuenta Principal",
+    "dscEstadoMovimiento": "Completado"
   }
 ]
 ```
 
-### Campos destacados
+### Campos destacados de la respuesta
 
 | Campo | Descripción |
-|-------|-------------|
-| `idMovimiento` | ID del movimiento |
-| `codOrigen` | Tipo de movimiento (`APO_PAT_IT`, `RET_PAT_IT`) |
-| `entryType` | Tipo de entry de Alpaca (ej: `JNLC`) |
-| `cuentaOrigen` | UUID de cuenta Alpaca origen |
-| `cuentaDestino` | UUID de cuenta Alpaca destino |
-| `estadoActual` | `executed`, `pending`, `canceled` |
+|---|---|
+| `codTipoMovimiento` | Tipo de movimiento registrado |
+| `numCuenta` | Cuenta asociada al movimiento |
+| `tipoMovimiento` | Nombre descriptivo del movimiento |
+| `fechaMovimiento` | Fecha en que se registró el movimiento |
+| `fechaLiquidacion` | Fecha de liquidación |
+| `monto` | Monto del movimiento |
+| `codMoneda` | Moneda del movimiento |
+| `dscEstadoMovimiento` | Estado del movimiento |
 
----
+<br />
+
+## Registrar movimiento internacional
+
+**→ POST** `/api/publicapi/creasys/MovimientosAlpaca/MovimientoInternacionalAlpaca`
+
+Registra un movimiento internacional de tipo **retiro** o **aporte patrimonial** entre cuentas locales y cuentas Alpaca, según el tipo de movimiento especificado.
+
+### Parámetros del request
+
+| Parámetro | Descripción | Obligatorio |
+|---|---|---|
+| `codTipoMovimiento` | Tipo de movimiento: `RET_PAT_IT` o `APO_PAT_IT` | Sí |
+| `numCuenta` | Número de cuenta (máx. 15 caracteres) | Sí |
+| `obsMovimiento` | Observaciones del movimiento (máx. 100 caracteres) | No |
+| `fechaMovimiento` | Fecha del movimiento en formato ISO 8601 | No |
+| `fechaLiquidacion` | Fecha de liquidación en formato ISO 8601 | No |
+| `monto` | Monto del movimiento (> 0) | Sí |
+| `codMoneda` | Código de moneda (máx. 3 caracteres) | Sí |
+| `dscMedioPagoCobro` | Medio de pago o cobro (máx. 20 caracteres) | No |
+| `banco` | Nombre del banco (máx. 60 caracteres) | No |
+| `numeroCuenta` | Número de cuenta bancaria (máx. 20 caracteres) | No |
+| `tipoCuenta` | Tipo de cuenta bancaria (máx. 20 caracteres) | No |
+| `uuid` | UUID del movimiento (máx. 36 caracteres) | No |
+| `idUsuarioGpi` | ID del usuario en GPI | Sí |
+| `tipo` | Tipo de operación (campo genérico) | No |
+
+### Tipos de movimiento soportados
+
+| Código | Descripción |
+|---|---|
+| `RET_PAT_IT` | Retiro patrimonial internacional |
+| `APO_PAT_IT` | Aporte patrimonial internacional |
+
+### Ejemplo de request
+
+```json title="Request Body"
+{
+  "codTipoMovimiento": "RET_PAT_IT",
+  "numCuenta": "19130340/0",
+  "monto": 1000.00,
+  "codMoneda": "USD",
+  "idUsuarioGpi": 12345
+}
+```
+
+### Respuesta
+
+```json title="Respuesta (201 Created)"
+{
+  "id": 12345,
+  "codTipoMovimiento": "RET_PAT_IT",
+  "numCuenta": "19130340/0",
+  "obsMovimiento": "Retiro patrimonial internacional",
+  "fechaMovimiento": "2025-08-06T15:10:06-04:00",
+  "fechaLiquidacion": "2025-08-06T15:10:06-04:00",
+  "monto": 1000.00,
+  "codMoneda": "USD",
+  "dscMedioPagoCobro": "Transferencia",
+  "banco": "Banco Internacional",
+  "numeroCuenta": "123456789",
+  "tipoCuenta": "Corriente",
+  "uuid": "a1b2c3d4-e5f6-g7h8-i9j0-k1l2m3n4o5p6",
+  "idUsuarioGpi": 12345
+}
+```
+
+<Callout icon="💡" theme="info">
+  Utilice `uuid` para mantener trazabilidad e idempotencia sobre cada movimiento internacional registrado.
+</Callout>
+
+<br />
 
 ## Flujo recomendado
 
-### Aporte (Voultech → Alpaca)
-1. El cliente deposita CLP/USD en su cuenta Voultech
-2. Registra el aporte con `POST /MovimientosAlpaca/MovimientoInternacionalAlpaca` con `codTipoMovimiento: APO_PAT_IT`
-3. Guarda el `uuid` y `id` retornados
-4. Espera confirmación asíncrona
+1. Registre el movimiento con `POST /MovimientosAlpaca/MovimientoInternacionalAlpaca`
+2. Guarde el `uuid` y el `id` retornado en la respuesta
+3. Consulte el histórico con `GET /MovimientosAlpaca`
+4. Filtre por `CodTipoMovimiento`, `NumCuenta`, `Id` o `Uuid` según corresponda
 
-### Retiro (Alpaca → Voultech)
-1. El cliente solicita un retiro
-2. Registra el retiro con `codTipoMovimiento: RET_PAT_IT`
-3. Verifica el estado consultando `GET /MovimientosAlpaca/patrimoniales/{numCuenta}` con `estadoActual=executed`
+## Relación con otros componentes del módulo internacional
 
-## Relación con otros componentes
-
-- Usa **[Cuentas Internacionales](/docs/cuentas-internacionales)** para validar el saldo antes de procesar un retiro
-- Consulta **[Actividad y Custodias](/docs/actividad-y-custodias)** para ver el detalle del JNLC asociado
+- Use **Cuentas Internacionales** para validar la cuenta Alpaca asociada
+- Use **Actividad y Custodias** para revisar el impacto posterior del movimiento en la cuenta
+- Use **Órdenes Internacionales** para operar instrumentos una vez disponibles los fondos
