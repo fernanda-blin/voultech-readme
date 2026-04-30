@@ -1,49 +1,59 @@
 ---
-title: Cuentas Internacionales
-excerpt: >-
-  Crea cuentas Alpaca, consulta su detalle, lista las cuentas del asesor y
-  revisa saldos.
-deprecated: false
-hidden: false
-metadata:
-  robots: index
+title: "Cuentas Internacionales"
+excerpt: "Crea cuentas Alpaca, consulta su detalle, lista las cuentas del asesor y revisa saldos."
 ---
+
 Crea y gestiona cuentas Alpaca para que tus clientes operen en mercados internacionales.
 
 ## Qué cubre esta página
-
-En esta guía verás cómo:
 
 - crear una cuenta Alpaca asociada a una cuenta local
 - consultar el detalle de una cuenta internacional
 - listar las cuentas Alpaca del asesor autenticado
 - revisar el saldo disponible de una cuenta
 
-<Callout icon="💡" theme="info">
-  En este módulo conviven dos identificadores: `numCuenta` (cuenta local en GPI) y `accountNumber` (cuenta en Alpaca).
-</Callout>
+> 💡 En este módulo conviven dos identificadores: `numCuenta` (cuenta local en GPI) y `accountNumber` (cuenta en Alpaca).
 
-<br />
+---
 
 ## Crear cuenta Alpaca
 
-**→ POST** `/api/publicapi/creasys/CuentaAlpaca/CrearClienteAlpaca`
+`POST /api/publicapi/creasys/CuentaAlpaca/CrearClienteAlpaca`
 
 Crea una cuenta Alpaca para el cliente especificado usando el asesor autenticado.
 
-| Parámetro | Descripción | Obligatorio |
-|---|---|---|
-| `numCuenta` | Número de cuenta a la cual asociar la nueva cuenta internacional | Sí |
-| `identificador` | Identificador único del cliente en GPI | Sí |
+### Parámetros
 
-```json title="Request Body"
+| Parámetro | Tipo | Obligatorio | Descripción |
+|-----------|------|-------------|-------------|
+| `numCuenta` | string | **Sí** | Número de cuenta Voultech con la que se quiere operar |
+| `identificador` | string | **Sí** | RUT del cliente con validación |
+| `fundingSource` | array[string] | **Sí** | Origen de los fondos del cliente |
+
+### Valores válidos para `fundingSource`
+
+| Valor | Descripción |
+|-------|-------------|
+| `employment_income` | Ingresos por empleo |
+| `savings` | Ahorros personales |
+| `investments` | Inversiones |
+| `inheritance` | Herencia |
+| `business_income` | Ingresos por negocios |
+| `family` | Familia |
+
+### Request
+
+```json
 {
   "numCuenta": "19130340/0",
-  "identificador": "19130340-7"
+  "identificador": "19130340-7",
+  "fundingSource": ["employment_income"]
 }
 ```
 
-```json title="Respuesta (200 OK)"
+### Respuesta (200 OK)
+
+```json
 {
   "id": "b1fd6038-6b34-4fdd-8164-1c2162f678e7",
   "accountNumber": "901988645",
@@ -52,64 +62,35 @@ Crea una cuenta Alpaca para el cliente especificado usando el asesor autenticado
   "createdAt": "2025-08-04T16:03:34.43686Z",
   "lastEquity": "0",
   "cryptoStatus": "INACTIVE",
-  "contact": {
-    "emailAddress": "a01o0elbartoinc333+asu@gmail.com",
-    "phoneNumber": "+56 9 59595959",
-    "streetAddress": [
-      "VILLA LAS ACACACIAS, PASAJE TRES No123"
-    ],
-    "city": "SAN FELIPE",
-    "state": "RM",
-    "postalCode": "0000000",
-    "country": "CHL"
-  },
   "identity": {
     "givenName": "SERGIO",
     "familyName": "CONSTERLA DIAZ",
     "dateOfBirth": "1995-09-03",
-    "taxId": null,
     "taxIdType": "CHL_RUT",
-    "countryOfCitizenship": "CHL",
-    "countryOfBirth": "CHL",
     "countryOfTaxResidence": "CHL",
-    "fundingSource": []
+    "fundingSource": ["employment_income"]
   },
-  "disclosures": {
-    "isControlPerson": true,
-    "isAffiliatedExchangeOrFinra": true,
-    "isPoliticallyExposed": false,
-    "immediateFamilyExposed": false
-  },
-  "agreements": [
-    {
-      "agreement": "account_agreement",
-      "signedAt": "2025-08-04T16:03:32Z",
-      "ipAddress": "::1"
-    }
-  ],
-  "enabledAssets": [
-    "us_equity"
-  ]
+  "enabledAssets": ["us_equity"]
 }
 ```
 
-<Callout icon="📘" theme="info">
-  La respuesta entrega el `accountNumber` de Alpaca, que necesitarás para consultar saldo, custodias, actividad y órdenes.
-</Callout>
+> 📘 La respuesta entrega el `accountNumber` de Alpaca, que necesitarás para consultar saldo, custodias, actividad y órdenes.
 
-<br />
+---
 
 ## Obtener una cuenta Alpaca
 
-**→ GET** `/api/publicapi/creasys/CuentaAlpaca/ObtenerCuentaAlpaca/{accountNumber}`
+`GET /api/publicapi/creasys/CuentaAlpaca/ObtenerCuentaAlpaca/{accountNumber}`
 
 Obtiene el detalle de una cuenta Alpaca específica.
 
 | Parámetro | Descripción | Obligatorio |
-|---|---|---|
+|-----------|-------------|-------------|
 | `accountNumber` | Número de cuenta Alpaca (URI encoded) | Sí |
 
-```json title="Respuesta (200 OK)"
+### Respuesta (200 OK)
+
+```json
 {
   "account_id": "6f1d3a2b-3c4d-4b8f-9a1e-112233445566",
   "account_number": "19837710/0",
@@ -124,10 +105,10 @@ Obtiene el detalle de una cuenta Alpaca específica.
 }
 ```
 
-**Campos destacados:**
+### Campos destacados
 
 | Campo | Descripción |
-|---|---|
+|-------|-------------|
 | `status` | Estado actual de la cuenta Alpaca |
 | `currency` | Moneda de operación de la cuenta |
 | `cash` | Efectivo disponible en la cuenta |
@@ -136,15 +117,17 @@ Obtiene el detalle de una cuenta Alpaca específica.
 | `trading_blocked` | Indica si el trading está bloqueado |
 | `numCuenta` | Relación con la cuenta local en GPI |
 
-<br />
+---
 
 ## Obtener todas las cuentas Alpaca
 
-**→ GET** `/api/publicapi/creasys/CuentaAlpaca/ObtenerCuentas`
+`GET /api/publicapi/creasys/CuentaAlpaca/ObtenerCuentas`
 
 Obtiene todas las cuentas Alpaca asociadas al asesor autenticado.
 
-```json title="Respuesta (200 OK)"
+### Respuesta (200 OK)
+
+```json
 [
   {
     "account_id": "6f1d3a2b-3c4d-4b8f-9a1e-112233445566",
@@ -161,43 +144,53 @@ Obtiene todas las cuentas Alpaca asociadas al asesor autenticado.
 ]
 ```
 
-<br />
+---
 
 ## Obtener saldo de una cuenta Alpaca
 
-**→ GET** `/api/publicapi/creasys/CuentaAlpaca/SaldoAlpaca/{accountNumber}`
+`GET /api/publicapi/creasys/CuentaAlpaca/SaldoAlpaca/{accountNumber}`
 
-Obtiene el saldo de una cuenta Alpaca específica.
+Obtiene el saldo completo de una cuenta Alpaca: equity, cash, buying power y valor del portafolio.
 
-```json title="Respuesta (200 OK)"
+### Respuesta (200 OK)
+
+```json
 {
-  "cajaLocal": 150,
-  "cajaEstimadaAlpaca": 729,
-  "totalFeesDelPeriodo": -0.08,
-  "valorInvertido": 0,
-  "buyingPower": 710.04,
-  "cashDisponible": 728.92,
-  "last_Equity": 710.12
+  "account_number": "870221079",
+  "status": "ACTIVE",
+  "currency": "USD",
+  "equity": 2129.75,
+  "last_equity": 2135.66,
+  "cash": 113.09,
+  "buying_power": 113.09,
+  "portfolio_value": 2129.75,
+  "long_market_value": 2016.66,
+  "pattern_day_trader": false,
+  "daytrade_count": 1
 }
 ```
 
-**Campos destacados:**
+### Campos destacados
 
 | Campo | Descripción |
-|---|---|
-| `cajaLocal` | Caja local asociada |
-| `cajaEstimadaAlpaca` | Caja estimada en Alpaca |
-| `totalFeesDelPeriodo` | Comisiones acumuladas del período |
-| `valorInvertido` | Monto invertido |
-| `buyingPower` | Poder de compra disponible |
-| `cashDisponible` | Efectivo disponible para operar |
-| `last_Equity` | Último equity registrado |
+|-------|-------------|
+| `equity` | Patrimonio total actualizado (posiciones + cash) |
+| `last_equity` | Equity del cierre del día hábil anterior |
+| `cash` | Efectivo disponible |
+| `buying_power` | Poder de compra disponible |
+| `portfolio_value` | Valor total del portafolio |
+| `long_market_value` | Valor de mercado de posiciones largas |
+| `pattern_day_trader` | Indica si la cuenta está marcada como day trader |
+| `daytrade_count` | Cantidad de operaciones day trade en los últimos 5 días |
 
-<br />
+> ⚠️ **No existe WebSocket para el equity total.** Implementar **polling periódico** a este endpoint.
+> Para saldo de caja (`cash`) sí está disponible WebSocket.
+
+---
 
 ## Flujo recomendado
 
-1. Crea la cuenta con `POST /CuentaAlpaca/CrearClienteAlpaca`
+1. Crea la cuenta con `POST /CuentaAlpaca/CrearClienteAlpaca` incluyendo `fundingSource`
 2. Guarda el `accountNumber` retornado
 3. Consulta el detalle con `GET /CuentaAlpaca/ObtenerCuentaAlpaca/{accountNumber}`
 4. Verifica el saldo con `GET /CuentaAlpaca/SaldoAlpaca/{accountNumber}`
@@ -205,36 +198,4 @@ Obtiene el saldo de una cuenta Alpaca específica.
 
 ## Siguiente paso
 
-Continúa con **Assets e Instrumentos** para buscar símbolos disponibles, o con **Órdenes Internacionales** para enviar tu primera orden.
-
-
----
-
-## Valores válidos de `fundingSource`
-
-Al crear una cuenta Alpaca, el campo `fundingSource` indica el origen de los fondos. Valores aceptados:
-
-| Valor | Descripción |
-|---|---|
-| `employment_income` | Ingresos por empleo |
-| `investments` | Inversiones |
-| `inheritance` | Herencia |
-| `business_income` | Ingresos por negocio propio |
-| `savings` | Ahorros |
-| `family` | Familia |
-
-## Campos del saldo (`SaldoAlpaca`)
-
-La respuesta de `SaldoAlpaca` incluye, entre otros:
-
-| Campo | Descripción |
-|---|---|
-| `equity` | Valor total actual de la cuenta (cash + posiciones) |
-| `last_equity` | Equity al cierre del día anterior |
-| `buying_power` | Poder de compra disponible |
-| `cash` | Efectivo disponible |
-| `portfolio_value` | Valor del portafolio |
-| `long_market_value` | Valor de mercado de posiciones long |
-| `short_market_value` | Valor de mercado de posiciones short |
-
-> 📌 **Nota:** para precios en tiempo real conviene combinar `SaldoAlpaca` con WebSocket o polling sobre `LastQuote`, ya que el saldo no actualiza tick a tick.
+Continúa con **[Assets e Instrumentos](/docs/assets-e-instrumentos-disponibles)** para buscar símbolos disponibles, o con **[Órdenes Internacionales](/docs/ordenes-internacionales)** para enviar tu primera orden.
