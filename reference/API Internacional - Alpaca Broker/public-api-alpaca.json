@@ -104,7 +104,7 @@
             }
           }
         },
-        "summary": "Detalles del sweep",
+        "summary": "Detalle de barrido cash",
         "description": "**Consulta el detalle de un sweep** (barrido automático de fondos) ejecutado entre la cuenta local y la cuenta Alpaca del cliente."
       }
     },
@@ -253,7 +253,7 @@
             }
           }
         },
-        "summary": "Última cotización",
+        "summary": "Precio actual",
         "description": "**Obtiene la ultima cotización** disponible de un activo financiero.\n\nIncluye precio, volumen y timestamp de la ultima transacción."
       }
     },
@@ -337,7 +337,7 @@
         "tags": [
           "06. Market Data"
         ],
-        "summary": "Subastas (varias)",
+        "summary": "Subastas varias acciones",
         "parameters": [
           {
             "name": "symbols",
@@ -461,7 +461,7 @@
         "tags": [
           "06. Market Data"
         ],
-        "summary": "Velas OHLCV (varias)",
+        "summary": "Velas varias acciones",
         "parameters": [
           {
             "name": "symbols",
@@ -577,7 +577,7 @@
         "tags": [
           "06. Market Data"
         ],
-        "summary": "Última vela (varias)",
+        "summary": "Vela actual varias",
         "parameters": [
           {
             "name": "symbols",
@@ -712,7 +712,7 @@
         "tags": [
           "06. Market Data"
         ],
-        "summary": "Bolsas (exchanges)",
+        "summary": "Bolsas disponibles",
         "responses": {
           "401": {
             "description": "Unauthorized",
@@ -753,7 +753,7 @@
         "tags": [
           "06. Market Data"
         ],
-        "summary": "Cotizaciones (varias)",
+        "summary": "Precios varias acciones",
         "parameters": [
           {
             "name": "symbols",
@@ -861,7 +861,7 @@
         "tags": [
           "06. Market Data"
         ],
-        "summary": "Últ. cotiz. (varias)",
+        "summary": "Precio actual varias",
         "parameters": [
           {
             "name": "symbols",
@@ -936,7 +936,7 @@
         "tags": [
           "06. Market Data"
         ],
-        "summary": "Snapshots (varias)",
+        "summary": "Resumen varias acciones",
         "parameters": [
           {
             "name": "symbols",
@@ -1011,7 +1011,7 @@
         "tags": [
           "06. Market Data"
         ],
-        "summary": "Trades (varias)",
+        "summary": "Operaciones varias",
         "parameters": [
           {
             "name": "symbols",
@@ -1119,7 +1119,7 @@
         "tags": [
           "06. Market Data"
         ],
-        "summary": "Último trade (varias)",
+        "summary": "Operación actual varias",
         "parameters": [
           {
             "name": "symbols",
@@ -1194,7 +1194,7 @@
         "tags": [
           "06. Market Data"
         ],
-        "summary": "Subastas de acción",
+        "summary": "Subastas de una acción",
         "parameters": [
           {
             "name": "symbol",
@@ -1420,7 +1420,7 @@
         "tags": [
           "06. Market Data"
         ],
-        "summary": "Última vela acción",
+        "summary": "Vela actual de acción",
         "parameters": [
           {
             "name": "symbol",
@@ -1488,7 +1488,7 @@
         "tags": [
           "06. Market Data"
         ],
-        "summary": "Cotizaciones acción",
+        "summary": "Precios de una acción",
         "parameters": [
           {
             "name": "symbol",
@@ -1589,7 +1589,7 @@
         "tags": [
           "06. Market Data"
         ],
-        "summary": "Últ. cotiz. acción",
+        "summary": "Precio actual acción",
         "parameters": [
           {
             "name": "symbol",
@@ -1657,7 +1657,7 @@
         "tags": [
           "06. Market Data"
         ],
-        "summary": "Trades de una acción",
+        "summary": "Operaciones de acción",
         "parameters": [
           {
             "name": "symbol",
@@ -1758,7 +1758,7 @@
         "tags": [
           "06. Market Data"
         ],
-        "summary": "Último trade acción",
+        "summary": "Operación actual acción",
         "parameters": [
           {
             "name": "symbol",
@@ -2496,7 +2496,7 @@
             }
           }
         },
-        "summary": "Vista previa CIP",
+        "summary": "Validar antes de envío",
         "description": "**Genera una vista previa del CIP** (Customer Identification Program) para la cuenta Alpaca antes de su envio."
       }
     },
@@ -2556,7 +2556,7 @@
         "tags": [
           "05. Movimientos Internacionales"
         ],
-        "summary": "Aporte/retiro intl.",
+        "summary": "Aporte o retiro en USD",
         "requestBody": {
           "content": {
             "application/json": {

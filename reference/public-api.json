@@ -1364,7 +1364,7 @@
             }
           }
         },
-        "summary": "Cartera actual rápida",
+        "summary": "Cartera actual rapida",
         "description": "**Consulta la cartera actual** en versión optimizada.\n\nMenores tiempos de respuesta, recomendada para interfaces con alta frecuencia de consulta."
       }
     },
@@ -3071,7 +3071,7 @@
         "tags": [
           "09. Documentos"
         ],
-        "summary": "Certificados de impuestos",
+        "summary": "Cert. de impuestos",
         "description": "Retorna una lista paginada de certificados tributarios (PDF) emitidos para un cliente, filtrados por tipo de certificado. Útil para que las fintechs puedan ofrecer descarga de certificados de impuestos a sus clientes finales.",
         "operationId": "getCertificadosTributarios",
         "parameters": [
@@ -4176,7 +4176,7 @@
         "tags": [
           "07. Movimientos y Transferencias"
         ],
-        "summary": "Aporte/retiro (nuevo)",
+        "summary": "Nuevo aporte o retiro",
         "requestBody": {
           "content": {
             "application/json": {
@@ -5599,7 +5599,7 @@
         "tags": [
           "05. Activos e Instrumentos"
         ],
-        "summary": "Precio de un instrumento",
+        "summary": "Precio de instrumento",
         "description": "**Consulta los precios actuales** de un instrumento segun el publicador configurado.\n\nPuede retornar precio de compra, venta y último precio transado.",
         "parameters": [
           {
