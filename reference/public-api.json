@@ -12,7 +12,7 @@
         "tags": [
           "06. Órdenes y Operaciones"
         ],
-        "summary": "Enviar reporte oper.",
+        "summary": "Enviar reporte",
         "parameters": [
           {
             "name": "fecha",
@@ -183,7 +183,7 @@
             "description": "Server Error"
           }
         },
-        "summary": "PDF doc. tributario",
+        "summary": "Descargar factura PDF",
         "description": "**Descarga el PDF** de un documento tributario electrónico (DTE) específico generado por Artikos."
       }
     },
@@ -306,7 +306,7 @@
             }
           }
         },
-        "summary": "Listar DTEs",
+        "summary": "Boletas y facturas",
         "description": "**Lista los documentos tributarios electrónicos (DTE)** generados por Artikos para el cliente.\n\nIncluye boletas, facturas y liquidaciónes de compra."
       }
     },
@@ -315,7 +315,7 @@
         "tags": [
           "11. Integraciones y Sistema"
         ],
-        "summary": "Listar asesores",
+        "summary": "Asesores",
         "responses": {
           "200": {
             "description": "Success",
@@ -379,7 +379,7 @@
         "tags": [
           "08. Cartera y Patrimonio"
         ],
-        "summary": "Listar asignaciones",
+        "summary": "Ver asignaciones",
         "parameters": [
           {
             "name": "Desde",
@@ -503,7 +503,7 @@
         "tags": [
           "10. Tablas Maestras"
         ],
-        "summary": "Listar bancos",
+        "summary": "Bancos",
         "responses": {
           "200": {
             "description": "Success",
@@ -567,7 +567,7 @@
         "tags": [
           "04. Cuentas"
         ],
-        "summary": "Listar cajas",
+        "summary": "Ver cajas",
         "parameters": [
           {
             "name": "Identificador",
@@ -854,7 +854,7 @@
         "tags": [
           "04. Cuentas"
         ],
-        "summary": "Cajas saldo en vivo",
+        "summary": "Saldo de cajas en vivo",
         "parameters": [
           {
             "name": "NumCuenta",
@@ -1364,7 +1364,7 @@
             }
           }
         },
-        "summary": "Cartera actual (optim.)",
+        "summary": "Cartera actual rápida",
         "description": "**Consulta la cartera actual** en versión optimizada.\n\nMenores tiempos de respuesta, recomendada para interfaces con alta frecuencia de consulta."
       }
     },
@@ -1853,7 +1853,7 @@
         "tags": [
           "02. Clientes y Personas"
         ],
-        "summary": "Listar clientes",
+        "summary": "Ver clientes",
         "parameters": [
           {
             "name": "Identificador",
@@ -2053,7 +2053,7 @@
         "tags": [
           "10. Tablas Maestras"
         ],
-        "summary": "Códigos tipo de doc.",
+        "summary": "Códigos de documento",
         "responses": {
           "200": {
             "description": "Success",
@@ -2117,7 +2117,7 @@
         "tags": [
           "10. Tablas Maestras"
         ],
-        "summary": "Listar comunas",
+        "summary": "Comunas",
         "responses": {
           "200": {
             "description": "Success",
@@ -2181,7 +2181,7 @@
         "tags": [
           "03. Datos de Contacto"
         ],
-        "summary": "Registrar contacto",
+        "summary": "Agregar contacto",
         "requestBody": {
           "description": "Objeto que se utilizara para crear un nuevo objeto de contacto y guardar en la BD.",
           "content": {
@@ -2252,7 +2252,7 @@
         "tags": [
           "10. Tablas Maestras"
         ],
-        "summary": "Listar contrapartes",
+        "summary": "Contrapartes",
         "responses": {
           "200": {
             "description": "Success",
@@ -2316,7 +2316,7 @@
         "tags": [
           "10. Tablas Maestras"
         ],
-        "summary": "Tipos contrato matrim.",
+        "summary": "Regímenes matrimoniales",
         "responses": {
           "200": {
             "description": "Success",
@@ -2508,7 +2508,7 @@
         "tags": [
           "04. Cuentas"
         ],
-        "summary": "Listar ctas. corrientes",
+        "summary": "Ver cuentas corrientes",
         "parameters": [
           {
             "name": "identificador",
@@ -2580,7 +2580,7 @@
         "tags": [
           "04. Cuentas"
         ],
-        "summary": "Crear cta. corriente",
+        "summary": "Crear cuenta corriente",
         "requestBody": {
           "description": "Objeto que se utilizara para crear un nuevo objeto de cuenta corriente y guardar en la BD.",
           "content": {
@@ -2651,7 +2651,7 @@
         "tags": [
           "04. Cuentas"
         ],
-        "summary": "Listar cuentas",
+        "summary": "Ver cuentas",
         "parameters": [
           {
             "name": "Identificador",
@@ -2824,7 +2824,7 @@
         "tags": [
           "03. Datos de Contacto"
         ],
-        "summary": "Registrar dirección",
+        "summary": "Agregar dirección",
         "requestBody": {
           "description": "Objeto con los datos necesarios para crear una dirección en la BD.",
           "content": {
@@ -2915,7 +2915,7 @@
         "tags": [
           "09. Documentos"
         ],
-        "summary": "Listar documentos",
+        "summary": "Ver documentos",
         "parameters": [
           {
             "name": "Identificador",
@@ -3071,7 +3071,7 @@
         "tags": [
           "09. Documentos"
         ],
-        "summary": "Certificados tributarios",
+        "summary": "Certificados de impuestos",
         "description": "Retorna una lista paginada de certificados tributarios (PDF) emitidos para un cliente, filtrados por tipo de certificado. Útil para que las fintechs puedan ofrecer descarga de certificados de impuestos a sus clientes finales.",
         "operationId": "getCertificadosTributarios",
         "parameters": [
@@ -3175,7 +3175,7 @@
         "tags": [
           "03. Datos de Contacto"
         ],
-        "summary": "Registrar email",
+        "summary": "Agregar email",
         "requestBody": {
           "description": "Objeto con los datos necesarios para crear un email en la BD.",
           "content": {
@@ -3466,7 +3466,7 @@
         "tags": [
           "10. Tablas Maestras"
         ],
-        "summary": "Listar monedas",
+        "summary": "Monedas",
         "responses": {
           "200": {
             "description": "Success",
@@ -3530,7 +3530,7 @@
         "tags": [
           "07. Movimientos y Transferencias"
         ],
-        "summary": "Cambio auto. de caja",
+        "summary": "Cambio de caja auto",
         "requestBody": {
           "description": "",
           "content": {
@@ -3591,7 +3591,7 @@
         "tags": [
           "07. Movimientos y Transferencias"
         ],
-        "summary": "Listar movimientos",
+        "summary": "Ver movimientos",
         "parameters": [
           {
             "name": "Desde",
@@ -3921,7 +3921,7 @@
         "tags": [
           "07. Movimientos y Transferencias"
         ],
-        "summary": "Mov. Banco BICE",
+        "summary": "Movimientos BICE",
         "parameters": [
           {
             "name": "Desde",
@@ -4035,7 +4035,7 @@
         "tags": [
           "07. Movimientos y Transferencias"
         ],
-        "summary": "Mov. vía Shinkansen",
+        "summary": "Movimientos Shinkansen",
         "parameters": [
           {
             "name": "IdMovCaja",
@@ -4176,7 +4176,7 @@
         "tags": [
           "07. Movimientos y Transferencias"
         ],
-        "summary": "Aporte/retiro (v2)",
+        "summary": "Aporte/retiro (nuevo)",
         "requestBody": {
           "content": {
             "application/json": {
@@ -4323,7 +4323,7 @@
         "tags": [
           "06. Órdenes y Operaciones"
         ],
-        "summary": "Listar operaciones",
+        "summary": "Ver operaciones",
         "parameters": [
           {
             "name": "Desde",
@@ -4461,7 +4461,7 @@
         "tags": [
           "06. Órdenes y Operaciones"
         ],
-        "summary": "Op. cta. remunerada",
+        "summary": "Operación remunerada",
         "requestBody": {
           "description": "Lista de objetos OperacionTranApi con la cual se crearán las operaciones. Cada objeto debe incluir los siguientes campos:\r\n- `Uuid`: UUID de la operación (requerido (Idempotencia), longitud máxima de 36 caracteres).\r\n- `NumCuenta`: Número de cuenta asociada a la operación (requerido, longitud máxima de 50 caracteres).\r\n- `CodTipoOperacion`: Código del tipo de operación (requerido, longitud máxima de 10 caracteres).\r\n- `Nemotecnico`: Nemotécnico del instrumento financiero (longitud máxima de 50 caracteres).\r\n- `FechaOperacion`: Fecha de la operación (requerido).\r\n- `Monto`: Monto total de la operación (requerido).",
           "content": {
@@ -4737,7 +4737,7 @@
             }
           }
         },
-        "summary": "Ingresar orden spot",
+        "summary": "Crear orden spot",
         "description": "**Ingresa una orden spot** para ejecución inmediata a precio de mercado.\n\nCombina el ingreso de la orden y la ejecución en un solo paso."
       }
     },
@@ -4746,7 +4746,7 @@
         "tags": [
           "06. Órdenes y Operaciones"
         ],
-        "summary": "Listar órdenes",
+        "summary": "Ver órdenes",
         "parameters": [
           {
             "name": "Desde",
@@ -4928,7 +4928,7 @@
             }
           }
         },
-        "summary": "Anular orden",
+        "summary": "Cancelar orden",
         "description": "**Anula una orden pendiente** que aun no ha sido ejecutada en el mercado.\n\n> Solo es posible anular ordenes en estado **vigente**."
       }
     },
@@ -4937,7 +4937,7 @@
         "tags": [
           "06. Órdenes y Operaciones"
         ],
-        "summary": "Órdenes intraday",
+        "summary": "Crear órdenes intraday",
         "description": "**Ingresa ordenes intraday**, validas solo para la sesión del dia en curso.\n\n> Las ordenes no ejecutadas se cancelan automáticamente al cierre del mercado.",
         "requestBody": {
           "description": "Lista de órdenes a ingresar",
@@ -5023,7 +5023,7 @@
         "tags": [
           "06. Órdenes y Operaciones"
         ],
-        "summary": "Órdenes externas",
+        "summary": "Registrar orden externa",
         "parameters": [
           {
             "name": "Ingresar",
@@ -5126,7 +5126,7 @@
         "tags": [
           "06. Órdenes y Operaciones"
         ],
-        "summary": "Saldo custodia intraday",
+        "summary": "Saldo intraday",
         "description": "**Consulta el saldo de custodia disponible** en tiempo real para operar durante la sesión intraday del dia.",
         "parameters": [
           {
@@ -5299,7 +5299,7 @@
         "tags": [
           "10. Tablas Maestras"
         ],
-        "summary": "Listar países",
+        "summary": "Países",
         "responses": {
           "200": {
             "description": "Success",
@@ -5427,7 +5427,7 @@
         "tags": [
           "02. Clientes y Personas"
         ],
-        "summary": "Listar personas",
+        "summary": "Ver personas",
         "parameters": [
           {
             "name": "Identificador",
@@ -5599,7 +5599,7 @@
         "tags": [
           "05. Activos e Instrumentos"
         ],
-        "summary": "Precios de instrumento",
+        "summary": "Precio de un instrumento",
         "description": "**Consulta los precios actuales** de un instrumento segun el publicador configurado.\n\nPuede retornar precio de compra, venta y último precio transado.",
         "parameters": [
           {
@@ -5702,7 +5702,7 @@
         "tags": [
           "10. Tablas Maestras"
         ],
-        "summary": "Listar regiones",
+        "summary": "Regiones",
         "responses": {
           "200": {
             "description": "Success",
@@ -5766,7 +5766,7 @@
         "tags": [
           "10. Tablas Maestras"
         ],
-        "summary": "Relación cliente-banco",
+        "summary": "Relación con banco",
         "responses": {
           "200": {
             "description": "Success",
@@ -5830,7 +5830,7 @@
         "tags": [
           "03. Datos de Contacto"
         ],
-        "summary": "Registrar teléfono",
+        "summary": "Agregar teléfono",
         "requestBody": {
           "description": "Objeto con los datos necesarios para crear un telefono en la BD.",
           "content": {
@@ -6113,7 +6113,7 @@
         "tags": [
           "10. Tablas Maestras"
         ],
-        "summary": "Tipos de identificación",
+        "summary": "Tipos de RUT/ID",
         "responses": {
           "200": {
             "description": "Success",
@@ -6177,7 +6177,7 @@
         "tags": [
           "10. Tablas Maestras"
         ],
-        "summary": "Medios de pago/cobro",
+        "summary": "Medios de pago",
         "responses": {
           "200": {
             "description": "Success",
@@ -6241,7 +6241,7 @@
         "tags": [
           "10. Tablas Maestras"
         ],
-        "summary": "Tipos mov. de caja",
+        "summary": "Tipos de movimiento",
         "responses": {
           "200": {
             "description": "Success",
@@ -6369,7 +6369,7 @@
         "tags": [
           "01. Autenticación y Seguridad"
         ],
-        "summary": "Renovar token",
+        "summary": "Renovar sesión",
         "responses": {
           "200": {
             "description": "Success",
