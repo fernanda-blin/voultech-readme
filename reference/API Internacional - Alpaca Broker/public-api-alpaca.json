@@ -337,7 +337,7 @@
         "tags": [
           "06. Market Data"
         ],
-        "summary": "Subastas varias acciones",
+        "summary": "Subastas de acciones",
         "parameters": [
           {
             "name": "symbols",
@@ -461,7 +461,7 @@
         "tags": [
           "06. Market Data"
         ],
-        "summary": "Velas varias acciones",
+        "summary": "Velas de acciones",
         "parameters": [
           {
             "name": "symbols",
@@ -577,7 +577,7 @@
         "tags": [
           "06. Market Data"
         ],
-        "summary": "Vela actual varias",
+        "summary": "Última vela de acciones",
         "parameters": [
           {
             "name": "symbols",
@@ -753,7 +753,7 @@
         "tags": [
           "06. Market Data"
         ],
-        "summary": "Precios varias acciones",
+        "summary": "Precios de acciones",
         "parameters": [
           {
             "name": "symbols",
@@ -861,7 +861,7 @@
         "tags": [
           "06. Market Data"
         ],
-        "summary": "Precio actual varias",
+        "summary": "Precio actual de acciones",
         "parameters": [
           {
             "name": "symbols",
@@ -936,7 +936,7 @@
         "tags": [
           "06. Market Data"
         ],
-        "summary": "Resumen varias acciones",
+        "summary": "Resumen de acciones",
         "parameters": [
           {
             "name": "symbols",
@@ -1011,7 +1011,7 @@
         "tags": [
           "06. Market Data"
         ],
-        "summary": "Operaciones varias",
+        "summary": "Operaciones de acciones",
         "parameters": [
           {
             "name": "symbols",
@@ -1119,7 +1119,7 @@
         "tags": [
           "06. Market Data"
         ],
-        "summary": "Operación actual varias",
+        "summary": "Op. actual de acciones",
         "parameters": [
           {
             "name": "symbols",
@@ -1420,7 +1420,7 @@
         "tags": [
           "06. Market Data"
         ],
-        "summary": "Vela actual de acción",
+        "summary": "Última vela de acción",
         "parameters": [
           {
             "name": "symbol",
@@ -1589,7 +1589,7 @@
         "tags": [
           "06. Market Data"
         ],
-        "summary": "Precio actual acción",
+        "summary": "Precio actual de acción",
         "parameters": [
           {
             "name": "symbol",
@@ -1657,7 +1657,7 @@
         "tags": [
           "06. Market Data"
         ],
-        "summary": "Operaciones de acción",
+        "summary": "Operaciones de una acción",
         "parameters": [
           {
             "name": "symbol",
@@ -1758,7 +1758,7 @@
         "tags": [
           "06. Market Data"
         ],
-        "summary": "Operación actual acción",
+        "summary": "Op. actual de una acción",
         "parameters": [
           {
             "name": "symbol",
