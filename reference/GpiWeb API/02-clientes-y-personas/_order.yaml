@@ -1,7 +1,4 @@
-- get_api-publicapi-creasys-cedula-vigencia
-- get_api-publicapi-creasys-cedula-riesgo
 - get_api-publicapi-creasys-clientes
 - post_api-publicapi-creasys-clientes
-- put_api-publicapi-creasys-clientes-identificador
 - get_api-publicapi-creasys-personas
 - post_api-publicapi-creasys-personas

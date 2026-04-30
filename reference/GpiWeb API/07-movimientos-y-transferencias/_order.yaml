@@ -1,7 +1,6 @@
 - post_api-publicapi-creasys-movimientocaja-cambiocajaauto
 - get_api-publicapi-creasys-movimientos
 - get_api-publicapi-creasys-movimientos-movimientosshinkansen
-- get_api-publicapi-creasys-movimientos-movimientosbancosecurity
 - get_api-publicapi-creasys-movimientos-movimientosbancobice
 - post_api-publicapi-creasys-movimientos-ingresoaporteretiro
 - post_api-publicapi-creasys-movimientos-nuevoingresoaporteretiro
