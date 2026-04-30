@@ -63,7 +63,7 @@
             }
           }
         },
-        "summary": "Registrar movimiento",
+        "summary": "Journal events",
         "description": "**Recibe y registra eventos de journal** (asientos contables) provenientes de Alpaca.\n\nActualiza el estado de las operaciónes y movimientos correspondientes en el sistema."
       }
     },
@@ -104,7 +104,7 @@
             }
           }
         },
-        "summary": "Detalle de barrido cash",
+        "summary": "Sweep details",
         "description": "**Consulta el detalle de un sweep** (barrido automático de fondos) ejecutado entre la cuenta local y la cuenta Alpaca del cliente."
       }
     },
@@ -194,7 +194,7 @@
             }
           }
         },
-        "summary": "Acciones disponibles",
+        "summary": "Listar assets",
         "description": "**Retorna información detallada** de un activo financiero.\n\nIncluye nombre, simbolo, tipo, moneda, mercado donde cotiza y estado."
       }
     },
@@ -253,7 +253,7 @@
             }
           }
         },
-        "summary": "Precio actual",
+        "summary": "Last quote",
         "description": "**Obtiene la ultima cotización** disponible de un activo financiero.\n\nIncluye precio, volumen y timestamp de la ultima transacción."
       }
     },
@@ -262,7 +262,7 @@
         "tags": [
           "02. Assets e Instrumentos Internacionales"
         ],
-        "summary": "Logo de una acción",
+        "summary": "Logo parquet",
         "parameters": [
           {
             "name": "nemotecnico",
@@ -337,7 +337,7 @@
         "tags": [
           "06. Market Data"
         ],
-        "summary": "Subastas de acciones",
+        "summary": "Stocks auctions",
         "parameters": [
           {
             "name": "symbols",
@@ -461,7 +461,7 @@
         "tags": [
           "06. Market Data"
         ],
-        "summary": "Velas de acciones",
+        "summary": "Stocks bars",
         "parameters": [
           {
             "name": "symbols",
@@ -577,7 +577,7 @@
         "tags": [
           "06. Market Data"
         ],
-        "summary": "Última vela de acciones",
+        "summary": "Stocks bars latest",
         "parameters": [
           {
             "name": "symbols",
@@ -652,7 +652,7 @@
         "tags": [
           "06. Market Data"
         ],
-        "summary": "Condiciones de tick",
+        "summary": "Stocks conditions",
         "parameters": [
           {
             "name": "tickType",
@@ -712,7 +712,7 @@
         "tags": [
           "06. Market Data"
         ],
-        "summary": "Bolsas disponibles",
+        "summary": "Stocks exchanges",
         "responses": {
           "401": {
             "description": "Unauthorized",
@@ -753,7 +753,7 @@
         "tags": [
           "06. Market Data"
         ],
-        "summary": "Precios de acciones",
+        "summary": "Stocks quotes",
         "parameters": [
           {
             "name": "symbols",
@@ -861,7 +861,7 @@
         "tags": [
           "06. Market Data"
         ],
-        "summary": "Precio actual de acciones",
+        "summary": "Stocks quotes latest",
         "parameters": [
           {
             "name": "symbols",
@@ -936,7 +936,7 @@
         "tags": [
           "06. Market Data"
         ],
-        "summary": "Resumen de acciones",
+        "summary": "Stocks snapshots",
         "parameters": [
           {
             "name": "symbols",
@@ -1011,7 +1011,7 @@
         "tags": [
           "06. Market Data"
         ],
-        "summary": "Operaciones de acciones",
+        "summary": "Stocks trades",
         "parameters": [
           {
             "name": "symbols",
@@ -1119,7 +1119,7 @@
         "tags": [
           "06. Market Data"
         ],
-        "summary": "Op. actual de acciones",
+        "summary": "Stocks trades latest",
         "parameters": [
           {
             "name": "symbols",
@@ -1194,7 +1194,7 @@
         "tags": [
           "06. Market Data"
         ],
-        "summary": "Subastas de una acción",
+        "summary": "Symbol auctions",
         "parameters": [
           {
             "name": "symbol",
@@ -1311,7 +1311,7 @@
         "tags": [
           "06. Market Data"
         ],
-        "summary": "Velas de una acción",
+        "summary": "Symbol bars",
         "parameters": [
           {
             "name": "symbol",
@@ -1420,7 +1420,7 @@
         "tags": [
           "06. Market Data"
         ],
-        "summary": "Última vela de acción",
+        "summary": "Symbol bars latest",
         "parameters": [
           {
             "name": "symbol",
@@ -1488,7 +1488,7 @@
         "tags": [
           "06. Market Data"
         ],
-        "summary": "Precios de una acción",
+        "summary": "Symbol quotes",
         "parameters": [
           {
             "name": "symbol",
@@ -1589,7 +1589,7 @@
         "tags": [
           "06. Market Data"
         ],
-        "summary": "Precio actual de acción",
+        "summary": "Symbol quotes latest",
         "parameters": [
           {
             "name": "symbol",
@@ -1657,7 +1657,7 @@
         "tags": [
           "06. Market Data"
         ],
-        "summary": "Operaciones de una acción",
+        "summary": "Symbol trades",
         "parameters": [
           {
             "name": "symbol",
@@ -1758,7 +1758,7 @@
         "tags": [
           "06. Market Data"
         ],
-        "summary": "Op. actual de una acción",
+        "summary": "Symbol trades latest",
         "parameters": [
           {
             "name": "symbol",
@@ -1826,7 +1826,7 @@
         "tags": [
           "02. Assets e Instrumentos Internacionales"
         ],
-        "summary": "Estado del mercado",
+        "summary": "Clock Alpaca",
         "responses": {
           "200": {
             "description": "Success",
@@ -1912,7 +1912,7 @@
             }
           }
         },
-        "summary": "Precio de cierre",
+        "summary": "Close price latest",
         "description": "**Retorna el precio de cierre mas reciente** de un instrumento.\n\nÚtilizado para valorar posiciónes al precio oficial de cierre del mercado."
       }
     },
@@ -1921,7 +1921,7 @@
         "tags": [
           "01. Cuentas Internacionales"
         ],
-        "summary": "Crear cuenta Alpaca",
+        "summary": "Crear cliente Alpaca",
         "requestBody": {
           "description": "DTO con los datos del cliente para crear la cuenta Alpaca.",
           "content": {
@@ -2024,7 +2024,7 @@
             }
           }
         },
-        "summary": "Acciones en custodia",
+        "summary": "Custodias",
         "description": "**Consulta las posiciónes en custodia** de la cuenta Alpaca del cliente.\n\nIncluye instrumentos, cantidades y valoración actual."
       }
     },
@@ -2131,7 +2131,7 @@
             }
           }
         },
-        "summary": "Formulario W8",
+        "summary": "Descargar W8",
         "description": "**Descarga el formulario W-8BEN** firmado del cliente.\n\n> Requerido por regulacion estadounidense para cuentas de no residentes en Alpaca."
       }
     },
@@ -2205,7 +2205,7 @@
             }
           }
         },
-        "summary": "Ver documentos",
+        "summary": "Listar documentos",
         "description": "**Lista los documentos** disponibles en la cuenta Alpaca del cliente.\n\nIncluye estados de cuenta, confirmaciónes de trade y otros documentos regulatorios."
       }
     },
@@ -2318,7 +2318,7 @@
             }
           }
         },
-        "summary": "Historial de actividad",
+        "summary": "Obtener actividad",
         "description": "**Retorna el historial de actividad** de la cuenta Alpaca.\n\nIncluye trades, dividendos, transferencias y otros eventos."
       }
     },
@@ -2327,7 +2327,7 @@
         "tags": [
           "01. Cuentas Internacionales"
         ],
-        "summary": "Ver una cuenta",
+        "summary": "Obtener cuenta Alpaca",
         "parameters": [
           {
             "name": "accountNumber",
@@ -2379,7 +2379,7 @@
         "tags": [
           "01. Cuentas Internacionales"
         ],
-        "summary": "Ver cuentas",
+        "summary": "Obtener cuentas",
         "parameters": [
           {
             "name": "Identificador",
@@ -2496,7 +2496,7 @@
             }
           }
         },
-        "summary": "Validar antes de envío",
+        "summary": "Preview CIP",
         "description": "**Genera una vista previa del CIP** (Customer Identification Program) para la cuenta Alpaca antes de su envio."
       }
     },
@@ -2547,7 +2547,7 @@
             }
           }
         },
-        "summary": "Ver saldo",
+        "summary": "Saldo Alpaca",
         "description": "**Consulta el saldo** y poder adquisitivo de la cuenta Alpaca del cliente."
       }
     },
@@ -2556,7 +2556,7 @@
         "tags": [
           "05. Movimientos Internacionales"
         ],
-        "summary": "Aporte o retiro en USD",
+        "summary": "Movimiento internacional",
         "requestBody": {
           "content": {
             "application/json": {
@@ -2713,7 +2713,7 @@
             }
           }
         },
-        "summary": "Aportes y retiros",
+        "summary": "Patrimoniales",
         "description": "**Consulta los movimientos patrimoniales** sincronizados desde Alpaca.\n\nIncluye dividendos, splits y ajustes de la cuenta."
       }
     },
@@ -2722,7 +2722,7 @@
         "tags": [
           "03. Órdenes Internacionales"
         ],
-        "summary": "Comprar o vender",
+        "summary": "Ingresar orden mercado",
         "description": "**Ingresa ordenes directamente al mercado bursatil** para su ejecución inmediata o segun las condiciónes de precio indicadas.",
         "requestBody": {
           "description": "Lista de objetos que representan las órdenes a ingresar, con detalles como cuenta, instrumento, cantidad, y precio.",
