@@ -6539,6 +6539,2819 @@
         },
         "description": "**Sincroniza los documentos** del cliente con la plataforma Alpaca.\n\nAsegura que los documentos requeridos esten disponibles para la apertura o mantencion de la cuenta internacional."
       }
+    },
+    "/api/alpaca/journals/events": {
+      "post": {
+        "tags": [
+          "05. Movimientos Internacionales"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AlpacaJournalStatusEventDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AlpacaJournalStatusEventDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/AlpacaJournalStatusEventDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Journal events",
+        "description": "Webhook receptor de eventos de journals de Alpaca. Notifica cambios de estado (executed, pending, canceled) en movimientos patrimoniales."
+      }
+    },
+    "/api/publicapi/creasys/AlpacaSweep/details": {
+      "get": {
+        "tags": [
+          "05. Movimientos Internacionales"
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Detalles del sweep",
+        "description": "Detalles del programa Cash Sweep de Alpaca: barrido automático de saldo en efectivo a un fondo de mercado para generar intereses."
+      }
+    },
+    "/api/publicapi/creasys/Asset": {
+      "get": {
+        "tags": [
+          "02. Assets e Instrumentos Internacionales"
+        ],
+        "parameters": [
+          {
+            "name": "exchangeName",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id_correlativo",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "nemo",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 20
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Listar assets",
+        "description": "Lista paginada de activos (acciones, ETFs) de Alpaca disponibles para trading.\n\n**Filtros disponibles**\n\n| Parámetro | Descripción |\n|---|---|\n| `exchangeName` | Nombre del exchange (`NASDAQ`, `NYSE`, etc.) |\n| `search` | Búsqueda por símbolo o nombre del activo |\n| `nemo` | Nemotécnico / símbolo exacto |\n| `page` | Número de página (default: 1) |\n| `pageSize` | Tamaño de página (default: 20) |\n\n**Campos clave del response**\n\n| Campo | Descripción |\n|---|---|\n| `symbol` | Ticker / nemotécnico (ej: `AAPL`) |\n| `name` | Nombre completo del activo |\n| `exchangeName` | Bolsa donde cotiza |\n| `tradable` | Si está habilitado para trading |\n| `marginable` | Si admite operaciones con margen |\n| `shortable` | Si admite venta corta |\n| `fractionable` | Si admite fraccionamiento |"
+      }
+    },
+    "/api/publicapi/creasys/Asset/LastQuote": {
+      "get": {
+        "tags": [
+          "02. Assets e Instrumentos Internacionales"
+        ],
+        "parameters": [
+          {
+            "name": "nemo",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "feed",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/FeedOption"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Última cotización",
+        "description": "Última cotización disponible de un activo: precio bid/ask, tamaños, timestamp.\n\n**Tipos de feed disponibles**\n\n| Valor | Descripción |\n|---|---|\n| `sip` | Securities Information Processor — datos consolidados en tiempo real (**default**) |\n| `iex` | Investors Exchange — datos exclusivos de IEX |\n| `delayed_sip` | SIP con delay de 15 minutos |\n| `boats` | Blue Ocean ATS — operaciones fuera de horario regular |\n| `overnight` | Cotizaciones derivadas para operaciones overnight |\n| `otc` | Over-The-Counter — mercados OTC |"
+      }
+    },
+    "/api/publicapi/creasys/Asset/LogoParquet/{nemotecnico}": {
+      "get": {
+        "tags": [
+          "02. Assets e Instrumentos Internacionales"
+        ],
+        "summary": "Logo del activo",
+        "parameters": [
+          {
+            "name": "nemotecnico",
+            "in": "path",
+            "description": "El nemotecnico/símbolo del activo",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Si se encuentra el logo"
+          },
+          "400": {
+            "description": "Si ocurre un error al procesar la solicitud",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Si no se encuentra el logo para el nemotecnico proporcionado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "description": "Logo de un activo financiero por nemotécnico (formato parquet). Útil para mostrar el logo del activo en la UI."
+      }
+    },
+    "/api/publicapi/creasys/Asset/stocks/auctions": {
+      "get": {
+        "tags": [
+          "06. Market Data"
+        ],
+        "summary": "Stocks auctions",
+        "parameters": [
+          {
+            "name": "symbols",
+            "in": "query",
+            "description": "Tickers separados por coma. Tiene prioridad sobre nemo.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "nemo",
+            "in": "query",
+            "description": "Uno o más nemotécnicos si no envías symbols.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "start",
+            "in": "query",
+            "description": "Inicio del rango (fecha u ISO 8601, según micro).",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "end",
+            "in": "query",
+            "description": "Fin del rango.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Máximo de filas por página.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "asof",
+            "in": "query",
+            "description": "Fecha as-of (ej. AAAA-MM-DD).",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "feed",
+            "in": "query",
+            "description": "Feed de datos (sip, iex, etc.).",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "currency",
+            "in": "query",
+            "description": "Moneda (ej. USD).",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page_token",
+            "in": "query",
+            "description": "Token de paginación devuelto por el micro.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Orden (ej. asc, desc).",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "description": "Datos de subastas (apertura y cierre) para uno o varios símbolos.\n\n**Parámetros adicionales**\n\n| Parámetro | Descripción |\n|---|---|\n| `asof` | Fecha as-of (`YYYY-MM-DD`) |\n| `start` / `end` | Rango de fechas |\n| `feed` | Fuente de datos |"
+      }
+    },
+    "/api/publicapi/creasys/Asset/stocks/bars": {
+      "get": {
+        "tags": [
+          "06. Market Data"
+        ],
+        "summary": "Stocks bars (batch)",
+        "parameters": [
+          {
+            "name": "symbols",
+            "in": "query",
+            "description": "Tickers separados por coma. Tiene prioridad sobre nemo.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "nemo",
+            "in": "query",
+            "description": "Un solo ticker si no envías symbols.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "start",
+            "in": "query",
+            "description": "Inicio del rango AÑO-MES-DIA.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "end",
+            "in": "query",
+            "description": "Fin del rango AÑO-MES-DIA.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "timeframe",
+            "in": "query",
+            "description": "Agregación. Ej: 1Min, 15Min, 1Hour, 1Day.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "feed",
+            "in": "query",
+            "description": "Feed de datos (sip, iex, etc.).",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "adjustment",
+            "in": "query",
+            "description": "Ajuste corporativo: raw, split, dividend, all.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Máximo de barras por página.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "page_token",
+            "in": "query",
+            "description": "Token de paginación de Alpaca.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "description": "Barras históricas **OHLCV** (Open, High, Low, Close, Volume) para uno o varios símbolos.\n\n**Parámetros principales**\n\n| Parámetro | Descripción |\n|---|---|\n| `symbols` | Tickers separados por coma (prioritario sobre `nemo`) |\n| `nemo` | Un solo ticker si no se envía `symbols` |\n| `start` / `end` | Rango de fechas (`YYYY-MM-DD` o ISO 8601) |\n| `timeframe` | Agregación: `1Min`, `15Min`, `1Hour`, `1Day` |\n| `adjustment` | Ajuste corporativo: `raw`, `split`, `dividend`, `all` |\n| `feed` | Fuente: `sip`, `iex`, `delayed_sip` |\n| `limit` | Máximo de filas por página |\n| `page_token` | Token de paginación |\n| `sort` | `asc` o `desc` |"
+      }
+    },
+    "/api/publicapi/creasys/Asset/stocks/bars/latest": {
+      "get": {
+        "tags": [
+          "06. Market Data"
+        ],
+        "summary": "Stocks bars latest",
+        "parameters": [
+          {
+            "name": "symbols",
+            "in": "query",
+            "description": "Tickers separados por coma. Tiene prioridad sobre nemo.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "nemo",
+            "in": "query",
+            "description": "Un solo ticker si no envías symbols.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "feed",
+            "in": "query",
+            "description": "Feed de datos (sip, iex, etc.).",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "currency",
+            "in": "query",
+            "description": "Moneda (ej. USD).",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "description": "Última barra OHLCV disponible para uno o varios símbolos (batch). Acepta `symbols` separados por coma."
+      }
+    },
+    "/api/publicapi/creasys/Asset/stocks/meta/conditions/{tickType}": {
+      "get": {
+        "tags": [
+          "06. Market Data"
+        ],
+        "summary": "Condiciones de tick",
+        "parameters": [
+          {
+            "name": "tickType",
+            "in": "path",
+            "description": "Tipo de tick. Ej: trade, quote, bar.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "tape",
+            "in": "query",
+            "description": "Tape NYSE. Ej: A, B, C.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "description": "Listado de condiciones de tick disponibles según el tipo.\n\n| Parámetro | Descripción |\n|---|---|\n| `tickType` (path) | Tipo: `trade`, `quote`, `bar` |\n| `tape` | Tape NYSE: `A`, `B`, `C` |"
+      }
+    },
+    "/api/publicapi/creasys/Asset/stocks/meta/exchanges": {
+      "get": {
+        "tags": [
+          "06. Market Data"
+        ],
+        "summary": "Listar exchanges",
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "description": "Listado completo de exchanges disponibles en Alpaca. Sin parámetros."
+      }
+    },
+    "/api/publicapi/creasys/Asset/stocks/quotes": {
+      "get": {
+        "tags": [
+          "06. Market Data"
+        ],
+        "summary": "Stocks quotes (batch)",
+        "parameters": [
+          {
+            "name": "symbols",
+            "in": "query",
+            "description": "Tickers separados por coma. Tiene prioridad sobre nemo.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "nemo",
+            "in": "query",
+            "description": "Un solo ticker si no envías symbols.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "start",
+            "in": "query",
+            "description": "Inicio del rango.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "end",
+            "in": "query",
+            "description": "Fin del rango.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "feed",
+            "in": "query",
+            "description": "Feed de datos.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Máximo de filas.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "page_token",
+            "in": "query",
+            "description": "Token de paginación.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Orden (asc, desc).",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "description": "Cotizaciones históricas (bid/ask) para uno o varios símbolos en un rango de fechas. Acepta `symbols` separados por coma."
+      }
+    },
+    "/api/publicapi/creasys/Asset/stocks/quotes/latest": {
+      "get": {
+        "tags": [
+          "06. Market Data"
+        ],
+        "summary": "Stocks quotes latest",
+        "parameters": [
+          {
+            "name": "symbols",
+            "in": "query",
+            "description": "Tickers separados por coma.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "nemo",
+            "in": "query",
+            "description": "Nemotécnico si no envías symbols.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "feed",
+            "in": "query",
+            "description": "Feed de datos.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "currency",
+            "in": "query",
+            "description": "Moneda.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "description": "Última cotización (bid/ask) disponible para uno o varios símbolos (batch)."
+      }
+    },
+    "/api/publicapi/creasys/Asset/stocks/snapshots": {
+      "get": {
+        "tags": [
+          "06. Market Data"
+        ],
+        "summary": "Stocks snapshots",
+        "parameters": [
+          {
+            "name": "symbols",
+            "in": "query",
+            "description": "Tickers separados por coma.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "nemo",
+            "in": "query",
+            "description": "Nemotécnico si no envías symbols.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "feed",
+            "in": "query",
+            "description": "Feed de datos.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "currency",
+            "in": "query",
+            "description": "Moneda.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "description": "Snapshot completo actual por símbolo: incluye última cotización, último trade, barra del día y barra del minuto previo."
+      }
+    },
+    "/api/publicapi/creasys/Asset/stocks/trades": {
+      "get": {
+        "tags": [
+          "06. Market Data"
+        ],
+        "summary": "Stocks trades (batch)",
+        "parameters": [
+          {
+            "name": "symbols",
+            "in": "query",
+            "description": "Tickers separados por coma.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "nemo",
+            "in": "query",
+            "description": "Nemotécnico si no envías symbols.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "start",
+            "in": "query",
+            "description": "Inicio del rango.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "end",
+            "in": "query",
+            "description": "Fin del rango.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "feed",
+            "in": "query",
+            "description": "Feed de datos.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Máximo de filas.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "page_token",
+            "in": "query",
+            "description": "Token de paginación.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Orden (asc, desc).",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "description": "Histórico de trades ejecutados para uno o varios símbolos en un rango de fechas."
+      }
+    },
+    "/api/publicapi/creasys/Asset/stocks/trades/latest": {
+      "get": {
+        "tags": [
+          "06. Market Data"
+        ],
+        "summary": "Stocks trades latest",
+        "parameters": [
+          {
+            "name": "symbols",
+            "in": "query",
+            "description": "Tickers separados por coma.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "nemo",
+            "in": "query",
+            "description": "Nemotécnico si no envías symbols.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "feed",
+            "in": "query",
+            "description": "Feed de datos.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "currency",
+            "in": "query",
+            "description": "Moneda.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "description": "Último trade ejecutado para uno o varios símbolos (batch)."
+      }
+    },
+    "/api/publicapi/creasys/Asset/stocks/{symbol}/auctions": {
+      "get": {
+        "tags": [
+          "06. Market Data"
+        ],
+        "summary": "Symbol auctions",
+        "parameters": [
+          {
+            "name": "symbol",
+            "in": "path",
+            "description": "Un ticker en la ruta. Ej: AAPL. Varios: use `symbols=AAPL,MSFT` en el endpoint batch.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "start",
+            "in": "query",
+            "description": "Inicio del rango.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "end",
+            "in": "query",
+            "description": "Fin del rango.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Máximo de filas.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "asof",
+            "in": "query",
+            "description": "Fecha as-of.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "feed",
+            "in": "query",
+            "description": "Feed de datos.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "currency",
+            "in": "query",
+            "description": "Moneda.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page_token",
+            "in": "query",
+            "description": "Token de paginación.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Orden.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "description": "Subastas (apertura/cierre) para un único símbolo (ticker en la ruta)."
+      }
+    },
+    "/api/publicapi/creasys/Asset/stocks/{symbol}/bars": {
+      "get": {
+        "tags": [
+          "06. Market Data"
+        ],
+        "summary": "Symbol bars",
+        "parameters": [
+          {
+            "name": "symbol",
+            "in": "path",
+            "description": "Un ticker. Ej: AAPL. Varios: `symbols=AAPL,MSFT` en GET stocks/bars.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "start",
+            "in": "query",
+            "description": "Inicio del rango AÑO-MES-DIA.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "end",
+            "in": "query",
+            "description": "Fin del rango AÑO-MES-DIA.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "timeframe",
+            "in": "query",
+            "description": "Agregación. Ej: 1Min, 15Min, 1Hour, 1Day.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "feed",
+            "in": "query",
+            "description": "Feed de datos.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "adjustment",
+            "in": "query",
+            "description": "Ajuste: raw, split, dividend, all.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Máximo de barras por página.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "page_token",
+            "in": "query",
+            "description": "Token de paginación.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "description": "Barras OHLCV históricas para un único símbolo (ticker en la ruta). Mismos filtros que `/stocks/bars` pero sin `symbols`."
+      }
+    },
+    "/api/publicapi/creasys/Asset/stocks/{symbol}/bars/latest": {
+      "get": {
+        "tags": [
+          "06. Market Data"
+        ],
+        "summary": "Symbol bars latest",
+        "parameters": [
+          {
+            "name": "symbol",
+            "in": "path",
+            "description": "Ej: AAPL.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "feed",
+            "in": "query",
+            "description": "Feed de datos.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "currency",
+            "in": "query",
+            "description": "Moneda.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "description": "Última barra OHLCV para un único símbolo (ticker en la ruta)."
+      }
+    },
+    "/api/publicapi/creasys/Asset/stocks/{symbol}/quotes": {
+      "get": {
+        "tags": [
+          "06. Market Data"
+        ],
+        "summary": "Symbol quotes",
+        "parameters": [
+          {
+            "name": "symbol",
+            "in": "path",
+            "description": "Ej: AAPL.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "start",
+            "in": "query",
+            "description": "Inicio del rango.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "end",
+            "in": "query",
+            "description": "Fin del rango.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "feed",
+            "in": "query",
+            "description": "Feed de datos.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Máximo de filas.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "page_token",
+            "in": "query",
+            "description": "Token de paginación.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Orden (asc, desc).",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "description": "Cotizaciones históricas (bid/ask) para un único símbolo (ticker en la ruta)."
+      }
+    },
+    "/api/publicapi/creasys/Asset/stocks/{symbol}/quotes/latest": {
+      "get": {
+        "tags": [
+          "06. Market Data"
+        ],
+        "summary": "Symbol quotes latest",
+        "parameters": [
+          {
+            "name": "symbol",
+            "in": "path",
+            "description": "Ej: AAPL.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "feed",
+            "in": "query",
+            "description": "Feed de datos.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "currency",
+            "in": "query",
+            "description": "Moneda.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "description": "Última cotización (bid/ask) para un único símbolo (ticker en la ruta)."
+      }
+    },
+    "/api/publicapi/creasys/Asset/stocks/{symbol}/trades": {
+      "get": {
+        "tags": [
+          "06. Market Data"
+        ],
+        "summary": "Symbol trades",
+        "parameters": [
+          {
+            "name": "symbol",
+            "in": "path",
+            "description": "Ej: AAPL.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "start",
+            "in": "query",
+            "description": "Inicio del rango.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "end",
+            "in": "query",
+            "description": "Fin del rango.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "feed",
+            "in": "query",
+            "description": "Feed de datos.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Máximo de filas.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "page_token",
+            "in": "query",
+            "description": "Token de paginación.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Orden (asc, desc).",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "description": "Histórico de trades para un único símbolo (ticker en la ruta)."
+      }
+    },
+    "/api/publicapi/creasys/Asset/stocks/{symbol}/trades/latest": {
+      "get": {
+        "tags": [
+          "06. Market Data"
+        ],
+        "summary": "Symbol trades latest",
+        "parameters": [
+          {
+            "name": "symbol",
+            "in": "path",
+            "description": "Ej: AAPL.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "feed",
+            "in": "query",
+            "description": "Feed de datos.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "currency",
+            "in": "query",
+            "description": "Moneda.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "description": "Último trade para un único símbolo (ticker en la ruta)."
+      }
+    },
+    "/api/publicapi/creasys/ClockAlpaca": {
+      "get": {
+        "tags": [
+          "02. Assets e Instrumentos Internacionales"
+        ],
+        "summary": "Reloj de mercado",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClockAlpacaEsResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error"
+          }
+        },
+        "description": "Estado actual del reloj del mercado de Alpaca: si está abierto, próxima apertura, próximo cierre.\n\n**Response**\n\n| Campo | Descripción |\n|---|---|\n| `timestamp` | Hora actual del servidor de Alpaca |\n| `is_open` | `true` si el mercado está abierto |\n| `next_open` | Próxima apertura (ISO 8601) |\n| `next_close` | Próximo cierre (ISO 8601) |"
+      }
+    },
+    "/api/publicapi/creasys/ClosePrices/symbol/{symbol}/latest": {
+      "get": {
+        "tags": [
+          "02. Assets e Instrumentos Internacionales"
+        ],
+        "parameters": [
+          {
+            "name": "symbol",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Precio de cierre",
+        "description": "Precio de cierre más reciente disponible para un símbolo."
+      }
+    },
+    "/api/publicapi/creasys/CuentaAlpaca/CrearClienteAlpaca": {
+      "post": {
+        "tags": [
+          "01. Cuentas Internacionales"
+        ],
+        "summary": "Crear cuenta Alpaca",
+        "requestBody": {
+          "description": "DTO con los datos del cliente para crear la cuenta Alpaca.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ClienteMantencionAlpacaApi"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ClienteMantencionAlpacaApi"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ClienteMantencionAlpacaApi"
+              }
+            }
+          }
+        },
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "description": "Crea una cuenta Alpaca asociada a un cliente Vector existente para que pueda operar en el mercado estadounidense.\n\n**Origen de los fondos (`fundingSource`)** — se acepta uno o varios valores:\n\n| Valor | Descripción |\n|---|---|\n| `employment_income` | Ingresos por empleo |\n| `savings` | Ahorros personales |\n| `investments` | Inversiones |\n| `inheritance` | Herencia |\n| `business_income` | Ingresos por negocios |\n| `family` | Familia |\n\n**Ejemplo de request**\n```json\n{\n  \"numCuenta\": \"12345\",\n  \"identificador\": \"12345678-9\",\n  \"fundingSource\": [\"employment_income\"]\n}\n```"
+      }
+    },
+    "/api/publicapi/creasys/CuentaAlpaca/Custodias/{accountNumber}": {
+      "get": {
+        "tags": [
+          "04. Actividad y Custodias Internacionales"
+        ],
+        "parameters": [
+          {
+            "name": "accountNumber",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Posiciones (custodias)",
+        "description": "Posiciones actuales (custodias) de una cuenta Alpaca: símbolo, cantidad, precio promedio de entrada, valor de mercado, P&L no realizado.\n\n**Campos clave del response**\n\n| Campo | Descripción |\n|---|---|\n| `symbol` | Ticker del activo |\n| `qty` | Cantidad en custodia |\n| `avg_entry_price` | Precio promedio de compra |\n| `market_value` | Valor de mercado actual |\n| `cost_basis` | Costo de adquisición |\n| `unrealized_pl` | Ganancia/pérdida no realizada (USD) |\n| `unrealized_plpc` | Ganancia/pérdida no realizada (%) |\n| `current_price` | Precio actual |\n| `lastday_price` | Precio del cierre anterior |\n| `qty_available` | Cantidad disponible para vender |"
+      }
+    },
+    "/api/publicapi/creasys/CuentaAlpaca/DescargarDocumentos": {
+      "get": {
+        "tags": [
+          "01. Cuentas Internacionales"
+        ],
+        "parameters": [
+          {
+            "name": "AccountId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "DocumentId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Descargar documentos",
+        "description": "Descarga los documentos de una cuenta Alpaca en formato PDF."
+      }
+    },
+    "/api/publicapi/creasys/CuentaAlpaca/DescargarW8": {
+      "get": {
+        "tags": [
+          "01. Cuentas Internacionales"
+        ],
+        "parameters": [
+          {
+            "name": "accountNumber",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Descargar W8",
+        "description": "Descarga el formulario W-8BEN firmado para residentes no estadounidenses (declaración de status fiscal extranjero ante el IRS)."
+      }
+    },
+    "/api/publicapi/creasys/CuentaAlpaca/ListarDocumentos": {
+      "get": {
+        "tags": [
+          "01. Cuentas Internacionales"
+        ],
+        "parameters": [
+          {
+            "name": "AccountId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Start",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "End",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "Type",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Listar documentos",
+        "description": "Listado de documentos disponibles para una cuenta Alpaca (estados de cuenta, confirmaciones, formularios tributarios)."
+      }
+    },
+    "/api/publicapi/creasys/CuentaAlpaca/ObtenerActividadCuenta": {
+      "get": {
+        "tags": [
+          "04. Actividad y Custodias Internacionales"
+        ],
+        "parameters": [
+          {
+            "name": "NumCuenta",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "activity_types",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/ActivityType"
+              }
+            }
+          },
+          {
+            "name": "category",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/ActivityCategory"
+            }
+          },
+          {
+            "name": "date",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "until",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "after",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "direction",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "page_token",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Actividad de cuenta",
+        "description": "Actividades históricas (movimientos) de una cuenta Alpaca con filtros por fecha, tipo y categoría. Soporta paginación con `page_token`.\n\n**Tipos de actividad (`activity_types`)**\n\n| Código | Significado |\n|---|---|\n| `FILL` | Ejecución de una orden |\n| `JNLC` | Movimiento de cash (journal cash) |\n| `DIV` | Dividendo |\n| `FEE` | Cargo / comisión |\n| `OPCSH` | Operación cash |\n\n**Categorías (`category`)**\n- `trade_activity` — actividad de trading\n- `non_trade_activity` — actividad no relacionada a trading\n\n**Parámetros de filtro**\n\n| Parámetro | Descripción |\n|---|---|\n| `NumCuenta` | Número de cuenta Vector (ej: `18784154/0`) |\n| `date` | Fecha específica |\n| `after` / `until` | Rango de fechas |\n| `direction` | `asc` o `desc` (default: `desc`) |\n| `page_size` | 1–100 (default: 100) |\n| `page_token` | Token de paginación de Alpaca |"
+      }
+    },
+    "/api/publicapi/creasys/CuentaAlpaca/ObtenerCuentaAlpaca/{accountNumber}": {
+      "get": {
+        "tags": [
+          "01. Cuentas Internacionales"
+        ],
+        "summary": "Detalle de cuenta",
+        "parameters": [
+          {
+            "name": "accountNumber",
+            "in": "path",
+            "description": "Número de cuenta Alpaca.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "description": "Detalle completo de una cuenta Alpaca a partir del número de cuenta Vector.\n\nIncluye estado, resultado KYC, identidad del titular (nombre, RUT, residencia tributaria), origen de fondos y equity del último cierre."
+      }
+    },
+    "/api/publicapi/creasys/CuentaAlpaca/ObtenerCuentas": {
+      "get": {
+        "tags": [
+          "01. Cuentas Internacionales"
+        ],
+        "summary": "Listar cuentas Alpaca",
+        "parameters": [
+          {
+            "name": "Identificador",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "NumCuenta",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "PageNumber",
+            "in": "query",
+            "description": "Propiedad `PageNumber` representa el numero de Pagina a consultar.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "description": "Propiedad `PageSize` representa el numero de registros por pagina. Máximo 100.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "description": "Lista todas las cuentas Alpaca asociadas al usuario autenticado, con identificadores Vector y Alpaca, estado y asesor asignado."
+      }
+    },
+    "/api/publicapi/creasys/CuentaAlpaca/PreviewCip/{numCuenta}": {
+      "get": {
+        "tags": [
+          "01. Cuentas Internacionales"
+        ],
+        "parameters": [
+          {
+            "name": "numCuenta",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Preview CIP",
+        "description": "Vista previa del CIP (Customer Identification Program) antes de envío. Permite revisar los datos del cliente que se enviarán a Alpaca para verificación de identidad."
+      }
+    },
+    "/api/publicapi/creasys/CuentaAlpaca/SaldoAlpaca/{accountNumber}": {
+      "get": {
+        "tags": [
+          "01. Cuentas Internacionales"
+        ],
+        "parameters": [
+          {
+            "name": "accountNumber",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Saldo de cuenta",
+        "description": "Saldo y métricas patrimoniales completas de la cuenta Alpaca.\n\n**Campos clave del response**\n\n| Campo | Descripción |\n|---|---|\n| `equity` | Patrimonio total actualizado (posiciones + cash) |\n| `last_equity` | Equity del cierre del día hábil anterior |\n| `cash` | Efectivo disponible |\n| `buying_power` | Poder de compra disponible |\n| `portfolio_value` | Valor total del portafolio |\n| `long_market_value` | Valor de mercado de posiciones largas |\n| `short_market_value` | Valor de mercado de posiciones cortas |\n| `pattern_day_trader` | Indicador de PDT |\n| `daytrade_count` | Cantidad de day trades en el período |\n\n> ⚠️ **No existe WebSocket para `equity` total.** Implementar polling periódico a este endpoint. Para `cash` sí hay WebSocket disponible."
+      }
+    },
+    "/api/publicapi/creasys/MovimientosAlpaca/MovimientoInternacionalAlpaca": {
+      "post": {
+        "tags": [
+          "05. Movimientos Internacionales"
+        ],
+        "summary": "Aporte o retiro USD",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AporteRetiroApiFrontOffice"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AporteRetiroApiFrontOffice"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/AporteRetiroApiFrontOffice"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "description": "Registra un movimiento patrimonial (aporte o retiro) entre cuentas Vector (CLP) y Alpaca (USD).\n\n**Tipos de movimiento (`codTipoMovimiento`)**\n\n| Código | Descripción |\n|---|---|\n| `APO_PAT_IT` | Aporte patrimonial (Vector → Alpaca) |\n| `RET_PAT_IT` | Retiro patrimonial (Alpaca → Vector) |\n\n**Ejemplo de request**\n```json\n{\n  \"codMoneda\": \"USD\",\n  \"monto\": 5,\n  \"numCuenta\": \"18784154/0\",\n  \"id\": 864857,\n  \"codTipoMovimiento\": \"RET_PAT_IT\",\n  \"obsMovimiento\": \"Retiro a caja USD\",\n  \"dscMedioPagoCobro\": \"TRANSFERENCIA\"\n}\n```"
+      }
+    },
+    "/api/publicapi/creasys/MovimientosAlpaca/patrimoniales/{numCuenta}": {
+      "get": {
+        "tags": [
+          "05. Movimientos Internacionales"
+        ],
+        "parameters": [
+          {
+            "name": "numCuenta",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "idMovimiento",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "fechaDesde",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "fechaHasta",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "cuentaOrigen",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "cuentaDestino",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "estadoActual",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "uuidJournal",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Mov. patrimoniales",
+        "description": "Listado de movimientos patrimoniales (aportes y retiros) de una cuenta Alpaca, con filtros opcionales.\n\n**Filtros disponibles**\n\n| Parámetro | Descripción |\n|---|---|\n| `numCuenta` | Número de cuenta Vector |\n| `idMovimiento` | ID específico del movimiento |\n| `fechaDesde` / `fechaHasta` | Rango de fechas (`YYYY-MM-DD`) |\n| `CuentaOrigen` | UUID de cuenta origen en Alpaca |\n| `CuentaDestino` | UUID de cuenta destino en Alpaca |\n| `estadoActual` | `executed`, `pending`, `canceled` |"
+      }
+    },
+    "/api/publicapi/creasys/Ordenes/IngresarOrdenesMercado": {
+      "post": {
+        "tags": [
+          "03. Órdenes Internacionales"
+        ],
+        "summary": "Ingresar orden mercado",
+        "description": "Ingresa órdenes de compra/venta para cuentas **nacionales (XSGO)** o **internacionales (ALPACA)**. Soporta órdenes `MARKET` y `LIMIT`.\n\n> ⚠️ La ejecución **no es inmediata**. La confirmación llega de forma asíncrona vía **Service Bus**.\n\n**Parámetros principales**\n\n| Parámetro | Obligatorio | Descripción |\n|---|---|---|\n| `uuid` | Sí | Identificador único de la orden (idempotencia) |\n| `numCuenta` | Sí | Número de cuenta del cliente (formato `xxxxx/x`) |\n| `nemotecnico` | Sí | Símbolo o ticker del activo |\n| `tipoSeguridad` | Sí | Para ALPACA usar `\"CS\"` |\n| `tipoOperacion` | Sí | `C` = Compra, `V` = Venta |\n| `cantidad` | Sí | Cantidad de títulos (mayor a 0) |\n| `precio` | Condicional | Requerido si `tipoPrecio = LIMIT` |\n| `tipoPrecio` | Sí | `MARKET` o `LIMIT`. Con MARKET no enviar `precio`. |\n| `codBolsa` | Sí | `XSGO` = nacional, `ALPACA` = internacional |\n| `tipoLiquidacion` | Sí | Para ALPACA usar `\"T2\"` |\n\n**Ejemplo de request**\n```json\n[\n  {\n    \"uuid\": \"550e8400-e29b-41d4-a716-446655440021\",\n    \"numCuenta\": \"18784154/0\",\n    \"nemotecnico\": \"AMZN\",\n    \"cantidad\": 1,\n    \"precio\": 180,\n    \"tipoPrecio\": \"LIMIT\",\n    \"tipoOperacion\": \"C\",\n    \"tipoSeguridad\": \"CS\",\n    \"tipoLiquidacion\": \"T2\",\n    \"codBolsa\": \"ALPACA\"\n  }\n]\n```",
+        "requestBody": {
+          "description": "Lista de objetos que representan las órdenes a ingresar, con detalles como cuenta, instrumento, cantidad, y precio.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/ParametrosIngresoOrdenApi"
+                }
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/ParametrosIngresoOrdenApi"
+                }
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/ParametrosIngresoOrdenApi"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Indica que las órdenes fueron procesadas exitosamente. Devuelve una lista de resultados por cada orden procesada."
+          },
+          "400": {
+            "description": "Se devuelve cuando los parámetros de la solicitud son inválidos o falta información necesaria.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Se devuelve si no se encuentra la cuenta o el instrumento especificado en la solicitud.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Se devuelve cuando la solicitud es rechazada por razones de autorización o por UUID previamente utilizado.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -25268,6 +28081,30 @@
     {
       "name": "11. Integraciones y Sistema",
       "description": "Endpoints para integraciones externas y control operativo del sistema.\n\nIncluyendo webhooks de **Fintoc**, actualización de movimientos de órdenes, eventos de journal **Alpaca**, gestión del cierre contable diario y consulta del entorno del sistema."
+    },
+    {
+      "name": "01. Cuentas Internacionales",
+      "description": "Crea y consulta cuentas Alpaca de tus clientes finales. Incluye saldo, cuenta, documentos KYC (W8), CIP y onboarding."
+    },
+    {
+      "name": "02. Assets e Instrumentos Internacionales",
+      "description": "Listado de activos disponibles, ultima cotizacion, logos, estado del mercado (clock) y precios de cierre."
+    },
+    {
+      "name": "03. Órdenes Internacionales",
+      "description": "Ingreso de ordenes a mercado en el broker Alpaca para ejecucion de compras y ventas en tiempo real."
+    },
+    {
+      "name": "04. Actividad y Custodias Internacionales",
+      "description": "Consulta de actividad historica de la cuenta (FILL, DIV, JNLC, etc.) y posiciones en custodia por cuenta."
+    },
+    {
+      "name": "05. Movimientos Internacionales",
+      "description": "Aportes, retiros, journals y movimientos patrimoniales internacionales. Incluye detalle de sweep."
+    },
+    {
+      "name": "06. Market Data",
+      "description": "Datos de mercado en tiempo real e historicos para acciones US: barras OHLCV, cotizaciones, trades, snapshots y metadata."
     }
   ]
 }

@@ -1,6 +1,6 @@
 ---
 api:
-  file: public-api-alpaca.json
+  file: public-api.json
   operationId: post_api-alpaca-journals-events
 hidden: false
 ---
