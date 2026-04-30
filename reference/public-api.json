@@ -7,6 +7,117 @@
     "x-last-updated": "2026-04-13"
   },
   "paths": {
+    "/api/alpaca/journals/events": {
+      "post": {
+        "tags": [
+          "12. Mercado Internacional (Alpaca)"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AlpacaJournalStatusEventDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AlpacaJournalStatusEventDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/AlpacaJournalStatusEventDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Registrar evento de journal Alpaca",
+        "description": "**Recibe y registra eventos de journal** (asientos contables) provenientes de Alpaca.\n\nActualiza el estado de las operaciónes y movimientos correspondientes en el sistema."
+      }
+    },
+    "/api/operaciones/reporte/enviar": {
+      "post": {
+        "tags": [
+          "06. Órdenes y Operaciones"
+        ],
+        "summary": "Enviar reporte de operaciónes",
+        "parameters": [
+          {
+            "name": "fecha",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "description": "**Envia el reporte de operaciónes** generado para el período indicado.\n\nEl reporte puede enviarse por correo electrónico o ponerse disponible para descarga."
+      }
+    },
     "/api/publicapi/creasys/AlpacaSweep/details": {
       "get": {
         "tags": [
@@ -46,129 +157,6 @@
         },
         "summary": "Detalles del sweep Alpaca",
         "description": "**Consulta el detalle de un sweep** (barrido automático de fondos) ejecutado entre la cuenta local y la cuenta Alpaca del cliente."
-      }
-    },
-    "/api/publicapi/creasys/Artikos/dte/listado": {
-      "get": {
-        "tags": [
-          "09. Documentos"
-        ],
-        "parameters": [
-          {
-            "name": "RutEmisor",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "RutReceptor",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "TipoDocumento",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "Folio",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          },
-          {
-            "name": "FechaInicioYYYYMMDD",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "FechaFinYYYYMMDD",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "Pagina",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "RegistrosPagina",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ArtikosListadoDteResult"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          }
-        },
-        "summary": "Listar documentos tributarios electrónicos",
-        "description": "**Lista los documentos tributarios electrónicos (DTE)** generados por Artikos para el cliente.\n\nIncluye boletas, facturas y liquidaciónes de compra."
       }
     },
     "/api/publicapi/creasys/Artikos/dte/consulta/pdf": {
@@ -298,6 +286,129 @@
         },
         "summary": "Descargar PDF de documento tributario",
         "description": "**Descarga el PDF** de un documento tributario electrónico (DTE) específico generado por Artikos."
+      }
+    },
+    "/api/publicapi/creasys/Artikos/dte/listado": {
+      "get": {
+        "tags": [
+          "09. Documentos"
+        ],
+        "parameters": [
+          {
+            "name": "RutEmisor",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "RutReceptor",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "TipoDocumento",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "Folio",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "FechaInicioYYYYMMDD",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "FechaFinYYYYMMDD",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Pagina",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "RegistrosPagina",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ArtikosListadoDteResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Listar documentos tributarios electrónicos",
+        "description": "**Lista los documentos tributarios electrónicos (DTE)** generados por Artikos para el cliente.\n\nIncluye boletas, facturas y liquidaciónes de compra."
       }
     },
     "/api/publicapi/creasys/Asesor": {
@@ -637,6 +748,81 @@
         "description": "**Obtiene la ultima cotización** disponible de un activo financiero.\n\nIncluye precio, volumen y timestamp de la ultima transacción."
       }
     },
+    "/api/publicapi/creasys/Asset/LogoParquet/{nemotecnico}": {
+      "get": {
+        "tags": [
+          "12. Mercado Internacional (Alpaca)"
+        ],
+        "summary": "Logo de un activo por nemotécnico",
+        "parameters": [
+          {
+            "name": "nemotecnico",
+            "in": "path",
+            "description": "El nemotecnico/símbolo del activo",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Si se encuentra el logo"
+          },
+          "400": {
+            "description": "Si ocurre un error al procesar la solicitud",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Si no se encuentra el logo para el nemotecnico proporcionado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "description": "**Retorna el logotipo** de la empresa o fondo asociado a un nemotécnico, para uso en interfaces de usuario."
+      }
+    },
     "/api/publicapi/creasys/Asset/stocks/auctions": {
       "get": {
         "tags": [
@@ -950,6 +1136,107 @@
           }
         },
         "description": "**Retorna la ultima barra OHLCV** disponible para un lote de simbolos."
+      }
+    },
+    "/api/publicapi/creasys/Asset/stocks/meta/conditions/{tickType}": {
+      "get": {
+        "tags": [
+          "12. Mercado Internacional (Alpaca)"
+        ],
+        "summary": "Condiciónes de tick por tipo",
+        "parameters": [
+          {
+            "name": "tickType",
+            "in": "path",
+            "description": "Tipo de tick. Ej: trade, quote, bar.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "tape",
+            "in": "query",
+            "description": "Tape NYSE. Ej: A, B, C.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "description": "**Retorna las condiciónes de tick** disponibles para un tipo de tick específico (trade, quote).\n\nUsadas para interpretar correctamente los datos de mercado."
+      }
+    },
+    "/api/publicapi/creasys/Asset/stocks/meta/exchanges": {
+      "get": {
+        "tags": [
+          "12. Mercado Internacional (Alpaca)"
+        ],
+        "summary": "Listar exchanges",
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "description": "**Lista los exchanges** (bolsas de valores) disponibles.\n\nIncluye nombre, código y zona horaria de cada exchange."
       }
     },
     "/api/publicapi/creasys/Asset/stocks/quotes": {
@@ -1391,107 +1678,6 @@
           }
         },
         "description": "**Retorna el último trade** ejecutado para un lote de simbolos."
-      }
-    },
-    "/api/publicapi/creasys/Asset/stocks/meta/conditions/{tickType}": {
-      "get": {
-        "tags": [
-          "12. Mercado Internacional (Alpaca)"
-        ],
-        "summary": "Condiciónes de tick por tipo",
-        "parameters": [
-          {
-            "name": "tickType",
-            "in": "path",
-            "description": "Tipo de tick. Ej: trade, quote, bar.",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "tape",
-            "in": "query",
-            "description": "Tape NYSE. Ej: A, B, C.",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          }
-        },
-        "description": "**Retorna las condiciónes de tick** disponibles para un tipo de tick específico (trade, quote).\n\nUsadas para interpretar correctamente los datos de mercado."
-      }
-    },
-    "/api/publicapi/creasys/Asset/stocks/meta/exchanges": {
-      "get": {
-        "tags": [
-          "12. Mercado Internacional (Alpaca)"
-        ],
-        "summary": "Listar exchanges",
-        "responses": {
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          }
-        },
-        "description": "**Lista los exchanges** (bolsas de valores) disponibles.\n\nIncluye nombre, código y zona horaria de cada exchange."
       }
     },
     "/api/publicapi/creasys/Asset/stocks/{symbol}/auctions": {
@@ -2124,216 +2310,6 @@
           }
         },
         "description": "**Retorna el último trade** ejecutado para un simbolo específico, con precio, volumen y timestamp."
-      }
-    },
-    "/api/publicapi/creasys/Asset/LogoParquet/{nemotecnico}": {
-      "get": {
-        "tags": [
-          "12. Mercado Internacional (Alpaca)"
-        ],
-        "summary": "Logo de un activo por nemotécnico",
-        "parameters": [
-          {
-            "name": "nemotecnico",
-            "in": "path",
-            "description": "El nemotecnico/símbolo del activo",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Si se encuentra el logo"
-          },
-          "400": {
-            "description": "Si ocurre un error al procesar la solicitud",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Si no se encuentra el logo para el nemotecnico proporcionado",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          }
-        },
-        "description": "**Retorna el logotipo** de la empresa o fondo asociado a un nemotécnico, para uso en interfaces de usuario."
-      }
-    },
-    "/api/publicapi/shared/Auth/SignIn": {
-      "post": {
-        "tags": [
-          "01. Autenticación y Seguridad"
-        ],
-        "summary": "Iniciar sesión",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/LoginParameters"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/LoginParameters"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/LoginParameters"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/SignInResultado"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          }
-        },
-        "description": "**Autentica al usuario** con email y contraseña. Retorna un token JWT de acceso.\n\nEl token debe incluirse en todas las peticiones posteriores:\n```\nAuthorization: Bearer {token}\n```\n\n> El token tiene duración limitada. Usar **RefreshToken** para renovarlo antes de que expire."
-      }
-    },
-    "/api/publicapi/shared/Auth/RefreshToken": {
-      "get": {
-        "tags": [
-          "01. Autenticación y Seguridad"
-        ],
-        "summary": "Renovar token de sesión",
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          }
-        },
-        "description": "**Renueva el token JWT activo** sin necesidad de volver a ingresar credenciales.\n\nLlamar a este endpoint cuando el token este próximo a vencer para mantener la sesión activa de forma continua."
-      }
-    },
-    "/api/publicapi/shared/Auth/SignOut": {
-      "post": {
-        "tags": [
-          "01. Autenticación y Seguridad"
-        ],
-        "summary": "Cerrar sesión",
-        "responses": {
-          "204": {
-            "description": "No Content"
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          }
-        },
-        "description": "**Cierra la sesión** del usuario autenticado e invalida el token de acceso en el servidor.\n\nDespues de llamar a este endpoint, el token deja de ser válido para nuevas peticiones."
       }
     },
     "/api/publicapi/creasys/Banco": {
@@ -3206,148 +3182,6 @@
         "description": "**Consulta la cartera actual** en versión optimizada.\n\nMenores tiempos de respuesta, recomendada para interfaces con alta frecuencia de consulta."
       }
     },
-    "/api/publicapi/creasys/Cartera/CarteraResumida": {
-      "get": {
-        "tags": [
-          "08. Cartera y Patrimonio"
-        ],
-        "summary": "Consultar cartera resumida",
-        "parameters": [
-          {
-            "name": "Fecha",
-            "in": "query",
-            "description": "Fecha de la consulta.",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "date-time"
-            }
-          },
-          {
-            "name": "CodEstadoCartera",
-            "in": "query",
-            "description": "Tipo custodia de la cartera (VIG (valor por defecto), GTA, PRE) .\r\nGpiWebCbApp.Controllers.PublicApi.Creasys.FiltroFechaPublic.CodEstadoCartera",
-            "schema": {
-              "maxLength": 3,
-              "minLength": 0,
-              "type": "string"
-            }
-          },
-          {
-            "name": "Nemotecnico",
-            "in": "query",
-            "schema": {
-              "maxLength": 50,
-              "minLength": 0,
-              "type": "string"
-            }
-          },
-          {
-            "name": "CodClaseInstrumento",
-            "in": "query",
-            "schema": {
-              "maxLength": 15,
-              "minLength": 0,
-              "type": "string"
-            }
-          },
-          {
-            "name": "Identificador",
-            "in": "query",
-            "description": "Identificador del cliente que se esta consultando.",
-            "schema": {
-              "maxLength": 12,
-              "minLength": 0,
-              "type": "string"
-            }
-          },
-          {
-            "name": "NumCuenta",
-            "in": "query",
-            "description": "Numero de cuenta que se esta consultando.",
-            "schema": {
-              "maxLength": 50,
-              "minLength": 0,
-              "type": "string"
-            }
-          },
-          {
-            "name": "PageNumber",
-            "in": "query",
-            "description": "Propiedad `PageNumber` representa el numero de Pagina a consultar.",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "PageSize",
-            "in": "query",
-            "description": "Propiedad `PageSize` representa el numero de registros por pagina. Máximo 100.",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/CarteraResumidaApi"
-                  }
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          }
-        },
-        "description": "**Retorna un resumen de la cartera** con totales por clase de activo y moneda, sin detalle de posiciónes individuales."
-      }
-    },
     "/api/publicapi/creasys/Cartera/CarteraDetallada": {
       "get": {
         "tags": [
@@ -3490,36 +3324,87 @@
         "description": "**Retorna la cartera con el máximo nivel de detalle.**\n\nIncluye:\n- Historial de compras por posición\n- Comisiones acumuladas\n- Rendimiento\n- Datos de liquidación"
       }
     },
-    "/api/publicapi/creasys/Cartola/GetCartolaVoultech": {
+    "/api/publicapi/creasys/Cartera/CarteraResumida": {
       "get": {
         "tags": [
           "08. Cartera y Patrimonio"
         ],
-        "summary": "Consultar cartola",
+        "summary": "Consultar cartera resumida",
         "parameters": [
           {
-            "name": "numCuenta",
+            "name": "Fecha",
             "in": "query",
-            "description": "Numero de la cuenta a la cual se generara la cartola.",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "fecha",
-            "in": "query",
-            "description": "Fecha en la cual se generara la cartola.",
+            "description": "Fecha de la consulta.",
+            "required": true,
             "schema": {
               "type": "string",
               "format": "date-time"
             }
           },
           {
-            "name": "codMonedaSld",
+            "name": "CodEstadoCartera",
             "in": "query",
-            "description": "Moneda de salida de la cartola.",
+            "description": "Tipo custodia de la cartera (VIG (valor por defecto), GTA, PRE) .\r\nGpiWebCbApp.Controllers.PublicApi.Creasys.FiltroFechaPublic.CodEstadoCartera",
             "schema": {
+              "maxLength": 3,
+              "minLength": 0,
               "type": "string"
+            }
+          },
+          {
+            "name": "Nemotecnico",
+            "in": "query",
+            "schema": {
+              "maxLength": 50,
+              "minLength": 0,
+              "type": "string"
+            }
+          },
+          {
+            "name": "CodClaseInstrumento",
+            "in": "query",
+            "schema": {
+              "maxLength": 15,
+              "minLength": 0,
+              "type": "string"
+            }
+          },
+          {
+            "name": "Identificador",
+            "in": "query",
+            "description": "Identificador del cliente que se esta consultando.",
+            "schema": {
+              "maxLength": 12,
+              "minLength": 0,
+              "type": "string"
+            }
+          },
+          {
+            "name": "NumCuenta",
+            "in": "query",
+            "description": "Numero de cuenta que se esta consultando.",
+            "schema": {
+              "maxLength": 50,
+              "minLength": 0,
+              "type": "string"
+            }
+          },
+          {
+            "name": "PageNumber",
+            "in": "query",
+            "description": "Propiedad `PageNumber` representa el numero de Pagina a consultar.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "description": "Propiedad `PageSize` representa el numero de registros por pagina. Máximo 100.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
             }
           }
         ],
@@ -3527,14 +3412,12 @@
           "200": {
             "description": "Success",
             "content": {
-              "application/pdf": {
-                "schema": {
-                  "$ref": "#/components/schemas/FileResponse"
-                }
-              },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/FileResponse"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CarteraResumidaApi"
+                  }
                 }
               }
             }
@@ -3542,11 +3425,6 @@
           "401": {
             "description": "Unauthorized",
             "content": {
-              "application/pdf": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ProblemDetails"
@@ -3557,11 +3435,16 @@
           "403": {
             "description": "Forbidden",
             "content": {
-              "application/pdf": {
+              "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ProblemDetails"
                 }
-              },
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ProblemDetails"
@@ -3572,11 +3455,6 @@
           "500": {
             "description": "Server Error",
             "content": {
-              "application/pdf": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ProblemDetails"
@@ -3585,7 +3463,7 @@
             }
           }
         },
-        "description": "**Genera la cartola de movimientos** en formato estandar Voultech para el período indicado.\n\nIncluye aportes, retiros, operaciónes y comisiones."
+        "description": "**Retorna un resumen de la cartera** con totales por clase de activo y moneda, sin detalle de posiciónes individuales."
       }
     },
     "/api/publicapi/creasys/Cartola/GetCartolaCompletaVoultech": {
@@ -3684,6 +3562,104 @@
           }
         },
         "description": "**Genera la cartola completa** en formato Voultech con todos los tipos de movimiento y detalle de cada operación."
+      }
+    },
+    "/api/publicapi/creasys/Cartola/GetCartolaVoultech": {
+      "get": {
+        "tags": [
+          "08. Cartera y Patrimonio"
+        ],
+        "summary": "Consultar cartola",
+        "parameters": [
+          {
+            "name": "numCuenta",
+            "in": "query",
+            "description": "Numero de la cuenta a la cual se generara la cartola.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "fecha",
+            "in": "query",
+            "description": "Fecha en la cual se generara la cartola.",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "codMonedaSld",
+            "in": "query",
+            "description": "Moneda de salida de la cartola.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/pdf": {
+                "schema": {
+                  "$ref": "#/components/schemas/FileResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FileResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/pdf": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/pdf": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/pdf": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "description": "**Genera la cartola de movimientos** en formato estandar Voultech para el período indicado.\n\nIncluye aportes, retiros, operaciónes y comisiones."
       }
     },
     "/api/publicapi/creasys/Clientes": {
@@ -4497,6 +4473,351 @@
         "description": "**Crea una cuenta Alpaca** para un cliente existente.\n\nInicia el proceso de apertura de cuenta de corretaje internacional en la plataforma Alpaca."
       }
     },
+    "/api/publicapi/creasys/CuentaAlpaca/Custodias/{accountNumber}": {
+      "get": {
+        "tags": [
+          "12. Mercado Internacional (Alpaca)"
+        ],
+        "parameters": [
+          {
+            "name": "accountNumber",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Consultar custodias Alpaca",
+        "description": "**Consulta las posiciónes en custodia** de la cuenta Alpaca del cliente.\n\nIncluye instrumentos, cantidades y valoración actual."
+      }
+    },
+    "/api/publicapi/creasys/CuentaAlpaca/DescargarDocumentos": {
+      "get": {
+        "tags": [
+          "12. Mercado Internacional (Alpaca)"
+        ],
+        "parameters": [
+          {
+            "name": "AccountId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "DocumentId",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Descargar documentos Alpaca",
+        "description": "**Descarga un documento** de la cuenta Alpaca del cliente en formato PDF."
+      }
+    },
+    "/api/publicapi/creasys/CuentaAlpaca/DescargarW8": {
+      "get": {
+        "tags": [
+          "12. Mercado Internacional (Alpaca)"
+        ],
+        "parameters": [
+          {
+            "name": "accountNumber",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Descargar formulario W8",
+        "description": "**Descarga el formulario W-8BEN** firmado del cliente.\n\n> Requerido por regulacion estadounidense para cuentas de no residentes en Alpaca."
+      }
+    },
+    "/api/publicapi/creasys/CuentaAlpaca/ListarDocumentos": {
+      "get": {
+        "tags": [
+          "12. Mercado Internacional (Alpaca)"
+        ],
+        "parameters": [
+          {
+            "name": "AccountId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Start",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "End",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "Type",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Listar documentos Alpaca",
+        "description": "**Lista los documentos** disponibles en la cuenta Alpaca del cliente.\n\nIncluye estados de cuenta, confirmaciónes de trade y otros documentos regulatorios."
+      }
+    },
+    "/api/publicapi/creasys/CuentaAlpaca/ObtenerActividadCuenta": {
+      "get": {
+        "tags": [
+          "12. Mercado Internacional (Alpaca)"
+        ],
+        "parameters": [
+          {
+            "name": "NumCuenta",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "activity_types",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/ActivityType"
+              }
+            }
+          },
+          {
+            "name": "category",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/ActivityCategory"
+            }
+          },
+          {
+            "name": "date",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "until",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "after",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "direction",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page_size",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "page_token",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Consultar actividad Alpaca",
+        "description": "**Retorna el historial de actividad** de la cuenta Alpaca.\n\nIncluye trades, dividendos, transferencias y otros eventos."
+      }
+    },
     "/api/publicapi/creasys/CuentaAlpaca/ObtenerCuentaAlpaca/{accountNumber}": {
       "get": {
         "tags": [
@@ -4624,221 +4945,6 @@
         "description": "**Lista todas las cuentas Alpaca** vinculadas a clientes en el sistema."
       }
     },
-    "/api/publicapi/creasys/CuentaAlpaca/SaldoAlpaca/{accountNumber}": {
-      "get": {
-        "tags": [
-          "12. Mercado Internacional (Alpaca)"
-        ],
-        "parameters": [
-          {
-            "name": "accountNumber",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          }
-        },
-        "summary": "Consultar saldo Alpaca",
-        "description": "**Consulta el saldo** y poder adquisitivo de la cuenta Alpaca del cliente."
-      }
-    },
-    "/api/publicapi/creasys/CuentaAlpaca/ObtenerActividadCuenta": {
-      "get": {
-        "tags": [
-          "12. Mercado Internacional (Alpaca)"
-        ],
-        "parameters": [
-          {
-            "name": "NumCuenta",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "activity_types",
-            "in": "query",
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/components/schemas/ActivityType"
-              }
-            }
-          },
-          {
-            "name": "category",
-            "in": "query",
-            "schema": {
-              "$ref": "#/components/schemas/ActivityCategory"
-            }
-          },
-          {
-            "name": "date",
-            "in": "query",
-            "schema": {
-              "type": "string",
-              "format": "date-time"
-            }
-          },
-          {
-            "name": "until",
-            "in": "query",
-            "schema": {
-              "type": "string",
-              "format": "date-time"
-            }
-          },
-          {
-            "name": "after",
-            "in": "query",
-            "schema": {
-              "type": "string",
-              "format": "date-time"
-            }
-          },
-          {
-            "name": "direction",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "page_size",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "page_token",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          }
-        },
-        "summary": "Consultar actividad Alpaca",
-        "description": "**Retorna el historial de actividad** de la cuenta Alpaca.\n\nIncluye trades, dividendos, transferencias y otros eventos."
-      }
-    },
-    "/api/publicapi/creasys/CuentaAlpaca/Custodias/{accountNumber}": {
-      "get": {
-        "tags": [
-          "12. Mercado Internacional (Alpaca)"
-        ],
-        "parameters": [
-          {
-            "name": "accountNumber",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          }
-        },
-        "summary": "Consultar custodias Alpaca",
-        "description": "**Consulta las posiciónes en custodia** de la cuenta Alpaca del cliente.\n\nIncluye instrumentos, cantidades y valoración actual."
-      }
-    },
     "/api/publicapi/creasys/CuentaAlpaca/PreviewCip/{numCuenta}": {
       "get": {
         "tags": [
@@ -4890,138 +4996,7 @@
         "description": "**Genera una vista previa del CIP** (Customer Identification Program) para la cuenta Alpaca antes de su envio."
       }
     },
-    "/api/publicapi/creasys/CuentaAlpaca/ListarDocumentos": {
-      "get": {
-        "tags": [
-          "12. Mercado Internacional (Alpaca)"
-        ],
-        "parameters": [
-          {
-            "name": "AccountId",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "Start",
-            "in": "query",
-            "schema": {
-              "type": "string",
-              "format": "date-time"
-            }
-          },
-          {
-            "name": "End",
-            "in": "query",
-            "schema": {
-              "type": "string",
-              "format": "date-time"
-            }
-          },
-          {
-            "name": "Type",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          }
-        },
-        "summary": "Listar documentos Alpaca",
-        "description": "**Lista los documentos** disponibles en la cuenta Alpaca del cliente.\n\nIncluye estados de cuenta, confirmaciónes de trade y otros documentos regulatorios."
-      }
-    },
-    "/api/publicapi/creasys/CuentaAlpaca/DescargarDocumentos": {
-      "get": {
-        "tags": [
-          "12. Mercado Internacional (Alpaca)"
-        ],
-        "parameters": [
-          {
-            "name": "AccountId",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "DocumentId",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          }
-        },
-        "summary": "Descargar documentos Alpaca",
-        "description": "**Descarga un documento** de la cuenta Alpaca del cliente en formato PDF."
-      }
-    },
-    "/api/publicapi/creasys/CuentaAlpaca/DescargarW8": {
+    "/api/publicapi/creasys/CuentaAlpaca/SaldoAlpaca/{accountNumber}": {
       "get": {
         "tags": [
           "12. Mercado Internacional (Alpaca)"
@@ -5029,7 +5004,8 @@
         "parameters": [
           {
             "name": "accountNumber",
-            "in": "query",
+            "in": "path",
+            "required": true,
             "schema": {
               "type": "string"
             }
@@ -5067,8 +5043,8 @@
             }
           }
         },
-        "summary": "Descargar formulario W8",
-        "description": "**Descarga el formulario W-8BEN** firmado del cliente.\n\n> Requerido por regulacion estadounidense para cuentas de no residentes en Alpaca."
+        "summary": "Consultar saldo Alpaca",
+        "description": "**Consulta el saldo** y poder adquisitivo de la cuenta Alpaca del cliente."
       }
     },
     "/api/publicapi/creasys/CuentaCorriente": {
@@ -5634,15 +5610,69 @@
         "description": "**Sube un nuevo documento** al expediente del cliente.\n\nCampos requeridos:\n- Tipo de documento\n- Archivo adjunto (PDF u otro formato aceptado)"
       }
     },
-    "/publicapi/creasys/DocumentosAlpacaSync/sync": {
-      "post": {
+    "/api/publicapi/creasys/Documentos/CertificadosTributarios": {
+      "get": {
         "tags": [
           "09. Documentos"
         ],
-        "summary": "Sincronizar documentos con Alpaca",
+        "summary": "Obtiene certificados tributarios de un cliente.",
+        "description": "Retorna una lista paginada de certificados tributarios (PDF) emitidos para un cliente, filtrados por tipo de certificado. Útil para que las fintechs puedan ofrecer descarga de certificados de impuestos a sus clientes finales.",
+        "operationId": "getCertificadosTributarios",
+        "parameters": [
+          {
+            "name": "Identificador",
+            "in": "query",
+            "required": true,
+            "description": "Identificador del cliente que se está consultando (RUT sin puntos ni guión, ej. `123456789`).",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "TipoCertificado",
+            "in": "query",
+            "required": true,
+            "description": "Código del tipo de certificado tributario. Consulta los tipos disponibles en la sección de Tablas Maestras.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "PageNumber",
+            "in": "query",
+            "required": false,
+            "description": "Número de página a consultar. Por defecto `1`.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "required": false,
+            "description": "Cantidad de registros por página. Máximo `100`.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
         "responses": {
+          "200": {
+            "description": "Lista de certificados tributarios en formato binario (PDF).",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          },
           "401": {
-            "description": "Unauthorized",
+            "description": "No autenticado.",
             "content": {
               "application/json": {
                 "schema": {
@@ -5652,7 +5682,17 @@
             }
           },
           "403": {
-            "description": "Forbidden",
+            "description": "Sin permisos para consultar este recurso.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No se encontraron certificados para los parámetros indicados.",
             "content": {
               "application/json": {
                 "schema": {
@@ -5662,7 +5702,7 @@
             }
           },
           "500": {
-            "description": "Server Error",
+            "description": "Error interno del servidor.",
             "content": {
               "application/json": {
                 "schema": {
@@ -5671,8 +5711,7 @@
               }
             }
           }
-        },
-        "description": "**Sincroniza los documentos** del cliente con la plataforma Alpaca.\n\nAsegura que los documentos requeridos esten disponibles para la apertura o mantencion de la cuenta internacional."
+        }
       }
     },
     "/api/publicapi/creasys/EmailPersona": {
@@ -5966,66 +6005,6 @@
         }
       }
     },
-    "/api/alpaca/journals/events": {
-      "post": {
-        "tags": [
-          "12. Mercado Internacional (Alpaca)"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AlpacaJournalStatusEventDto"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AlpacaJournalStatusEventDto"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/AlpacaJournalStatusEventDto"
-              }
-            }
-          }
-        },
-        "responses": {
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          }
-        },
-        "summary": "Registrar evento de journal Alpaca",
-        "description": "**Recibe y registra eventos de journal** (asientos contables) provenientes de Alpaca.\n\nActualiza el estado de las operaciónes y movimientos correspondientes en el sistema."
-      }
-    },
     "/api/publicapi/creasys/Moneda": {
       "get": {
         "tags": [
@@ -6304,6 +6283,297 @@
         "description": "**Lista los movimientos de la cuenta** en el rango de fechas indicado.\n\nIncluye aportes, retiros, operaciónes y comisiones."
       }
     },
+    "/api/publicapi/creasys/Movimientos/IngresoAporteRetiro": {
+      "post": {
+        "tags": [
+          "07. Movimientos y Transferencias"
+        ],
+        "summary": "Registrar aporte o retiro",
+        "requestBody": {
+          "description": "Objeto con el cual se crearan los movimientos de aporte o retiro patrimonial",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AporteRetiroApi"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AporteRetiroApi"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/AporteRetiroApi"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AporteRetiroApi"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "description": "**Registra un aporte o retiro de fondos** en la cuenta del cliente.\n\nCampos requeridos:\n- Monto y moneda\n- Tipo de movimiento\n- Cuenta bancaria asociada"
+      }
+    },
+    "/api/publicapi/creasys/Movimientos/IngresoAporteRetiroMasivo": {
+      "post": {
+        "tags": [
+          "07. Movimientos y Transferencias"
+        ],
+        "summary": "Registrar aportes/retiros masivos",
+        "requestBody": {
+          "description": "Objeto con el cual se crearan los movimientos de aporte o retiro patrimonial. Cada objeto debe incluir los siguientes campos:\r\n- `CodMoneda`: Código de la moneda (requerido, longitud máxima de 3 caracteres).\r\n- `DscMedioPagoCobro`: Descripción del medio de pago o cobro (longitud máxima de 20 caracteres).\r\n- `Banco`: Nombre del banco (longitud máxima de 60 caracteres).\r\n- `NumeroCuenta`: Número de la cuenta (longitud máxima de 20 caracteres).\r\n- `TipoCuenta`: Tipo de la cuenta (longitud máxima de 20 caracteres).\r\n- `Uuid`: Identificador único universal (UUID) para el registro (longitud máxima de 36 caracteres, puede ser nulo).",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/AporteRetiroApi"
+                }
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/AporteRetiroApi"
+                }
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/AporteRetiroApi"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Devuelve la lista de observaciones si todos los registros fueron exitosos.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AporteRetiroObservacionApi"
+                  }
+                }
+              }
+            }
+          },
+          "207": {
+            "description": "Devuelve la lista de observaciones si hubo algún error en los registros."
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Si no se encontraron registros.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "description": "**Registra multiples aportes o retiros** en una sola peticion.\n\nÚtil para procesar lotes de movimientos de forma eficiente."
+      }
+    },
+    "/api/publicapi/creasys/Movimientos/MovimientosBancoBice": {
+      "get": {
+        "tags": [
+          "07. Movimientos y Transferencias"
+        ],
+        "summary": "Movimientos Banco Bice",
+        "parameters": [
+          {
+            "name": "Desde",
+            "in": "query",
+            "description": "Fecha desde de la consulta.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "Hasta",
+            "in": "query",
+            "description": "Fecha hasta de la consulta.",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "NumCuenta",
+            "in": "query",
+            "description": "Numero de cuenta que se esta consultando.",
+            "schema": {
+              "maxLength": 100,
+              "minLength": 0,
+              "type": "string"
+            }
+          },
+          {
+            "name": "PageNumber",
+            "in": "query",
+            "description": "Propiedad `PageNumber` representa el numero de Pagina a consultar.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "description": "Propiedad `PageSize` representa el numero de registros por pagina. Máximo 100.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MovimientosBancoBiceDTO"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "description": "**Consulta los movimientos bancarios** sincronizados desde **Banco Bice**, incluyendo depositos y retiros procesados."
+      }
+    },
     "/api/publicapi/creasys/Movimientos/MovimientosShinkansen": {
       "get": {
         "tags": [
@@ -6445,201 +6715,6 @@
         "description": "**Consulta los movimientos** realizados a traves de **Shinkansen**, incluyendo el estado de cada transferencia."
       }
     },
-    "/api/publicapi/creasys/Movimientos/MovimientosBancoBice": {
-      "get": {
-        "tags": [
-          "07. Movimientos y Transferencias"
-        ],
-        "summary": "Movimientos Banco Bice",
-        "parameters": [
-          {
-            "name": "Desde",
-            "in": "query",
-            "description": "Fecha desde de la consulta.",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "date-time"
-            }
-          },
-          {
-            "name": "Hasta",
-            "in": "query",
-            "description": "Fecha hasta de la consulta.",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "date-time"
-            }
-          },
-          {
-            "name": "NumCuenta",
-            "in": "query",
-            "description": "Numero de cuenta que se esta consultando.",
-            "schema": {
-              "maxLength": 100,
-              "minLength": 0,
-              "type": "string"
-            }
-          },
-          {
-            "name": "PageNumber",
-            "in": "query",
-            "description": "Propiedad `PageNumber` representa el numero de Pagina a consultar.",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "PageSize",
-            "in": "query",
-            "description": "Propiedad `PageSize` representa el numero de registros por pagina. Máximo 100.",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/MovimientosBancoBiceDTO"
-                  }
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          }
-        },
-        "description": "**Consulta los movimientos bancarios** sincronizados desde **Banco Bice**, incluyendo depositos y retiros procesados."
-      }
-    },
-    "/api/publicapi/creasys/Movimientos/IngresoAporteRetiro": {
-      "post": {
-        "tags": [
-          "07. Movimientos y Transferencias"
-        ],
-        "summary": "Registrar aporte o retiro",
-        "requestBody": {
-          "description": "Objeto con el cual se crearan los movimientos de aporte o retiro patrimonial",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AporteRetiroApi"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AporteRetiroApi"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/AporteRetiroApi"
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "Created",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AporteRetiroApi"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          }
-        },
-        "description": "**Registra un aporte o retiro de fondos** en la cuenta del cliente.\n\nCampos requeridos:\n- Monto y moneda\n- Tipo de movimiento\n- Cuenta bancaria asociada"
-      }
-    },
     "/api/publicapi/creasys/Movimientos/NuevoIngresoAporteRetiro": {
       "post": {
         "tags": [
@@ -6721,102 +6796,6 @@
           }
         },
         "description": "**Registra un aporte o retiro** usando la logica de negocio actualizada (v2).\n\n> Reemplaza a `IngresoAporteRetiro` con mejoras en validación y procesamiento."
-      }
-    },
-    "/api/publicapi/creasys/Movimientos/IngresoAporteRetiroMasivo": {
-      "post": {
-        "tags": [
-          "07. Movimientos y Transferencias"
-        ],
-        "summary": "Registrar aportes/retiros masivos",
-        "requestBody": {
-          "description": "Objeto con el cual se crearan los movimientos de aporte o retiro patrimonial. Cada objeto debe incluir los siguientes campos:\r\n- `CodMoneda`: Código de la moneda (requerido, longitud máxima de 3 caracteres).\r\n- `DscMedioPagoCobro`: Descripción del medio de pago o cobro (longitud máxima de 20 caracteres).\r\n- `Banco`: Nombre del banco (longitud máxima de 60 caracteres).\r\n- `NumeroCuenta`: Número de la cuenta (longitud máxima de 20 caracteres).\r\n- `TipoCuenta`: Tipo de la cuenta (longitud máxima de 20 caracteres).\r\n- `Uuid`: Identificador único universal (UUID) para el registro (longitud máxima de 36 caracteres, puede ser nulo).",
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/components/schemas/AporteRetiroApi"
-                }
-              }
-            },
-            "text/json": {
-              "schema": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/components/schemas/AporteRetiroApi"
-                }
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/components/schemas/AporteRetiroApi"
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Devuelve la lista de observaciones si todos los registros fueron exitosos.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/AporteRetiroObservacionApi"
-                  }
-                }
-              }
-            }
-          },
-          "207": {
-            "description": "Devuelve la lista de observaciones si hubo algún error en los registros."
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Si no se encontraron registros.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          }
-        },
-        "description": "**Registra multiples aportes o retiros** en una sola peticion.\n\nÚtil para procesar lotes de movimientos de forma eficiente."
       }
     },
     "/api/publicapi/creasys/MovimientosAlpaca/MovimientoInternacionalAlpaca": {
@@ -7472,57 +7451,6 @@
         "description": "**Ingresa una orden spot** para ejecución inmediata a precio de mercado.\n\nCombina el ingreso de la orden y la ejecución en un solo paso."
       }
     },
-    "/api/operaciones/reporte/enviar": {
-      "post": {
-        "tags": [
-          "06. Órdenes y Operaciones"
-        ],
-        "summary": "Enviar reporte de operaciónes",
-        "parameters": [
-          {
-            "name": "fecha",
-            "in": "query",
-            "schema": {
-              "type": "string",
-              "format": "date-time"
-            }
-          }
-        ],
-        "responses": {
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          }
-        },
-        "description": "**Envia el reporte de operaciónes** generado para el período indicado.\n\nEl reporte puede enviarse por correo electrónico o ponerse disponible para descarga."
-      }
-    },
     "/api/publicapi/creasys/Ordenes": {
       "get": {
         "tags": [
@@ -7651,6 +7579,69 @@
         "description": "**Lista las ordenes de mercado** registradas.\n\nFiltros disponibles:\n- Estado: vigente, anulada, ejecutada\n- Instrumento\n- Rango de fechas"
       }
     },
+    "/api/publicapi/creasys/Ordenes/AnularOrden": {
+      "post": {
+        "tags": [
+          "06. Órdenes y Operaciones"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ParametrosCancelarOrdenApi"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ParametrosCancelarOrdenApi"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ParametrosCancelarOrdenApi"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "summary": "Anular orden",
+        "description": "**Anula una orden pendiente** que aun no ha sido ejecutada en el mercado.\n\n> Solo es posible anular ordenes en estado **vigente**."
+      }
+    },
     "/api/publicapi/creasys/Ordenes/IngresarOrdenesMercado": {
       "post": {
         "tags": [
@@ -7755,33 +7746,55 @@
         }
       }
     },
-    "/api/publicapi/creasys/Ordenes/AnularOrden": {
+    "/api/publicapi/creasys/Ordenes/IngresoOrdenesIntraDay": {
       "post": {
         "tags": [
           "06. Órdenes y Operaciones"
         ],
+        "summary": "Ingresar ordenes intraday",
+        "description": "**Ingresa ordenes intraday**, validas solo para la sesión del dia en curso.\n\n> Las ordenes no ejecutadas se cancelan automáticamente al cierre del mercado.",
         "requestBody": {
+          "description": "Lista de órdenes a ingresar",
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ParametrosCancelarOrdenApi"
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/ParametrosIngresoOrdenApi"
+                }
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/ParametrosCancelarOrdenApi"
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/ParametrosIngresoOrdenApi"
+                }
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/ParametrosCancelarOrdenApi"
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/ParametrosIngresoOrdenApi"
+                }
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Órdenes ingresadas exitosamente"
+          },
+          "400": {
+            "description": "Error en los parámetros de entrada",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
           },
           "401": {
             "description": "Unauthorized",
@@ -7803,8 +7816,8 @@
               }
             }
           },
-          "500": {
-            "description": "Server Error",
+          "404": {
+            "description": "Cuenta no encontrada",
             "content": {
               "application/json": {
                 "schema": {
@@ -7812,10 +7825,11 @@
                 }
               }
             }
+          },
+          "500": {
+            "description": "Error interno del servidor"
           }
-        },
-        "summary": "Anular orden",
-        "description": "**Anula una orden pendiente** que aun no ha sido ejecutada en el mercado.\n\n> Solo es posible anular ordenes en estado **vigente**."
+        }
       }
     },
     "/api/publicapi/creasys/Ordenes/RegistroOrdenesExterno": {
@@ -7919,92 +7933,6 @@
           }
         },
         "description": "**Registra ordenes provenientes de sistemas externos**, integrando operaciónes ejecutadas fuera de la plataforma."
-      }
-    },
-    "/api/publicapi/creasys/Ordenes/IngresoOrdenesIntraDay": {
-      "post": {
-        "tags": [
-          "06. Órdenes y Operaciones"
-        ],
-        "summary": "Ingresar ordenes intraday",
-        "description": "**Ingresa ordenes intraday**, validas solo para la sesión del dia en curso.\n\n> Las ordenes no ejecutadas se cancelan automáticamente al cierre del mercado.",
-        "requestBody": {
-          "description": "Lista de órdenes a ingresar",
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/components/schemas/ParametrosIngresoOrdenApi"
-                }
-              }
-            },
-            "text/json": {
-              "schema": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/components/schemas/ParametrosIngresoOrdenApi"
-                }
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/components/schemas/ParametrosIngresoOrdenApi"
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Órdenes ingresadas exitosamente"
-          },
-          "400": {
-            "description": "Error en los parámetros de entrada",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Cuenta no encontrada",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Error interno del servidor"
-          }
-        }
       }
     },
     "/api/publicapi/creasys/Ordenes/SaldoCustodiaIntraDay": {
@@ -9248,6 +9176,182 @@
           }
         },
         "description": "**Lista los tipos de sociedad** disponibles para personas jurídicas.\n\nEjemplos: SA, SpA, Limitada, EIRL."
+      }
+    },
+    "/api/publicapi/shared/Auth/RefreshToken": {
+      "get": {
+        "tags": [
+          "01. Autenticación y Seguridad"
+        ],
+        "summary": "Renovar token de sesión",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "description": "**Renueva el token JWT activo** sin necesidad de volver a ingresar credenciales.\n\nLlamar a este endpoint cuando el token este próximo a vencer para mantener la sesión activa de forma continua."
+      }
+    },
+    "/api/publicapi/shared/Auth/SignIn": {
+      "post": {
+        "tags": [
+          "01. Autenticación y Seguridad"
+        ],
+        "summary": "Iniciar sesión",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginParameters"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginParameters"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginParameters"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SignInResultado"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "description": "**Autentica al usuario** con email y contraseña. Retorna un token JWT de acceso.\n\nEl token debe incluirse en todas las peticiones posteriores:\n```\nAuthorization: Bearer {token}\n```\n\n> El token tiene duración limitada. Usar **RefreshToken** para renovarlo antes de que expire."
+      }
+    },
+    "/api/publicapi/shared/Auth/SignOut": {
+      "post": {
+        "tags": [
+          "01. Autenticación y Seguridad"
+        ],
+        "summary": "Cerrar sesión",
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "description": "**Cierra la sesión** del usuario autenticado e invalida el token de acceso en el servidor.\n\nDespues de llamar a este endpoint, el token deja de ser válido para nuevas peticiones."
+      }
+    },
+    "/publicapi/creasys/DocumentosAlpacaSync/sync": {
+      "post": {
+        "tags": [
+          "09. Documentos"
+        ],
+        "summary": "Sincronizar documentos con Alpaca",
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        },
+        "description": "**Sincroniza los documentos** del cliente con la plataforma Alpaca.\n\nAsegura que los documentos requeridos esten disponibles para la apertura o mantencion de la cuenta internacional."
       }
     }
   },
