@@ -64,7 +64,7 @@
           }
         },
         "summary": "Journal events",
-        "description": "**Recibe y registra eventos de journal** (asientos contables) provenientes de Alpaca.\n\nActualiza el estado de las operaciónes y movimientos correspondientes en el sistema."
+        "description": "Webhook receptor de eventos de journals de Alpaca. Notifica cambios de estado (executed, pending, canceled) en movimientos patrimoniales."
       }
     },
     "/api/publicapi/creasys/AlpacaSweep/details": {
@@ -104,8 +104,8 @@
             }
           }
         },
-        "summary": "Sweep details",
-        "description": "**Consulta el detalle de un sweep** (barrido automático de fondos) ejecutado entre la cuenta local y la cuenta Alpaca del cliente."
+        "summary": "Detalles del sweep",
+        "description": "Detalles del programa Cash Sweep de Alpaca: barrido automático de saldo en efectivo a un fondo de mercado para generar intereses."
       }
     },
     "/api/publicapi/creasys/Asset": {
@@ -195,7 +195,7 @@
           }
         },
         "summary": "Listar assets",
-        "description": "**Retorna información detallada** de un activo financiero.\n\nIncluye nombre, simbolo, tipo, moneda, mercado donde cotiza y estado."
+        "description": "Lista paginada de activos (acciones, ETFs) de Alpaca disponibles para trading.\n\n**Filtros disponibles**\n\n| Parámetro | Descripción |\n|---|---|\n| `exchangeName` | Nombre del exchange (`NASDAQ`, `NYSE`, etc.) |\n| `search` | Búsqueda por símbolo o nombre del activo |\n| `nemo` | Nemotécnico / símbolo exacto |\n| `page` | Número de página (default: 1) |\n| `pageSize` | Tamaño de página (default: 20) |\n\n**Campos clave del response**\n\n| Campo | Descripción |\n|---|---|\n| `symbol` | Ticker / nemotécnico (ej: `AAPL`) |\n| `name` | Nombre completo del activo |\n| `exchangeName` | Bolsa donde cotiza |\n| `tradable` | Si está habilitado para trading |\n| `marginable` | Si admite operaciones con margen |\n| `shortable` | Si admite venta corta |\n| `fractionable` | Si admite fraccionamiento |"
       }
     },
     "/api/publicapi/creasys/Asset/LastQuote": {
@@ -253,8 +253,8 @@
             }
           }
         },
-        "summary": "Last quote",
-        "description": "**Obtiene la ultima cotización** disponible de un activo financiero.\n\nIncluye precio, volumen y timestamp de la ultima transacción."
+        "summary": "Última cotización",
+        "description": "Última cotización disponible de un activo: precio bid/ask, tamaños, timestamp.\n\n**Tipos de feed disponibles**\n\n| Valor | Descripción |\n|---|---|\n| `sip` | Securities Information Processor — datos consolidados en tiempo real (**default**) |\n| `iex` | Investors Exchange — datos exclusivos de IEX |\n| `delayed_sip` | SIP con delay de 15 minutos |\n| `boats` | Blue Ocean ATS — operaciones fuera de horario regular |\n| `overnight` | Cotizaciones derivadas para operaciones overnight |\n| `otc` | Over-The-Counter — mercados OTC |"
       }
     },
     "/api/publicapi/creasys/Asset/LogoParquet/{nemotecnico}": {
@@ -262,7 +262,7 @@
         "tags": [
           "02. Assets e Instrumentos Internacionales"
         ],
-        "summary": "Logo parquet",
+        "summary": "Logo del activo",
         "parameters": [
           {
             "name": "nemotecnico",
@@ -329,7 +329,7 @@
             }
           }
         },
-        "description": "**Retorna el logotipo** de la empresa o fondo asociado a un nemotécnico, para uso en interfaces de usuario."
+        "description": "Logo de un activo financiero por nemotécnico (formato parquet). Útil para mostrar el logo del activo en la UI."
       }
     },
     "/api/publicapi/creasys/Asset/stocks/auctions": {
@@ -453,7 +453,7 @@
             }
           }
         },
-        "description": "**Retorna información de subastas** (apertura y cierre) para un lote de simbolos."
+        "description": "Datos de subastas (apertura y cierre) para uno o varios símbolos.\n\n**Parámetros adicionales**\n\n| Parámetro | Descripción |\n|---|---|\n| `asof` | Fecha as-of (`YYYY-MM-DD`) |\n| `start` / `end` | Rango de fechas |\n| `feed` | Fuente de datos |"
       }
     },
     "/api/publicapi/creasys/Asset/stocks/bars": {
@@ -461,7 +461,7 @@
         "tags": [
           "06. Market Data"
         ],
-        "summary": "Stocks bars",
+        "summary": "Stocks bars (batch)",
         "parameters": [
           {
             "name": "symbols",
@@ -569,7 +569,7 @@
             }
           }
         },
-        "description": "**Retorna barras OHLCV** para un lote de simbolos.\n\nDatos por barra: Apertura, Máximo, Mínimo, Cierre, Volumen. Útil para graficar velas japonesas."
+        "description": "Barras históricas **OHLCV** (Open, High, Low, Close, Volume) para uno o varios símbolos.\n\n**Parámetros principales**\n\n| Parámetro | Descripción |\n|---|---|\n| `symbols` | Tickers separados por coma (prioritario sobre `nemo`) |\n| `nemo` | Un solo ticker si no se envía `symbols` |\n| `start` / `end` | Rango de fechas (`YYYY-MM-DD` o ISO 8601) |\n| `timeframe` | Agregación: `1Min`, `15Min`, `1Hour`, `1Day` |\n| `adjustment` | Ajuste corporativo: `raw`, `split`, `dividend`, `all` |\n| `feed` | Fuente: `sip`, `iex`, `delayed_sip` |\n| `limit` | Máximo de filas por página |\n| `page_token` | Token de paginación |\n| `sort` | `asc` o `desc` |"
       }
     },
     "/api/publicapi/creasys/Asset/stocks/bars/latest": {
@@ -644,7 +644,7 @@
             }
           }
         },
-        "description": "**Retorna la ultima barra OHLCV** disponible para un lote de simbolos."
+        "description": "Última barra OHLCV disponible para uno o varios símbolos (batch). Acepta `symbols` separados por coma."
       }
     },
     "/api/publicapi/creasys/Asset/stocks/meta/conditions/{tickType}": {
@@ -652,7 +652,7 @@
         "tags": [
           "06. Market Data"
         ],
-        "summary": "Stocks conditions",
+        "summary": "Condiciones de tick",
         "parameters": [
           {
             "name": "tickType",
@@ -704,7 +704,7 @@
             }
           }
         },
-        "description": "**Retorna las condiciónes de tick** disponibles para un tipo de tick específico (trade, quote).\n\nUsadas para interpretar correctamente los datos de mercado."
+        "description": "Listado de condiciones de tick disponibles según el tipo.\n\n| Parámetro | Descripción |\n|---|---|\n| `tickType` (path) | Tipo: `trade`, `quote`, `bar` |\n| `tape` | Tape NYSE: `A`, `B`, `C` |"
       }
     },
     "/api/publicapi/creasys/Asset/stocks/meta/exchanges": {
@@ -712,7 +712,7 @@
         "tags": [
           "06. Market Data"
         ],
-        "summary": "Stocks exchanges",
+        "summary": "Listar exchanges",
         "responses": {
           "401": {
             "description": "Unauthorized",
@@ -745,7 +745,7 @@
             }
           }
         },
-        "description": "**Lista los exchanges** (bolsas de valores) disponibles.\n\nIncluye nombre, código y zona horaria de cada exchange."
+        "description": "Listado completo de exchanges disponibles en Alpaca. Sin parámetros."
       }
     },
     "/api/publicapi/creasys/Asset/stocks/quotes": {
@@ -753,7 +753,7 @@
         "tags": [
           "06. Market Data"
         ],
-        "summary": "Stocks quotes",
+        "summary": "Stocks quotes (batch)",
         "parameters": [
           {
             "name": "symbols",
@@ -853,7 +853,7 @@
             }
           }
         },
-        "description": "**Retorna el historial de cotizaciónes** (bid/ask) para un lote de simbolos en el rango de tiempo indicado."
+        "description": "Cotizaciones históricas (bid/ask) para uno o varios símbolos en un rango de fechas. Acepta `symbols` separados por coma."
       }
     },
     "/api/publicapi/creasys/Asset/stocks/quotes/latest": {
@@ -928,7 +928,7 @@
             }
           }
         },
-        "description": "**Retorna la ultima cotización** vigente (bid y ask) para un lote de simbolos."
+        "description": "Última cotización (bid/ask) disponible para uno o varios símbolos (batch)."
       }
     },
     "/api/publicapi/creasys/Asset/stocks/snapshots": {
@@ -1003,7 +1003,7 @@
             }
           }
         },
-        "description": "**Retorna un snapshot completo** del estado actual de mercado para un lote de simbolos.\n\nIncluye precio, volumen, variacion del dia y datos de la ultima sesión."
+        "description": "Snapshot completo actual por símbolo: incluye última cotización, último trade, barra del día y barra del minuto previo."
       }
     },
     "/api/publicapi/creasys/Asset/stocks/trades": {
@@ -1011,7 +1011,7 @@
         "tags": [
           "06. Market Data"
         ],
-        "summary": "Stocks trades",
+        "summary": "Stocks trades (batch)",
         "parameters": [
           {
             "name": "symbols",
@@ -1111,7 +1111,7 @@
             }
           }
         },
-        "description": "**Retorna el historial de trades** ejecutados para un lote de simbolos, con precio, cantidad y timestamp."
+        "description": "Histórico de trades ejecutados para uno o varios símbolos en un rango de fechas."
       }
     },
     "/api/publicapi/creasys/Asset/stocks/trades/latest": {
@@ -1186,7 +1186,7 @@
             }
           }
         },
-        "description": "**Retorna el último trade** ejecutado para un lote de simbolos."
+        "description": "Último trade ejecutado para uno o varios símbolos (batch)."
       }
     },
     "/api/publicapi/creasys/Asset/stocks/{symbol}/auctions": {
@@ -1303,7 +1303,7 @@
             }
           }
         },
-        "description": "**Retorna información de subasta** de apertura y cierre del dia para un simbolo específico."
+        "description": "Subastas (apertura/cierre) para un único símbolo (ticker en la ruta)."
       }
     },
     "/api/publicapi/creasys/Asset/stocks/{symbol}/bars": {
@@ -1412,7 +1412,7 @@
             }
           }
         },
-        "description": "**Retorna barras OHLCV** para un simbolo específico en el rango de tiempo y frecuencia indicados."
+        "description": "Barras OHLCV históricas para un único símbolo (ticker en la ruta). Mismos filtros que `/stocks/bars` pero sin `symbols`."
       }
     },
     "/api/publicapi/creasys/Asset/stocks/{symbol}/bars/latest": {
@@ -1480,7 +1480,7 @@
             }
           }
         },
-        "description": "**Retorna la ultima barra OHLCV** disponible para un simbolo específico."
+        "description": "Última barra OHLCV para un único símbolo (ticker en la ruta)."
       }
     },
     "/api/publicapi/creasys/Asset/stocks/{symbol}/quotes": {
@@ -1581,7 +1581,7 @@
             }
           }
         },
-        "description": "**Retorna el historial de cotizaciónes** (bid/ask) para un simbolo específico."
+        "description": "Cotizaciones históricas (bid/ask) para un único símbolo (ticker en la ruta)."
       }
     },
     "/api/publicapi/creasys/Asset/stocks/{symbol}/quotes/latest": {
@@ -1649,7 +1649,7 @@
             }
           }
         },
-        "description": "**Retorna la ultima cotización** (bid y ask) para un simbolo específico."
+        "description": "Última cotización (bid/ask) para un único símbolo (ticker en la ruta)."
       }
     },
     "/api/publicapi/creasys/Asset/stocks/{symbol}/trades": {
@@ -1750,7 +1750,7 @@
             }
           }
         },
-        "description": "**Retorna el historial de trades** ejecutados para un simbolo específico."
+        "description": "Histórico de trades para un único símbolo (ticker en la ruta)."
       }
     },
     "/api/publicapi/creasys/Asset/stocks/{symbol}/trades/latest": {
@@ -1818,7 +1818,7 @@
             }
           }
         },
-        "description": "**Retorna el último trade** ejecutado para un simbolo específico, con precio, volumen y timestamp."
+        "description": "Último trade para un único símbolo (ticker en la ruta)."
       }
     },
     "/api/publicapi/creasys/ClockAlpaca": {
@@ -1826,7 +1826,7 @@
         "tags": [
           "02. Assets e Instrumentos Internacionales"
         ],
-        "summary": "Clock Alpaca",
+        "summary": "Reloj de mercado",
         "responses": {
           "200": {
             "description": "Success",
@@ -1862,7 +1862,7 @@
             "description": "Server Error"
           }
         },
-        "description": "**Retorna el estado del reloj de mercado Alpaca.**\n\nEstados posibles:\n- `open`: Mercado abierto\n- `closed`: Mercado cerrado\n- `extended_hours`: Pre o post mercado\n\nIncluye horarios de proxima apertura y cierre."
+        "description": "Estado actual del reloj del mercado de Alpaca: si está abierto, próxima apertura, próximo cierre.\n\n**Response**\n\n| Campo | Descripción |\n|---|---|\n| `timestamp` | Hora actual del servidor de Alpaca |\n| `is_open` | `true` si el mercado está abierto |\n| `next_open` | Próxima apertura (ISO 8601) |\n| `next_close` | Próximo cierre (ISO 8601) |"
       }
     },
     "/api/publicapi/creasys/ClosePrices/symbol/{symbol}/latest": {
@@ -1912,8 +1912,8 @@
             }
           }
         },
-        "summary": "Close price latest",
-        "description": "**Retorna el precio de cierre mas reciente** de un instrumento.\n\nÚtilizado para valorar posiciónes al precio oficial de cierre del mercado."
+        "summary": "Precio de cierre",
+        "description": "Precio de cierre más reciente disponible para un símbolo."
       }
     },
     "/api/publicapi/creasys/CuentaAlpaca/CrearClienteAlpaca": {
@@ -1921,7 +1921,7 @@
         "tags": [
           "01. Cuentas Internacionales"
         ],
-        "summary": "Crear cliente Alpaca",
+        "summary": "Crear cuenta Alpaca",
         "requestBody": {
           "description": "DTO con los datos del cliente para crear la cuenta Alpaca.",
           "content": {
@@ -1974,7 +1974,7 @@
             }
           }
         },
-        "description": "**Crea una cuenta Alpaca** para un cliente existente.\n\nInicia el proceso de apertura de cuenta de corretaje internacional en la plataforma Alpaca."
+        "description": "Crea una cuenta Alpaca asociada a un cliente Vector existente para que pueda operar en el mercado estadounidense.\n\n**Origen de los fondos (`fundingSource`)** — se acepta uno o varios valores:\n\n| Valor | Descripción |\n|---|---|\n| `employment_income` | Ingresos por empleo |\n| `savings` | Ahorros personales |\n| `investments` | Inversiones |\n| `inheritance` | Herencia |\n| `business_income` | Ingresos por negocios |\n| `family` | Familia |\n\n**Ejemplo de request**\n```json\n{\n  \"numCuenta\": \"12345\",\n  \"identificador\": \"12345678-9\",\n  \"fundingSource\": [\"employment_income\"]\n}\n```"
       }
     },
     "/api/publicapi/creasys/CuentaAlpaca/Custodias/{accountNumber}": {
@@ -2024,8 +2024,8 @@
             }
           }
         },
-        "summary": "Custodias",
-        "description": "**Consulta las posiciónes en custodia** de la cuenta Alpaca del cliente.\n\nIncluye instrumentos, cantidades y valoración actual."
+        "summary": "Posiciones (custodias)",
+        "description": "Posiciones actuales (custodias) de una cuenta Alpaca: símbolo, cantidad, precio promedio de entrada, valor de mercado, P&L no realizado.\n\n**Campos clave del response**\n\n| Campo | Descripción |\n|---|---|\n| `symbol` | Ticker del activo |\n| `qty` | Cantidad en custodia |\n| `avg_entry_price` | Precio promedio de compra |\n| `market_value` | Valor de mercado actual |\n| `cost_basis` | Costo de adquisición |\n| `unrealized_pl` | Ganancia/pérdida no realizada (USD) |\n| `unrealized_plpc` | Ganancia/pérdida no realizada (%) |\n| `current_price` | Precio actual |\n| `lastday_price` | Precio del cierre anterior |\n| `qty_available` | Cantidad disponible para vender |"
       }
     },
     "/api/publicapi/creasys/CuentaAlpaca/DescargarDocumentos": {
@@ -2082,7 +2082,7 @@
           }
         },
         "summary": "Descargar documentos",
-        "description": "**Descarga un documento** de la cuenta Alpaca del cliente en formato PDF."
+        "description": "Descarga los documentos de una cuenta Alpaca en formato PDF."
       }
     },
     "/api/publicapi/creasys/CuentaAlpaca/DescargarW8": {
@@ -2132,7 +2132,7 @@
           }
         },
         "summary": "Descargar W8",
-        "description": "**Descarga el formulario W-8BEN** firmado del cliente.\n\n> Requerido por regulacion estadounidense para cuentas de no residentes en Alpaca."
+        "description": "Descarga el formulario W-8BEN firmado para residentes no estadounidenses (declaración de status fiscal extranjero ante el IRS)."
       }
     },
     "/api/publicapi/creasys/CuentaAlpaca/ListarDocumentos": {
@@ -2206,7 +2206,7 @@
           }
         },
         "summary": "Listar documentos",
-        "description": "**Lista los documentos** disponibles en la cuenta Alpaca del cliente.\n\nIncluye estados de cuenta, confirmaciónes de trade y otros documentos regulatorios."
+        "description": "Listado de documentos disponibles para una cuenta Alpaca (estados de cuenta, confirmaciones, formularios tributarios)."
       }
     },
     "/api/publicapi/creasys/CuentaAlpaca/ObtenerActividadCuenta": {
@@ -2318,8 +2318,8 @@
             }
           }
         },
-        "summary": "Obtener actividad",
-        "description": "**Retorna el historial de actividad** de la cuenta Alpaca.\n\nIncluye trades, dividendos, transferencias y otros eventos."
+        "summary": "Actividad de cuenta",
+        "description": "Actividades históricas (movimientos) de una cuenta Alpaca con filtros por fecha, tipo y categoría. Soporta paginación con `page_token`.\n\n**Tipos de actividad (`activity_types`)**\n\n| Código | Significado |\n|---|---|\n| `FILL` | Ejecución de una orden |\n| `JNLC` | Movimiento de cash (journal cash) |\n| `DIV` | Dividendo |\n| `FEE` | Cargo / comisión |\n| `OPCSH` | Operación cash |\n\n**Categorías (`category`)**\n- `trade_activity` — actividad de trading\n- `non_trade_activity` — actividad no relacionada a trading\n\n**Parámetros de filtro**\n\n| Parámetro | Descripción |\n|---|---|\n| `NumCuenta` | Número de cuenta Vector (ej: `18784154/0`) |\n| `date` | Fecha específica |\n| `after` / `until` | Rango de fechas |\n| `direction` | `asc` o `desc` (default: `desc`) |\n| `page_size` | 1–100 (default: 100) |\n| `page_token` | Token de paginación de Alpaca |"
       }
     },
     "/api/publicapi/creasys/CuentaAlpaca/ObtenerCuentaAlpaca/{accountNumber}": {
@@ -2327,7 +2327,7 @@
         "tags": [
           "01. Cuentas Internacionales"
         ],
-        "summary": "Obtener cuenta Alpaca",
+        "summary": "Detalle de cuenta",
         "parameters": [
           {
             "name": "accountNumber",
@@ -2371,7 +2371,7 @@
             }
           }
         },
-        "description": "**Retorna el detalle** de una cuenta Alpaca específica.\n\nIncluye estado, tipo, restricciones y configuración de la cuenta."
+        "description": "Detalle completo de una cuenta Alpaca a partir del número de cuenta Vector.\n\nIncluye estado, resultado KYC, identidad del titular (nombre, RUT, residencia tributaria), origen de fondos y equity del último cierre."
       }
     },
     "/api/publicapi/creasys/CuentaAlpaca/ObtenerCuentas": {
@@ -2379,7 +2379,7 @@
         "tags": [
           "01. Cuentas Internacionales"
         ],
-        "summary": "Obtener cuentas",
+        "summary": "Listar cuentas Alpaca",
         "parameters": [
           {
             "name": "Identificador",
@@ -2446,7 +2446,7 @@
             }
           }
         },
-        "description": "**Lista todas las cuentas Alpaca** vinculadas a clientes en el sistema."
+        "description": "Lista todas las cuentas Alpaca asociadas al usuario autenticado, con identificadores Vector y Alpaca, estado y asesor asignado."
       }
     },
     "/api/publicapi/creasys/CuentaAlpaca/PreviewCip/{numCuenta}": {
@@ -2497,7 +2497,7 @@
           }
         },
         "summary": "Preview CIP",
-        "description": "**Genera una vista previa del CIP** (Customer Identification Program) para la cuenta Alpaca antes de su envio."
+        "description": "Vista previa del CIP (Customer Identification Program) antes de envío. Permite revisar los datos del cliente que se enviarán a Alpaca para verificación de identidad."
       }
     },
     "/api/publicapi/creasys/CuentaAlpaca/SaldoAlpaca/{accountNumber}": {
@@ -2547,8 +2547,8 @@
             }
           }
         },
-        "summary": "Saldo Alpaca",
-        "description": "**Consulta el saldo** y poder adquisitivo de la cuenta Alpaca del cliente."
+        "summary": "Saldo de cuenta",
+        "description": "Saldo y métricas patrimoniales completas de la cuenta Alpaca.\n\n**Campos clave del response**\n\n| Campo | Descripción |\n|---|---|\n| `equity` | Patrimonio total actualizado (posiciones + cash) |\n| `last_equity` | Equity del cierre del día hábil anterior |\n| `cash` | Efectivo disponible |\n| `buying_power` | Poder de compra disponible |\n| `portfolio_value` | Valor total del portafolio |\n| `long_market_value` | Valor de mercado de posiciones largas |\n| `short_market_value` | Valor de mercado de posiciones cortas |\n| `pattern_day_trader` | Indicador de PDT |\n| `daytrade_count` | Cantidad de day trades en el período |\n\n> ⚠️ **No existe WebSocket para `equity` total.** Implementar polling periódico a este endpoint. Para `cash` sí hay WebSocket disponible."
       }
     },
     "/api/publicapi/creasys/MovimientosAlpaca/MovimientoInternacionalAlpaca": {
@@ -2556,7 +2556,7 @@
         "tags": [
           "05. Movimientos Internacionales"
         ],
-        "summary": "Movimiento internacional",
+        "summary": "Aporte o retiro USD",
         "requestBody": {
           "content": {
             "application/json": {
@@ -2611,7 +2611,7 @@
             }
           }
         },
-        "description": "**Registra un movimiento de fondos internacional** hacia o desde la cuenta Alpaca del cliente (wire transfer o ACH)."
+        "description": "Registra un movimiento patrimonial (aporte o retiro) entre cuentas Vector (CLP) y Alpaca (USD).\n\n**Tipos de movimiento (`codTipoMovimiento`)**\n\n| Código | Descripción |\n|---|---|\n| `APO_PAT_IT` | Aporte patrimonial (Vector → Alpaca) |\n| `RET_PAT_IT` | Retiro patrimonial (Alpaca → Vector) |\n\n**Ejemplo de request**\n```json\n{\n  \"codMoneda\": \"USD\",\n  \"monto\": 5,\n  \"numCuenta\": \"18784154/0\",\n  \"id\": 864857,\n  \"codTipoMovimiento\": \"RET_PAT_IT\",\n  \"obsMovimiento\": \"Retiro a caja USD\",\n  \"dscMedioPagoCobro\": \"TRANSFERENCIA\"\n}\n```"
       }
     },
     "/api/publicapi/creasys/MovimientosAlpaca/patrimoniales/{numCuenta}": {
@@ -2713,8 +2713,8 @@
             }
           }
         },
-        "summary": "Patrimoniales",
-        "description": "**Consulta los movimientos patrimoniales** sincronizados desde Alpaca.\n\nIncluye dividendos, splits y ajustes de la cuenta."
+        "summary": "Mov. patrimoniales",
+        "description": "Listado de movimientos patrimoniales (aportes y retiros) de una cuenta Alpaca, con filtros opcionales.\n\n**Filtros disponibles**\n\n| Parámetro | Descripción |\n|---|---|\n| `numCuenta` | Número de cuenta Vector |\n| `idMovimiento` | ID específico del movimiento |\n| `fechaDesde` / `fechaHasta` | Rango de fechas (`YYYY-MM-DD`) |\n| `CuentaOrigen` | UUID de cuenta origen en Alpaca |\n| `CuentaDestino` | UUID de cuenta destino en Alpaca |\n| `estadoActual` | `executed`, `pending`, `canceled` |"
       }
     },
     "/api/publicapi/creasys/Ordenes/IngresarOrdenesMercado": {
@@ -2723,7 +2723,7 @@
           "03. Órdenes Internacionales"
         ],
         "summary": "Ingresar orden mercado",
-        "description": "**Ingresa ordenes directamente al mercado bursatil** para su ejecución inmediata o segun las condiciónes de precio indicadas.",
+        "description": "Ingresa órdenes de compra/venta para cuentas **nacionales (XSGO)** o **internacionales (ALPACA)**. Soporta órdenes `MARKET` y `LIMIT`.\n\n> ⚠️ La ejecución **no es inmediata**. La confirmación llega de forma asíncrona vía **Service Bus**.\n\n**Parámetros principales**\n\n| Parámetro | Obligatorio | Descripción |\n|---|---|---|\n| `uuid` | Sí | Identificador único de la orden (idempotencia) |\n| `numCuenta` | Sí | Número de cuenta del cliente (formato `xxxxx/x`) |\n| `nemotecnico` | Sí | Símbolo o ticker del activo |\n| `tipoSeguridad` | Sí | Para ALPACA usar `\"CS\"` |\n| `tipoOperacion` | Sí | `C` = Compra, `V` = Venta |\n| `cantidad` | Sí | Cantidad de títulos (mayor a 0) |\n| `precio` | Condicional | Requerido si `tipoPrecio = LIMIT` |\n| `tipoPrecio` | Sí | `MARKET` o `LIMIT`. Con MARKET no enviar `precio`. |\n| `codBolsa` | Sí | `XSGO` = nacional, `ALPACA` = internacional |\n| `tipoLiquidacion` | Sí | Para ALPACA usar `\"T2\"` |\n\n**Ejemplo de request**\n```json\n[\n  {\n    \"uuid\": \"550e8400-e29b-41d4-a716-446655440021\",\n    \"numCuenta\": \"18784154/0\",\n    \"nemotecnico\": \"AMZN\",\n    \"cantidad\": 1,\n    \"precio\": 180,\n    \"tipoPrecio\": \"LIMIT\",\n    \"tipoOperacion\": \"C\",\n    \"tipoSeguridad\": \"CS\",\n    \"tipoLiquidacion\": \"T2\",\n    \"codBolsa\": \"ALPACA\"\n  }\n]\n```",
         "requestBody": {
           "description": "Lista de objetos que representan las órdenes a ingresar, con detalles como cuenta, instrumento, cantidad, y precio.",
           "content": {
