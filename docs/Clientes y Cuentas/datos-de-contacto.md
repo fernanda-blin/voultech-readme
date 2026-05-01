@@ -1,36 +1,39 @@
 ---
 title: Datos de Contacto
 excerpt: >-
-  Gestiona teléfonos, direcciones y correos electrónicos asociados a personas
-  registradas en el sistema.
+  Crea teléfonos, direcciones, correos y vincula contactos relacionados a una
+  persona o cliente.
 deprecated: false
 hidden: false
 metadata:
   robots: index
 ---
-Gestiona los datos de contacto de personas registradas en el sistema, incluyendo teléfonos, direcciones y correos electrónicos.
+Crea teléfonos, direcciones, correos electrónicos y contactos relacionados asociados a una persona o cliente.
 
 <Callout icon="📌" theme="info">
   **¿Necesitas consultar los datos de contacto de una persona o cliente?**
   No es necesario llamar a endpoints específicos de teléfono, dirección o email. Toda la información de contacto ya viene incluida en la respuesta de:
 
-  - `GET /api/publicapi/creasys/Personas/{identificador}` — datos completos de la persona, incluyendo sus contactos.
-  - `GET /api/publicapi/creasys/Clientes/{identificador}` — datos del cliente, incluyendo sus contactos.
+  - `GET /api/publicapi/creasys/Personas?identificador={RUT}` — datos completos de la persona, incluyendo sus contactos.
+  - `GET /api/publicapi/creasys/Clientes?identificador={RUT}` — datos del cliente, incluyendo sus contactos.
 
-  Esta sección se enfoca únicamente en **crear** y **actualizar** datos de contacto.
+  Esta sección se enfoca únicamente en **crear** datos de contacto.
 </Callout>
 
 ## Operaciones disponibles
 
-<Cards columns={3}>
+<Cards columns={4}>
   <Card title="Teléfonos" href="#teléfonos" icon="fa-phone">
-    Registra y actualiza teléfonos asociados a una persona.
+    Registra un teléfono asociado a una persona.
   </Card>
   <Card title="Direcciones" href="#direcciones" icon="fa-location-dot">
-    Crea y actualiza direcciones registradas en el sistema.
+    Crea una dirección asociada a una persona.
   </Card>
-  <Card title="Correos electrónicos" href="#correos-electrónicos" icon="fa-envelope">
-    Crea y actualiza correos electrónicos asociados a una persona.
+  <Card title="Correos" href="#correos-electrónicos" icon="fa-envelope">
+    Registra un email asociado a una persona.
+  </Card>
+  <Card title="Contactos relacionados" href="#contactos-relacionados" icon="fa-people-arrows">
+    Vincula otra persona o cliente como contacto del cliente.
   </Card>
 </Cards>
 
@@ -38,81 +41,124 @@ Gestiona los datos de contacto de personas registradas en el sistema, incluyendo
 
 ## Teléfonos
 
-<Accordion title="Ver operaciones disponibles para teléfonos" icon="fa-phone">
+**→ POST** `/api/publicapi/creasys/TelefonoPersona`
 
-- `POST /api/publicapi/creasys/TelefonoPersona`: crea un nuevo teléfono asociado a una persona.
-- `PUT /api/publicapi/creasys/TelefonoPersona`: actualiza un teléfono existente por identificador y número.
+Registra un teléfono asociado a una persona existente.
+
+<Accordion title="Ver campos del body" icon="fa-file-lines">
+
+| Campo | Descripción |
+|---|---|
+| `identificadorPersona` | RUT de la persona dueña del teléfono |
+| `telefono` | Número de teléfono |
+| `dscTipoTelefono` | Tipo: `CELULAR`, `FIJO`, `LABORAL` |
+| `observacionTelefono` | Observación opcional |
 
 </Accordion>
 
-**→ POST** `/api/publicapi/creasys/TelefonoPersona`
+```json title="Request Body"
+{
+  "identificadorPersona": "11111111-1",
+  "telefono": "+56912345678",
+  "dscTipoTelefono": "CELULAR"
+}
+```
 
-Crea un nuevo teléfono asociado a una persona.
-
-**→ PUT** `/api/publicapi/creasys/TelefonoPersona`
-
-Actualiza un teléfono existente por identificador y número.
-
-<Callout icon="⚠️" theme="warning">
-  El acceso a la actualización (PUT) requiere **autorización previa** del equipo de Voultech.
-</Callout>
-
-<Callout icon="💡" theme="info">
-  Consulta los tipos de teléfono disponibles (celular, fijo, laboral) con `GET /TipoDireccion/GetTipoTelefono`.
-</Callout>
-
-**Resultado esperado:** podrás registrar y mantener teléfonos asociados a una persona utilizando los tipos válidos del sistema.
+**Resultado esperado:** el teléfono quedará asociado a la persona indicada.
 
 <br />
 
 ## Direcciones
 
-<Accordion title="Ver operaciones disponibles para direcciones" icon="fa-location-dot">
+**→ POST** `/api/publicapi/creasys/DireccionPersona`
 
-- `POST /api/publicapi/creasys/DireccionPersona`: crea una nueva dirección asociada a una persona.
-- `PUT /api/publicapi/creasys/DireccionPersona`: actualiza una dirección existente por identificador.
+Registra una dirección asociada a una persona existente.
+
+<Accordion title="Ver campos del body" icon="fa-file-lines">
+
+| Campo | Descripción |
+|---|---|
+| `identificadorPersona` | RUT de la persona |
+| `direccion` | Calle (sin número) |
+| `numero` | Número de la dirección |
+| `dscComuna` | Nombre de la comuna |
+| `dscTipoDireccion` | Tipo: `PARTICULAR`, `LABORAL`, `COMERCIAL` |
+| `adicional` | Información adicional opcional (ej. depto, oficina) |
 
 </Accordion>
 
-**→ POST** `/api/publicapi/creasys/DireccionPersona`
+```json title="Request Body"
+{
+  "identificadorPersona": "11111111-1",
+  "direccion": "Av. Siempre Viva",
+  "numero": "742",
+  "dscComuna": "Santiago",
+  "dscTipoDireccion": "PARTICULAR"
+}
+```
 
-Crea una nueva dirección asociada a una persona.
-
-**→ PUT** `/api/publicapi/creasys/DireccionPersona`
-
-Actualiza una dirección por su identificador.
-
-<Callout icon="⚠️" theme="warning">
-  El acceso a la actualización (PUT) requiere **autorización previa** del equipo de Voultech.
+<Callout icon="💡" theme="info">
+  Consulta las comunas válidas con `GET /Comuna`. Ver [Listados del Sistema](/docs/datos-del-sistema).
 </Callout>
 
-**Resultado esperado:** podrás registrar y actualizar direcciones de personas en el sistema.
+**Resultado esperado:** la dirección quedará asociada a la persona indicada.
 
 <br />
 
 ## Correos electrónicos
 
-<Accordion title="Ver operaciones disponibles para correos electrónicos" icon="fa-envelope">
+**→ POST** `/api/publicapi/creasys/EmailPersona`
 
-- `POST /api/publicapi/creasys/EmailPersona`: crea un nuevo correo electrónico asociado a una persona.
-- `PUT /api/publicapi/creasys/EmailPersona`: actualiza un correo existente por identificador.
+Registra un correo electrónico asociado a una persona existente.
+
+<Accordion title="Ver campos del body" icon="fa-file-lines">
+
+| Campo | Descripción |
+|---|---|
+| `identificadorPersona` | RUT de la persona |
+| `email` | Dirección de correo |
+| `dscTipoEmail` | Tipo: `PERSONAL`, `CORPORATIVO`, `PRINCIPAL` |
 
 </Accordion>
 
-**→ POST** `/api/publicapi/creasys/EmailPersona`
+```json title="Request Body"
+{
+  "identificadorPersona": "11111111-1",
+  "email": "ana.prueba@email.com",
+  "dscTipoEmail": "PERSONAL"
+}
+```
 
-Crea un nuevo correo electrónico asociado a una persona.
+**Resultado esperado:** el correo quedará asociado a la persona indicada.
 
-**→ PUT** `/api/publicapi/creasys/EmailPersona`
+<br />
 
-Actualiza un correo existente por su identificador.
+## Contactos relacionados
 
-<Callout icon="⚠️" theme="warning">
-  El acceso a la actualización (PUT) requiere **autorización previa** del equipo de Voultech.
-</Callout>
+**→ POST** `/api/publicapi/creasys/Contacto`
+
+Vincula a otra persona o cliente como **contacto relacionado** del cliente (por ejemplo, representante legal, contacto de emergencia, beneficiario).
+
+<Accordion title="Ver campos del body" icon="fa-file-lines">
+
+| Campo | Descripción |
+|---|---|
+| `identificadorCliente` | RUT del cliente principal |
+| `tipoContacto` | Tipo de relación (ej. `REPRESENTANTE`, `BENEFICIARIO`, `EMERGENCIA`) |
+| `identificadorContacto` | RUT de la persona/cliente vinculado como contacto |
+
+</Accordion>
+
+```json title="Request Body"
+{
+  "identificadorCliente": "11111111-1",
+  "tipoContacto": "REPRESENTANTE",
+  "identificadorContacto": "22222222-2"
+}
+```
 
 <Callout icon="💡" theme="info">
-  Consulta los tipos de email disponibles (personal, corporativo, principal) con `GET /TipoDireccion/GetTipoMail`.
+  La persona/cliente que se vincula como contacto debe existir previamente en el sistema. Si no está creada, primero registrala con `POST /Personas` o `POST /Clientes`.
 </Callout>
 
-**Resultado esperado:** podrás registrar y actualizar correos electrónicos con tipos válidos para la integración.
+**Resultado esperado:** el contacto quedará vinculado al cliente con el tipo de relación indicado.
