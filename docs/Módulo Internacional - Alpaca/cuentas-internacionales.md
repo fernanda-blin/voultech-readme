@@ -1,39 +1,56 @@
 ---
-title: "Cuentas Internacionales"
-excerpt: "Crea cuentas Alpaca, consulta su detalle, lista las cuentas del asesor y revisa saldos."
+title: Cuentas Internacionales
+excerpt: >-
+  Crea cuentas Alpaca, consulta su detalle, lista las cuentas del asesor y
+  revisa saldos.
+deprecated: false
+hidden: false
+metadata:
+  robots: index
 ---
-
 Crea y gestiona cuentas Alpaca para que tus clientes operen en mercados internacionales.
 
-## Qué cubre esta página
+## Operaciones disponibles
 
-- crear una cuenta Alpaca asociada a una cuenta local
-- consultar el detalle de una cuenta internacional
-- listar las cuentas Alpaca del asesor autenticado
-- revisar el saldo disponible de una cuenta
+<Cards columns={4}>
+  <Card title="Crear cuenta" href="#crear-cuenta-alpaca" icon="fa-user-plus">
+    Crea una cuenta Alpaca asociada a una cuenta local.
+  </Card>
+  <Card title="Detalle de cuenta" href="#obtener-una-cuenta-alpaca" icon="fa-id-card">
+    Consultá el detalle de una cuenta internacional específica.
+  </Card>
+  <Card title="Listar cuentas" href="#obtener-todas-las-cuentas-alpaca" icon="fa-list">
+    Listá las cuentas Alpaca del asesor autenticado.
+  </Card>
+  <Card title="Saldo" href="#obtener-saldo-de-una-cuenta-alpaca" icon="fa-wallet">
+    Revisá equity, cash, buying power y portafolio.
+  </Card>
+</Cards>
 
-> 💡 En este módulo conviven dos identificadores: `numCuenta` (cuenta local en GPI) y `accountNumber` (cuenta en Alpaca).
+<Callout icon="💡" theme="info">
+  En este módulo conviven dos identificadores: `numCuenta` (cuenta local en GPI) y `accountNumber` (cuenta en Alpaca).
+</Callout>
 
----
+<br />
 
 ## Crear cuenta Alpaca
 
-`POST /api/publicapi/creasys/CuentaAlpaca/CrearClienteAlpaca`
+**→ POST** `/api/publicapi/creasys/CuentaAlpaca/CrearClienteAlpaca`
 
 Crea una cuenta Alpaca para el cliente especificado usando el asesor autenticado.
 
-### Parámetros
+<Accordion title="Ver parámetros" icon="fa-file-lines">
 
 | Parámetro | Tipo | Obligatorio | Descripción |
-|-----------|------|-------------|-------------|
+|---|---|---|---|
 | `numCuenta` | string | **Sí** | Número de cuenta Voultech con la que se quiere operar |
-| `identificador` | string | **Sí** | RUT del cliente con validación |
+| `identificador` | string | **Sí** | RUT del cliente con dígito verificador |
 | `fundingSource` | array[string] | **Sí** | Origen de los fondos del cliente |
 
-### Valores válidos para `fundingSource`
+**Valores válidos para `fundingSource`:**
 
 | Valor | Descripción |
-|-------|-------------|
+|---|---|
 | `employment_income` | Ingresos por empleo |
 | `savings` | Ahorros personales |
 | `investments` | Inversiones |
@@ -41,9 +58,9 @@ Crea una cuenta Alpaca para el cliente especificado usando el asesor autenticado
 | `business_income` | Ingresos por negocios |
 | `family` | Familia |
 
-### Request
+</Accordion>
 
-```json
+```json title="Request Body"
 {
   "numCuenta": "19130340/0",
   "identificador": "19130340-7",
@@ -51,9 +68,7 @@ Crea una cuenta Alpaca para el cliente especificado usando el asesor autenticado
 }
 ```
 
-### Respuesta (200 OK)
-
-```json
+```json title="Respuesta (200 OK)"
 {
   "id": "b1fd6038-6b34-4fdd-8164-1c2162f678e7",
   "accountNumber": "901988645",
@@ -74,23 +89,23 @@ Crea una cuenta Alpaca para el cliente especificado usando el asesor autenticado
 }
 ```
 
-> 📘 La respuesta entrega el `accountNumber` de Alpaca, que necesitarás para consultar saldo, custodias, actividad y órdenes.
+<Callout icon="📘" theme="info">
+  La respuesta entrega el `accountNumber` de Alpaca, que necesitás para consultar saldo, custodias, actividad y órdenes.
+</Callout>
 
----
+<br />
 
 ## Obtener una cuenta Alpaca
 
-`GET /api/publicapi/creasys/CuentaAlpaca/ObtenerCuentaAlpaca/{accountNumber}`
+**→ GET** `/api/publicapi/creasys/CuentaAlpaca/ObtenerCuentaAlpaca/{accountNumber}`
 
 Obtiene el detalle de una cuenta Alpaca específica.
 
 | Parámetro | Descripción | Obligatorio |
-|-----------|-------------|-------------|
-| `accountNumber` | Número de cuenta Alpaca (URI encoded) | Sí |
+|---|---|---|
+| `accountNumber` (path) | Número de cuenta Alpaca (URI encoded) | Sí |
 
-### Respuesta (200 OK)
-
-```json
+```json title="Respuesta (200 OK)"
 {
   "account_id": "6f1d3a2b-3c4d-4b8f-9a1e-112233445566",
   "account_number": "19837710/0",
@@ -105,10 +120,10 @@ Obtiene el detalle de una cuenta Alpaca específica.
 }
 ```
 
-### Campos destacados
+<Accordion title="Campos destacados" icon="fa-list">
 
 | Campo | Descripción |
-|-------|-------------|
+|---|---|
 | `status` | Estado actual de la cuenta Alpaca |
 | `currency` | Moneda de operación de la cuenta |
 | `cash` | Efectivo disponible en la cuenta |
@@ -117,17 +132,17 @@ Obtiene el detalle de una cuenta Alpaca específica.
 | `trading_blocked` | Indica si el trading está bloqueado |
 | `numCuenta` | Relación con la cuenta local en GPI |
 
----
+</Accordion>
+
+<br />
 
 ## Obtener todas las cuentas Alpaca
 
-`GET /api/publicapi/creasys/CuentaAlpaca/ObtenerCuentas`
+**→ GET** `/api/publicapi/creasys/CuentaAlpaca/ObtenerCuentas`
 
 Obtiene todas las cuentas Alpaca asociadas al asesor autenticado.
 
-### Respuesta (200 OK)
-
-```json
+```json title="Respuesta (200 OK)"
 [
   {
     "account_id": "6f1d3a2b-3c4d-4b8f-9a1e-112233445566",
@@ -144,17 +159,15 @@ Obtiene todas las cuentas Alpaca asociadas al asesor autenticado.
 ]
 ```
 
----
+<br />
 
 ## Obtener saldo de una cuenta Alpaca
 
-`GET /api/publicapi/creasys/CuentaAlpaca/SaldoAlpaca/{accountNumber}`
+**→ GET** `/api/publicapi/creasys/CuentaAlpaca/SaldoAlpaca/{accountNumber}`
 
 Obtiene el saldo completo de una cuenta Alpaca: equity, cash, buying power y valor del portafolio.
 
-### Respuesta (200 OK)
-
-```json
+```json title="Respuesta (200 OK)"
 {
   "account_number": "870221079",
   "status": "ACTIVE",
@@ -170,10 +183,10 @@ Obtiene el saldo completo de una cuenta Alpaca: equity, cash, buying power y val
 }
 ```
 
-### Campos destacados
+<Accordion title="Campos destacados" icon="fa-list">
 
 | Campo | Descripción |
-|-------|-------------|
+|---|---|
 | `equity` | Patrimonio total actualizado (posiciones + cash) |
 | `last_equity` | Equity del cierre del día hábil anterior |
 | `cash` | Efectivo disponible |
@@ -183,19 +196,18 @@ Obtiene el saldo completo de una cuenta Alpaca: equity, cash, buying power y val
 | `pattern_day_trader` | Indica si la cuenta está marcada como day trader |
 | `daytrade_count` | Cantidad de operaciones day trade en los últimos 5 días |
 
-> ⚠️ **No existe WebSocket para el equity total.** Implementar **polling periódico** a este endpoint.
-> Para saldo de caja (`cash`) sí está disponible WebSocket.
+</Accordion>
 
----
+<Callout icon="⚠️" theme="warning">
+  **No existe WebSocket para el equity total.** Implementá **polling periódico** a este endpoint. Para saldo de caja (`cash`) sí está disponible WebSocket.
+</Callout>
+
+<br />
 
 ## Flujo recomendado
 
-1. Crea la cuenta con `POST /CuentaAlpaca/CrearClienteAlpaca` incluyendo `fundingSource`
-2. Guarda el `accountNumber` retornado
-3. Consulta el detalle con `GET /CuentaAlpaca/ObtenerCuentaAlpaca/{accountNumber}`
-4. Verifica el saldo con `GET /CuentaAlpaca/SaldoAlpaca/{accountNumber}`
-5. Usa ese `accountNumber` en las páginas de actividad, custodias y órdenes
-
-## Siguiente paso
-
-Continúa con **[Assets e Instrumentos](/docs/assets-e-instrumentos-disponibles)** para buscar símbolos disponibles, o con **[Órdenes Internacionales](/docs/ordenes-internacionales)** para enviar tu primera orden.
+1. Creá la cuenta con `POST /CuentaAlpaca/CrearClienteAlpaca` incluyendo `fundingSource`
+2. Guardá el `accountNumber` retornado
+3. Consultá el detalle con `GET /CuentaAlpaca/ObtenerCuentaAlpaca/{accountNumber}`
+4. Verificá el saldo con `GET /CuentaAlpaca/SaldoAlpaca/{accountNumber}`
+5. Usá ese `accountNumber` en las páginas de actividad, custodias y órdenes

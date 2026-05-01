@@ -1,27 +1,36 @@
 ---
-title: "Actividad y Custodias"
-excerpt: "Consulta la actividad operativa y posiciones vigentes de una cuenta Alpaca."
+title: Actividad y Custodias
+excerpt: Consulta la actividad operativa y posiciones vigentes de una cuenta Alpaca.
+deprecated: false
+hidden: false
+metadata:
+  robots: index
 ---
-
 Consulta la actividad operativa y las posiciones vigentes de una cuenta Alpaca para monitorear ejecuciones, cargos y valorización de instrumentos.
 
-## Qué cubre esta página
+## Consultas disponibles
 
-- **Actividad de cuenta**: revisar eventos y cargos registrados (FILL, JNLC, DIV, FEE, etc.)
-- **Custodias**: consultar las posiciones vigentes y su valorización
+<Cards columns={2}>
+  <Card title="Actividad de cuenta" href="#consultar-actividad-de-cuenta" icon="fa-list-check">
+    Eventos y cargos registrados (FILL, JNLC, DIV, FEE, etc.).
+  </Card>
+  <Card title="Custodias" href="#consultar-custodias" icon="fa-vault">
+    Posiciones vigentes y su valorización.
+  </Card>
+</Cards>
 
----
+<br />
 
 ## Consultar actividad de cuenta
 
-`GET /api/publicapi/creasys/CuentaAlpaca/ObtenerActividadCuenta`
+**→ GET** `/api/publicapi/creasys/CuentaAlpaca/ObtenerActividadCuenta`
 
 Obtiene las actividades de una cuenta Alpaca. Permite filtrar por rango de fechas, tipo de actividad y categoría.
 
-### Parámetros
+<Accordion title="Ver parámetros" icon="fa-file-lines">
 
 | Parámetro | Tipo | Obligatorio | Descripción |
-|-----------|------|-------------|-------------|
+|---|---|---|---|
 | `NumCuenta` | string | **Sí** | Número de cuenta Voultech (ej: `"18784154/0"`) |
 | `activity_types` | array[string] | No | Tipos de actividad: `FILL`, `JNLC`, `DIV`, `OPCSH`, `FEE`, etc. |
 | `category` | string | No | `trade_activity` o `non_trade_activity` |
@@ -32,19 +41,21 @@ Obtiene las actividades de una cuenta Alpaca. Permite filtrar por rango de fecha
 | `page_size` | int | No | 1–100 (default: `100`) |
 | `page_token` | string | No | Token de paginación de Alpaca |
 
-### Tipos de actividad más comunes
+</Accordion>
+
+<Accordion title="Tipos de actividad más comunes" icon="fa-list">
 
 | Tipo | Descripción |
-|------|-------------|
+|---|---|
 | `FILL` | Ejecución de orden (compra/venta) |
 | `JNLC` | Journal de cash (movimiento de efectivo) |
 | `DIV` | Dividendo recibido |
 | `FEE` | Comisión / cargo |
 | `OPCSH` | Cash de opening |
 
-### Respuesta (200 OK)
+</Accordion>
 
-```json
+```json title="Respuesta (200 OK)"
 [
   {
     "id": "202512010000000000::ff02076a-c012-4ebf-80b7-5665b9f17dd2",
@@ -73,10 +84,10 @@ Obtiene las actividades de una cuenta Alpaca. Permite filtrar por rango de fecha
 ]
 ```
 
-### Campos destacados
+<Accordion title="Campos destacados" icon="fa-list">
 
 | Campo | Descripción |
-|-------|-------------|
+|---|---|
 | `activity_type` | Tipo de actividad registrada |
 | `status` | Estado de la actividad |
 | `date` | Fecha asociada a la actividad |
@@ -86,21 +97,21 @@ Obtiene las actividades de una cuenta Alpaca. Permite filtrar por rango de fecha
 | `qty` | Cantidad asociada, si aplica |
 | `price` | Precio asociado, si aplica |
 
----
+</Accordion>
+
+<br />
 
 ## Consultar custodias
 
-`GET /api/publicapi/creasys/CuentaAlpaca/Custodias/{accountNumber}`
+**→ GET** `/api/publicapi/creasys/CuentaAlpaca/Custodias/{accountNumber}`
 
 Obtiene las posiciones (custodias) actuales de una cuenta Alpaca con su valorización.
 
 | Parámetro | Descripción | Obligatorio |
-|-----------|-------------|-------------|
-| `accountNumber` | Número de cuenta Voultech asociada con Alpaca | Sí |
+|---|---|---|
+| `accountNumber` (path) | Número de cuenta Voultech asociada con Alpaca | Sí |
 
-### Respuesta (200 OK)
-
-```json
+```json title="Respuesta (200 OK)"
 [
   {
     "asset_id": "b0b6dd9d-8b9b-48a9-ba46-b9d54906e415",
@@ -124,10 +135,10 @@ Obtiene las posiciones (custodias) actuales de una cuenta Alpaca con su valoriza
 ]
 ```
 
-### Campos destacados
+<Accordion title="Campos destacados" icon="fa-list">
 
 | Campo | Descripción |
-|-------|-------------|
+|---|---|
 | `qty` | Cantidad de acciones en la posición |
 | `avg_entry_price` | Precio promedio de entrada |
 | `market_value` | Valor de mercado actual |
@@ -137,6 +148,4 @@ Obtiene las posiciones (custodias) actuales de una cuenta Alpaca con su valoriza
 | `current_price` | Precio actual del activo |
 | `qty_available` | Cantidad disponible para vender |
 
-## Siguiente paso
-
-Continúa con **[Movimientos Internacionales](/docs/movimientos-internacionales)** para registrar aportes y retiros entre tu cuenta local y Alpaca.
+</Accordion>

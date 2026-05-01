@@ -1,35 +1,47 @@
 ---
-title: "Movimientos Internacionales"
-excerpt: "Registra y consulta aportes y retiros patrimoniales entre cuentas locales y cuentas Alpaca."
+title: Movimientos Internacionales
+excerpt: >-
+  Registra y consulta aportes y retiros patrimoniales entre cuentas locales y
+  cuentas Alpaca.
+deprecated: false
+hidden: false
+metadata:
+  robots: index
 ---
-
 Registra y consulta movimientos patrimoniales internacionales entre cuentas locales y cuentas Alpaca.
 
-## Qué cubre esta página
+## Operaciones disponibles
 
-- Registrar aportes y retiros patrimoniales internacionales
-- Consultar movimientos patrimoniales por cuenta
-- Consultar listado general de movimientos con filtros
+<Cards columns={2}>
+  <Card title="Registrar movimiento" href="#registrar-movimiento-internacional" icon="fa-money-bill-transfer">
+    Aporte o retiro patrimonial entre cuenta local y Alpaca.
+  </Card>
+  <Card title="Consultar movimientos" href="#consultar-movimientos-patrimoniales-por-cuenta" icon="fa-list">
+    Listado por cuenta con filtros opcionales.
+  </Card>
+</Cards>
 
----
+<br />
 
 ## Registrar movimiento internacional
 
-`POST /api/publicapi/creasys/MovimientosAlpaca/MovimientoInternacionalAlpaca`
+**→ POST** `/api/publicapi/creasys/MovimientosAlpaca/MovimientoInternacionalAlpaca`
 
 Registra un movimiento internacional de tipo **retiro** o **aporte patrimonial** entre cuentas locales y cuentas Alpaca.
 
-### Tipos de movimiento
+<Accordion title="Tipos de movimiento" icon="fa-tag">
 
 | Código | Descripción |
-|--------|-------------|
+|---|---|
 | `APO_PAT_IT` | Aporte patrimonial (Voultech → Alpaca) |
 | `RET_PAT_IT` | Retiro patrimonial (Alpaca → Voultech) |
 
-### Parámetros
+</Accordion>
+
+<Accordion title="Ver parámetros" icon="fa-file-lines">
 
 | Parámetro | Tipo | Obligatorio | Descripción |
-|-----------|------|-------------|-------------|
+|---|---|---|---|
 | `codTipoMovimiento` | string | **Sí** | `APO_PAT_IT` o `RET_PAT_IT` |
 | `numCuenta` | string | **Sí** | Número de cuenta (máx. 15 caracteres) |
 | `monto` | decimal | **Sí** | Monto del movimiento (> 0) |
@@ -39,9 +51,9 @@ Registra un movimiento internacional de tipo **retiro** o **aporte patrimonial**
 | `id` | int | No | ID asociado |
 | `uuid` | string | No | UUID para trazabilidad e idempotencia |
 
-### Request
+</Accordion>
 
-```json
+```json title="Request Body"
 {
   "codMoneda": "USD",
   "monto": 5,
@@ -53,9 +65,7 @@ Registra un movimiento internacional de tipo **retiro** o **aporte patrimonial**
 }
 ```
 
-### Respuesta (200 OK)
-
-```json
+```json title="Respuesta (200 OK)"
 {
   "id": 14380256,
   "codTipoMovimiento": "RET_PAT_IT",
@@ -67,20 +77,22 @@ Registra un movimiento internacional de tipo **retiro** o **aporte patrimonial**
 }
 ```
 
-> 💡 Usa `uuid` para mantener trazabilidad e idempotencia sobre cada movimiento internacional registrado.
+<Callout icon="💡" theme="info">
+  Usá `uuid` para mantener trazabilidad e idempotencia sobre cada movimiento internacional registrado.
+</Callout>
 
----
+<br />
 
 ## Consultar movimientos patrimoniales por cuenta
 
-`GET /api/publicapi/creasys/MovimientosAlpaca/patrimoniales/{numCuenta}`
+**→ GET** `/api/publicapi/creasys/MovimientosAlpaca/patrimoniales/{numCuenta}`
 
 Listado de movimientos patrimoniales para una cuenta específica, con filtros opcionales.
 
-### Parámetros
+<Accordion title="Ver parámetros" icon="fa-file-lines">
 
 | Parámetro | Tipo | Descripción |
-|-----------|------|-------------|
+|---|---|---|
 | `numCuenta` (path) | string | Número de cuenta Voultech |
 | `idMovimiento` | int | ID específico del movimiento |
 | `fechaDesde` | date | Fecha inicial del rango (YYYY-MM-DD) |
@@ -89,9 +101,9 @@ Listado de movimientos patrimoniales para una cuenta específica, con filtros op
 | `CuentaDestino` | string | UUID de cuenta destino en Alpaca |
 | `estadoActual` | string | Estado del journal: `executed`, `pending`, `canceled` |
 
-### Respuesta (200 OK)
+</Accordion>
 
-```json
+```json title="Respuesta (200 OK)"
 [
   {
     "idMovimiento": 14380227,
@@ -109,10 +121,10 @@ Listado de movimientos patrimoniales para una cuenta específica, con filtros op
 ]
 ```
 
-### Campos destacados
+<Accordion title="Campos destacados" icon="fa-list">
 
 | Campo | Descripción |
-|-------|-------------|
+|---|---|
 | `idMovimiento` | ID del movimiento |
 | `codOrigen` | Tipo de movimiento (`APO_PAT_IT`, `RET_PAT_IT`) |
 | `entryType` | Tipo de entry de Alpaca (ej: `JNLC`) |
@@ -120,22 +132,28 @@ Listado de movimientos patrimoniales para una cuenta específica, con filtros op
 | `cuentaDestino` | UUID de cuenta Alpaca destino |
 | `estadoActual` | `executed`, `pending`, `canceled` |
 
----
+</Accordion>
+
+<br />
 
 ## Flujo recomendado
 
 ### Aporte (Voultech → Alpaca)
+
 1. El cliente deposita CLP/USD en su cuenta Voultech
-2. Registra el aporte con `POST /MovimientosAlpaca/MovimientoInternacionalAlpaca` con `codTipoMovimiento: APO_PAT_IT`
-3. Guarda el `uuid` y `id` retornados
-4. Espera confirmación asíncrona
+2. Registrá el aporte con `POST /MovimientosAlpaca/MovimientoInternacionalAlpaca` con `codTipoMovimiento: APO_PAT_IT`
+3. Guardá el `uuid` y `id` retornados
+4. Esperá confirmación asíncrona
 
 ### Retiro (Alpaca → Voultech)
+
 1. El cliente solicita un retiro
-2. Registra el retiro con `codTipoMovimiento: RET_PAT_IT`
-3. Verifica el estado consultando `GET /MovimientosAlpaca/patrimoniales/{numCuenta}` con `estadoActual=executed`
+2. Registrá el retiro con `codTipoMovimiento: RET_PAT_IT`
+3. Verificá el estado consultando `GET /MovimientosAlpaca/patrimoniales/{numCuenta}` con `estadoActual=executed`
+
+<br />
 
 ## Relación con otros componentes
 
-- Usa **[Cuentas Internacionales](/docs/cuentas-internacionales)** para validar el saldo antes de procesar un retiro
-- Consulta **[Actividad y Custodias](/docs/actividad-y-custodias)** para ver el detalle del JNLC asociado
+- Usá **[Cuentas Internacionales](/docs/cuentas-internacionales)** para validar el saldo antes de procesar un retiro
+- Consultá **[Actividad y Custodias](/docs/actividad-y-custodias)** para ver el detalle del JNLC asociado

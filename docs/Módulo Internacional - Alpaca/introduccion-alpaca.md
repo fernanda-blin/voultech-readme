@@ -1,21 +1,40 @@
 ---
-title: "Introducción a Alpaca"
-excerpt: "Visión general del módulo internacional para operar acciones en EE.UU. a través de Alpaca Markets."
+title: Introducción a Alpaca
+excerpt: >-
+  Visión general del módulo internacional para operar acciones en EE.UU. a
+  través de Alpaca Markets.
+deprecated: false
+hidden: false
+metadata:
+  robots: index
 ---
-
 El **módulo internacional** de Voultech permite a tus clientes operar acciones en mercados de EE.UU. a través de **Alpaca Markets**, manteniendo la cuenta local en Voultech como punto de control.
 
-> 💡 En este módulo conviven dos identificadores: `numCuenta` (cuenta local en GPI) y `accountNumber` (cuenta en Alpaca).
+<Callout icon="💡" theme="info">
+  En este módulo conviven dos identificadores: `numCuenta` (cuenta local en GPI) y `accountNumber` (cuenta en Alpaca).
+</Callout>
 
 ## Qué cubre el módulo
 
-| Sección | Para qué sirve |
-|---------|----------------|
-| **Cuentas Internacionales** | Crear, consultar y gestionar cuentas Alpaca asociadas a cuentas locales |
-| **Assets e Instrumentos** | Buscar instrumentos disponibles, cotizaciones, market data y horario de mercado |
-| **Órdenes Internacionales** | Enviar órdenes de compra/venta usando `codBolsa = "ALPACA"` |
-| **Actividad y Custodias** | Consultar movimientos históricos y posiciones vigentes |
-| **Movimientos Internacionales** | Registrar aportes y retiros patrimoniales entre cuenta local y Alpaca |
+<Cards columns={3}>
+  <Card title="Cuentas internacionales" href="/docs/cuentas-internacionales" icon="fa-id-card">
+    Crear, consultar y gestionar cuentas Alpaca asociadas a cuentas locales.
+  </Card>
+  <Card title="Assets e instrumentos" href="/docs/assets-e-instrumentos-disponibles" icon="fa-magnifying-glass-chart">
+    Buscar instrumentos, cotizaciones, market data y horario de mercado.
+  </Card>
+  <Card title="Órdenes internacionales" href="/docs/ordenes-internacionales" icon="fa-chart-line">
+    Enviar órdenes de compra/venta usando `codBolsa = ALPACA`.
+  </Card>
+  <Card title="Actividad y custodias" href="/docs/actividad-y-custodias" icon="fa-list-check">
+    Consultar movimientos históricos y posiciones vigentes.
+  </Card>
+  <Card title="Movimientos internacionales" href="/docs/movimientos-internacionales" icon="fa-money-bill-transfer">
+    Registrar aportes y retiros patrimoniales entre cuenta local y Alpaca.
+  </Card>
+</Cards>
+
+<br />
 
 ## Flujo de integración recomendado
 
@@ -29,30 +48,40 @@ El **módulo internacional** de Voultech permite a tus clientes operar acciones 
 7. Revisar saldo             → GET  /CuentaAlpaca/SaldoAlpaca/{accountNumber}
 ```
 
+<br />
+
 ## Conceptos clave
 
 ### Identificadores
-- **`numCuenta`**: cuenta local Voultech (formato `xxxxx/x`, ej: `19130340/0`)
-- **`accountNumber`**: cuenta en Alpaca (string numérico)
-- **`identificador`**: RUT del cliente con dígito verificador (ej: `12345678-9`)
+
+| Campo | Descripción |
+|---|---|
+| `numCuenta` | Cuenta local Voultech (formato `xxxxx/x`, ej: `19130340/0`) |
+| `accountNumber` | Cuenta en Alpaca (string numérico) |
+| `identificador` | RUT del cliente con dígito verificador (ej: `12345678-9`) |
 
 ### Bolsas y horario
+
 - Mercado americano abierto de **lunes a viernes 14:30–21:00 UTC** (ajustado por DST)
-- Consulta el estado en tiempo real con `GET /ClockAlpaca`
+- Consultá el estado en tiempo real con `GET /ClockAlpaca`
 - Las órdenes ingresadas con mercado cerrado quedan **pendientes** hasta la apertura
 
-### Confirmación asíncrona
-> ⚠️ Las confirmaciones de ejecución de órdenes y movimientos llegan de forma **asíncrona vía Service Bus**, no en la respuesta HTTP del POST.
+<Callout icon="⚠️" theme="warning">
+  Las confirmaciones de ejecución de órdenes y movimientos llegan de forma **asíncrona vía Service Bus**, no en la respuesta HTTP del POST.
+</Callout>
 
 ### Tipo de orden por bolsa
+
 | Campo | Nacional (XSGO) | Internacional (ALPACA) |
-|-------|-----------------|------------------------|
+|---|---|---|
 | `codBolsa` | `XSGO` | `ALPACA` |
 | `tipoSeguridad` | varía | `CS` (common stock) |
 | `tipoLiquidacion` | varía | `T2` |
 
+<br />
+
 ## Próximos pasos
 
-- Comienza con **[Cuentas Internacionales](/docs/cuentas-internacionales)** para crear tu primera cuenta Alpaca
-- Revisa **[Assets e Instrumentos](/docs/assets-e-instrumentos-disponibles)** para encontrar tickers disponibles
-- Continúa con **[Órdenes Internacionales](/docs/ordenes-internacionales)** para enviar tu primera orden
+- Comenzá con **[Cuentas Internacionales](/docs/cuentas-internacionales)** para crear tu primera cuenta Alpaca
+- Revisá **[Assets e Instrumentos](/docs/assets-e-instrumentos-disponibles)** para encontrar tickers disponibles
+- Continuá con **[Órdenes Internacionales](/docs/ordenes-internacionales)** para enviar tu primera orden
