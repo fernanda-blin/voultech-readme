@@ -13,16 +13,16 @@ Recibe notificaciones automáticas de movimientos bancarios, ejecuciones de pago
 ## Eventos disponibles
 
 <Cards columns={4}>
-  <Card title="Movimiento bancario" href="#" icon="fa-building-columns">
+  <Card title="Movimiento bancario" href="#movimiento-bancario" icon="fa-building-columns">
     Recibe abonos y cargos detectados sobre movimientos bancarios.
   </Card>
-  <Card title="Reversa bancaria" href="#" icon="fa-arrow-rotate-left">
+  <Card title="Reversa bancaria" href="#reversa-de-movimiento-bancario" icon="fa-arrow-rotate-left">
     Recibe reversas asociadas a movimientos bancarios previamente informados.
   </Card>
-  <Card title="Movimiento Shinkansen" href="#" icon="fa-money-bill-transfer">
+  <Card title="Movimiento Shinkansen" href="#movimiento-shinkansen" icon="fa-money-bill-transfer">
     Recibe el estado de ejecuciones de pagos procesados por Shinkansen.
   </Card>
-  <Card title="Validación KYC" href="#" icon="fa-user-check">
+  <Card title="Validación KYC" href="#validacion-de-kyc" icon="fa-user-check">
     Recibe el resultado de validaciones KYC realizadas sobre un usuario.
   </Card>
 </Cards>
@@ -38,7 +38,7 @@ sb://voultech.servicebus.windows.net/{NombreCola}
 ```
 
 <Callout icon="⚠️" theme="warning">
-  El nombre de la cola es entregado por Voultech a cada fintech. Solicítalo al equipo de soporte.
+  El nombre de la cola es entregado por Voultech a cada fintech. Solicítalo a [hey@voultech.com](mailto:hey@voultech.com).
 </Callout>
 
 <Accordion title="Ver horarios de procesamiento" icon="fa-clock">
@@ -99,13 +99,13 @@ class Program
 }
 ```
 
-**Resultado esperado:** tu integracion quedará suscrita a la cola y podrá procesar mensajes entrantes en formato JSON.
+**Resultado esperado:** tu integración queda suscrita a la cola y procesa los mensajes entrantes en formato JSON.
 
 <br />
 
 ## Mensajes
 
-Los mensajes se envían en formato **JSON** con una frecuencia de **1 minuto**. Cada mensaje contiene un campo `Topic` que identifica el tipo de evento.
+Los mensajes se envían en formato **JSON** con una frecuencia aproximada de **1 minuto**. Cada mensaje contiene un campo `Topic` que identifica el tipo de evento.
 
 <Accordion title="Ver estructura general de los mensajes" icon="fa-envelope-open-text">
 
@@ -136,7 +136,7 @@ Los mensajes se envían en formato **JSON** con una frecuencia de **1 minuto**. 
 }
 ```
 
-**Resultado esperado:** podrás identificar el movimiento bancario informado y asociarlo a tu proceso de conciliación o trazabilidad.
+**Resultado esperado:** identificas el movimiento bancario informado y lo asocias a tu proceso de conciliación o trazabilidad.
 
 ### Reversa de movimiento bancario
 
@@ -159,7 +159,7 @@ Los mensajes se envían en formato **JSON** con una frecuencia de **1 minuto**. 
 }
 ```
 
-**Resultado esperado:** podrás detectar que un movimiento bancario previamente informado fue revertido.
+**Resultado esperado:** detectas que un movimiento bancario previamente informado fue revertido.
 
 ### Movimiento Shinkansen
 
@@ -176,7 +176,7 @@ Los mensajes se envían en formato **JSON** con una frecuencia de **1 minuto**. 
 }
 ```
 
-**Resultado esperado:** podrás consultar el estado del movimiento procesado por Shinkansen mediante su identificador y estado devuelto.
+**Resultado esperado:** consultás el estado del movimiento procesado por Shinkansen mediante su identificador y el estado devuelto.
 
 ### Validación de KYC
 
@@ -225,8 +225,8 @@ Los mensajes se envían en formato **JSON** con una frecuencia de **1 minuto**. 
 | 005 | Document rejected | Documento rechazado por proveedor |
 | 006 | Code not found | No se encuentra codIdentificación |
 
-**Resultado esperado:** podrás determinar si la validación KYC fue aprobada o rechazada y actuar según el código informado.
+**Resultado esperado:** determinas si la validación KYC fue aprobada o rechazada y actuás según el código informado.
 
 <Callout icon="💡" theme="info">
-  El sistema de eventos está diseñado para notificaciones **en tiempo real** (pub/sub). Si pierdes un mensaje, deberás consultar el estado manualmente vía API (por ejemplo: consultar saldo o estado KYC directamente).
+  El sistema de eventos está diseñado para notificaciones **en tiempo real** (pub/sub). Si perdés un mensaje, podés consultar el estado manualmente vía API (por ejemplo: saldos o estado KYC directamente).
 </Callout>
