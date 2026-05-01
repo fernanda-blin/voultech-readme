@@ -148,10 +148,10 @@ Sube la documentación requerida (cédula, contrato) codificada en **Base64**.
 
 ```json title="Request Body"
 {
-  "Identificador": "11111111-1",
-  "TipoDocumento": ".pdf",
-  "NombreDocumento": "TuFintech_ciFrontal",
-  "ContenidoBase64": "JVBERi0xLjQKJ...",
+  "identificador": "11111111-1",
+  "tipoDocumento": ".pdf",
+  "nombreDocumento": "TuFintech_ciFrontal",
+  "contenidoBase64": "JVBERi0xLjQKJ...",
   "codTipo": "ciFrontal"
 }
 ```
@@ -199,20 +199,20 @@ Simula el primer aporte de fondos del cliente.
 
 ```json title="Request Body"
 {
-  "Uuid": "gen-un-uuid-unico-aqui",
-  "CodTipoMovimiento": "APO_PAT",
-  "NumCuenta": "11111111/1",
-  "Monto": "100000",
-  "CodMoneda": "CLP",
-  "DscMedioPagoCobro": "TRANSFERENCIA",
-  "ObsMovimiento": "Aporte inicial de prueba"
+  "uuid": "gen-un-uuid-unico-aqui",
+  "codTipoMovimiento": "APO_PAT",
+  "numCuenta": "11111111/1",
+  "monto": "100000",
+  "codMoneda": "CLP",
+  "dscMedioPagoCobro": "TRANSFERENCIA",
+  "obsMovimiento": "Aporte inicial de prueba"
 }
 ```
 <Callout icon="⚠️" theme="warning">
-  El `Uuid` debe ser **único por operación**. Si reintentas el mismo request con el mismo UUID, el sistema detectará que ya fue procesado y no lo duplicará.
+  El `uuid` debe ser **único por operación**. Si reintentas el mismo request con el mismo `uuid`, el sistema detectará que ya fue procesado y no lo duplicará.
 </Callout>
 
-**Resultado esperado:** el aporte quedará registrado una sola vez por cada `Uuid` único.
+**Resultado esperado:** el aporte quedará registrado una sola vez por cada `uuid` único.
 
 <br />
 
