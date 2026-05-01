@@ -32,7 +32,7 @@ Configura el acceso a la API de Voultech obteniendo tus credenciales, selecciona
 
 ## Obtener credenciales
 
-Contacta al equipo de Voultech (**soporte@voultech.com**) para recibir:
+Contacta al equipo de Voultech (**hey@voultech.com**) para recibir:
 
 | Credencial | Descripción |
 |---|---|

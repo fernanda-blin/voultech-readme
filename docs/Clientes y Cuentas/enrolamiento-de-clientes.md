@@ -1,17 +1,17 @@
 ---
 title: Enrolamiento de Clientes
 excerpt: >-
-  Registra clientes en el sistema, sube su documentación KYC y consulta su
+  Registra clientes en el sistema con sus datos y documentos KYC, y consulta su
   información para validar el alta.
 deprecated: false
 hidden: false
 metadata:
   robots: index
 ---
-Registra un cliente en Voultech, sube los documentos requeridos por KYC/Compliance y consulta sus datos para confirmar el alta.
+Registra un cliente en Voultech con sus datos personales y documentación KYC, y consulta sus datos para confirmar el alta.
 
 <Callout icon="🧭" theme="info">
-  Flujo base: **Crear cliente → Subir documentos → Consultar cliente**. La validación KYC/Compliance se ejecuta automáticamente tras la carga de documentos.
+  Flujo típico: **Crear cliente (con documentos) → Consultar cliente**. La validación KYC/Compliance se ejecuta automáticamente cuando los documentos quedan asociados al cliente.
 </Callout>
 
 ## Operaciones disponibles
@@ -20,11 +20,11 @@ Registra un cliente en Voultech, sube los documentos requeridos por KYC/Complian
   <Card title="Crear cliente" href="#crear-cliente" icon="fa-user-plus">
     Registra el cliente con sus datos personales y de domicilio en una sola llamada.
   </Card>
-  <Card title="Subir documentos" href="#subir-documentos" icon="fa-file-arrow-up">
-    Carga la documentación requerida (cédula, contrato) en Base64.
-  </Card>
   <Card title="Consultar cliente" href="#consultar-cliente" icon="fa-magnifying-glass">
     Recupera datos completos del cliente, incluyendo contactos asociados.
+  </Card>
+  <Card title="Subir documentos" href="#subir-documentos-caso-avanzado" icon="fa-file-arrow-up">
+    Sólo si enrolaste con datos mínimos y necesitás cargar documentos después.
   </Card>
 </Cards>
 
@@ -35,6 +35,10 @@ Registra un cliente en Voultech, sube los documentos requeridos por KYC/Complian
 **→ POST** `/api/publicapi/creasys/Clientes`
 
 Crea un cliente en el sistema. El body incluye los datos de la **persona** (natural o jurídica) y el **asesor** (tu fintech). Esta llamada crea simultáneamente la persona y el cliente — no necesitas llamar a `POST /Personas` por separado.
+
+<Callout icon="📎" theme="info">
+  En el flujo típico de enrolamiento, la documentación KYC del cliente (cédula, contrato, etc.) se carga **junto con la creación del cliente**. Sólo si enrolás con datos mínimos y posponés la carga, usá `POST /Documentos` después (ver [Subir documentos](#subir-documentos-caso-avanzado)).
+</Callout>
 
 <Accordion title="Ver campos del body" icon="fa-file-lines">
 
@@ -94,15 +98,43 @@ Crea un cliente en el sistema. El body incluye los datos de la **persona** (natu
   Antes de enviar el cliente, consulta los catálogos válidos: `GET /Comuna`, `GET /Pais`, `GET /EstadoCivil`, `GET /TipoIdentificacion`, `GET /TipoEntidad`. Ver [Listados del Sistema](/docs/datos-del-sistema).
 </Callout>
 
-**Respuesta exitosa:** `201 Created`. El cliente queda registrado en el sistema y disponible para los siguientes pasos.
+**Respuesta exitosa:** `201 Created`. El cliente queda registrado y la documentación KYC asociada queda lista para validación automática.
 
 <br />
 
-## Subir documentos
+## Consultar cliente
+
+**→ GET** `/api/publicapi/creasys/Clientes?identificador={RUT}`
+
+Devuelve los datos completos del cliente, incluyendo persona, dirección, teléfonos, emails y asesor asociado. Útil para validar que el alta quedó correctamente registrada.
+
+<Callout icon="💡" theme="info">
+  Esta consulta ya devuelve los datos de contacto. **No es necesario** llamar a endpoints separados de teléfono, dirección o email para consultarlos.
+</Callout>
+
+**Resultado esperado:** obtienes la información completa del cliente y sus contactos en una sola respuesta.
+
+<br />
+
+## Consultar persona (sin cliente)
+
+**→ GET** `/api/publicapi/creasys/Personas?identificador={RUT}`
+
+Si necesitás los datos de una **persona** que aún no es cliente (por ejemplo, un representante legal o relacionado), usá este endpoint.
+
+**Resultado esperado:** datos de la persona registrada, sin el contexto de cliente/asesor.
+
+<br />
+
+## Subir documentos (caso avanzado)
+
+<Callout icon="📌" theme="info">
+  En el flujo típico **no necesitás este endpoint** — la documentación KYC se carga junto con `POST /Clientes`. Usá `POST /Documentos` sólo si enrolaste con datos mínimos y querés adjuntar los documentos en una llamada posterior.
+</Callout>
 
 **→ POST** `/api/publicapi/creasys/Documentos`
 
-Carga los documentos KYC del cliente codificados en **Base64**. La validación de identidad se ejecuta automáticamente cuando los documentos requeridos están cargados.
+Carga documentos KYC del cliente codificados en **Base64**. La validación de identidad se ejecuta automáticamente cuando los documentos requeridos están cargados.
 
 <Accordion title="Ver campos del body" icon="fa-file-lines">
 
@@ -127,7 +159,7 @@ Carga los documentos KYC del cliente codificados en **Base64**. La validación d
 }
 ```
 
-<Accordion title="Ver tipos de documento (`codTipo`)" icon="fa-file-lines">
+<Accordion title="Tipos de documento (`codTipo`)" icon="fa-file-lines">
 
 | `codTipo` | Descripción |
 |---|---|
@@ -137,31 +169,7 @@ Carga los documentos KYC del cliente codificados en **Base64**. La validación d
 
 </Accordion>
 
-**Resultado esperado:** el documento queda asociado al cliente. Repite la llamada por cada documento que necesites cargar.
-
-<br />
-
-## Consultar cliente
-
-**→ GET** `/api/publicapi/creasys/Clientes?identificador={RUT}`
-
-Devuelve los datos completos del cliente, incluyendo persona, dirección, teléfonos, emails y asesor asociado. Útil para validar que el alta quedó correctamente registrada.
-
-<Callout icon="💡" theme="info">
-  Esta consulta ya devuelve los datos de contacto. **No es necesario** llamar a endpoints separados de teléfono, dirección o email para consultarlos.
-</Callout>
-
-**Resultado esperado:** obtendrás la información completa del cliente y sus contactos en una sola respuesta.
-
-<br />
-
-## Consultar persona (sin cliente)
-
-**→ GET** `/api/publicapi/creasys/Personas?identificador={RUT}`
-
-Si necesitás los datos de una **persona** que aún no es cliente (por ejemplo, un representante legal o relacionado), usá este endpoint.
-
-**Resultado esperado:** datos de la persona registrada, sin el contexto de cliente/asesor.
+**Resultado esperado:** el documento queda asociado al cliente. Repetí la llamada por cada documento que necesites cargar.
 
 <br />
 
@@ -175,4 +183,4 @@ Si necesitás los datos de una **persona** que aún no es cliente (por ejemplo, 
 
 Crea una persona en el sistema sin asociarla a un cliente. Útil cuando registrás representantes legales, beneficiarios o personas relacionadas que después se vinculan a un cliente existente.
 
-**Resultado esperado:** la persona quedará registrada en el sistema, disponible para vincularse posteriormente con un cliente.
+**Resultado esperado:** la persona queda registrada en el sistema, disponible para vincularse posteriormente con un cliente.

@@ -8,7 +8,7 @@ hidden: false
 La API de Voultech ofrece una solución **Investment-as-a-Service** que permite a fintechs y empresas integrar funcionalidades clave para ofrecer productos de inversión: onboarding digital (KYC/compliance), apertura de cuentas, gestión de caja en múltiples divisas, compra/venta de instrumentos financieros y seguimiento de eventos en tiempo real.
 
 <Callout icon="📧" theme="info">
-  ¿Necesitas ayuda? Escríbenos a **soporte@voultech.com**
+  ¿Necesitas ayuda? Escríbenos a **hey@voultech.com**
 </Callout>
 
 ## ¿Qué puedes hacer con nuestra API?
