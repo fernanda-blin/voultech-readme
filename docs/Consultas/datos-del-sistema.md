@@ -13,17 +13,17 @@ Consulta los catálogos del sistema para obtener valores válidos que te permita
 ## Categorías disponibles
 
 <Cards columns={4}>
-  <Card title="Datos geográficos" href="#" icon="fa-earth-americas">
+  <Card title="Datos geográficos" href="#datos-geograficos" icon="fa-earth-americas">
     Consulta países, regiones y comunas para datos de residencia, nacionalidad y domicilio.
   </Card>
-  <Card title="Datos financieros" href="#" icon="fa-coins">
+  <Card title="Datos financieros" href="#datos-financieros" icon="fa-coins">
     Consulta monedas, bancos, perfiles de riesgo, contrapartes y precios publicados.
   </Card>
-  <Card title="Cuentas y entidades" href="#" icon="fa-folder-open">
-    Revisa tipos de cuenta, administración, entidad, identificación y sociedad.
+  <Card title="Cuentas y entidades" href="#tipos-de-cuenta" icon="fa-folder-open">
+    Revisa tipos de cuenta, entidad, identificación y sociedad.
   </Card>
-  <Card title="Operación y control" href="#" icon="fa-list-check">
-    Consulta medios de pago, movimientos, contratos, documentos y cierres del sistema.
+  <Card title="Operación y control" href="#operaciones-y-movimientos" icon="fa-list-check">
+    Consulta medios de pago, movimientos, contratos y documentos.
   </Card>
 </Cards>
 
@@ -33,7 +33,7 @@ Consulta los catálogos del sistema para obtener valores válidos que te permita
 GET /api/publicapi/creasys/{NombreLista}
 ```
 
-**Resultado esperado:** obtendrás los valores de referencia necesarios para construir requests válidos en el resto de la integración.
+**Resultado esperado:** obtienes los valores de referencia necesarios para construir requests válidos en el resto de la integración.
 
 <br />
 
@@ -67,21 +67,19 @@ GET /api/publicapi/creasys/{NombreLista}
 
 **→ GET** `/api/publicapi/creasys/Contraparte` — Contrapartes registradas en operaciones
 
-**→ GET** `/api/publicapi/creasys/PublicadorPrecio` — Precios publicados de instrumentos financieros
+**→ GET** `/api/publicapi/creasys/PublicadorPrecio/GetPreciosInstrumento` — Precios publicados de instrumentos financieros
 
 </Accordion>
 
 <br />
 
-## Tipos de cuenta y administración
+## Tipos de cuenta
 
-<Accordion title="Ver listados de cuentas y administración" icon="fa-folder-open">
+<Accordion title="Ver listados de cuentas" icon="fa-folder-open">
 
 **→ GET** `/api/publicapi/creasys/TipoCuenta` — Tipos de cuenta disponibles (corriente, inversión, custodia, etc.)
 
 **→ GET** `/api/publicapi/creasys/TipoCuentaBanco` — Tipos de cuenta bancaria (vista, corriente, ahorro, etc.)
-
-**→ GET** `/api/publicapi/creasys/TipoAdministracion` — Categorías de administración aplicables a cuentas o carteras
 
 </Accordion>
 
@@ -105,24 +103,6 @@ GET /api/publicapi/creasys/{NombreLista}
 
 <br />
 
-## Tipos de contacto y dirección
-
-<Accordion title="Ver listados de contacto y dirección" icon="fa-address-book">
-
-**→ GET** `/api/publicapi/creasys/TipoContacto` — Tipos de contacto asociados a una persona
-
-**→ GET** `/api/publicapi/creasys/TipoDireccion/GetTipoDireccion` — Tipos de dirección (comercial, personal, tributaria, etc.)
-
-**→ GET** `/api/publicapi/creasys/TipoDireccion/GetTipoTelefono` — Tipos de teléfono (celular, fijo, laboral)
-
-**→ GET** `/api/publicapi/creasys/TipoDireccion/GetTipoMail` — Tipos de email (personal, corporativo, principal)
-
-**→ GET** `/api/publicapi/creasys/Contacto` — Contactos asociados a clientes, contrapartes o personas naturales
-
-</Accordion>
-
-<br />
-
 ## Operaciones y movimientos
 
 <Accordion title="Ver listados operativos" icon="fa-money-bill-transfer">
@@ -130,6 +110,8 @@ GET /api/publicapi/creasys/{NombreLista}
 **→ GET** `/api/publicapi/creasys/TipoMedioPagoCobro` — Medios de pago o cobro habilitados (`P` = Pago/abonos, `C` = Cobro/retiros)
 
 **→ GET** `/api/publicapi/creasys/TipoMovCaja` — Tipos de movimientos de caja (ingresos, retiros, transferencias, etc.)
+
+**→ GET** `/api/publicapi/creasys/FormaOperacion` — Formas de operación habilitadas
 
 **→ GET** `/api/publicapi/creasys/RelacionClienteConBanco` — Tipos de relación entre cliente y corredora según norma NCG 69
 
@@ -147,26 +129,4 @@ GET /api/publicapi/creasys/{NombreLista}
 
 **→ GET** `/api/publicapi/creasys/CodigoTipoDocumento` — Tipos de documento requeridos para enrolamiento o identificación
 
-**→ GET** `/api/publicapi/creasys/CertificadoCustodias` — Certificados de custodia asociados a clientes
-
 </Accordion>
-
-<br />
-
-## Cierre del sistema
-
-<Accordion title="Ver endpoints de cierre del sistema" icon="fa-calendar-check">
-
-**→ GET** `/api/publicapi/shared/Cierre/Sistema` — Última fecha de cierre del sistema
-
-**→ GET** `/api/publicapi/shared/Cierre/Cuentas` — Cierre por cuenta
-
-**→ GET** `/api/publicapi/shared/Cierre/MinComun` — Fecha mínima común de cierre aplicable a múltiples módulos
-
-**→ GET** `/api/publicapi/shared/Cierre/DatosEnProceso` — Verifica si hay datos aún en actualización
-
-</Accordion>
-
-<Callout icon="💡" theme="info">
-  Usa `DatosEnProceso` para detectar si los saldos o movimientos están aún "en movimiento" antes de mostrar información al cliente.
-</Callout>
