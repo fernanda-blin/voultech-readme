@@ -8,7 +8,7 @@ hidden: false
 metadata:
   robots: index
 ---
-Gestiona la ejecución de movimientos y operaciones financieras, incluyendo aportes, retiros, órdenes sobre instrumentos y operaciones de divisas.
+Ejecuta movimientos y operaciones financieras sobre las cuentas de tus clientes: aportes, retiros, órdenes sobre instrumentos y compra/venta de divisas.
 
 ## Flujo estándar
 
@@ -24,19 +24,19 @@ El flujo de movimientos depende del modelo de negocio de cada fintech. Un ejempl
 ## Operaciones disponibles
 
 <Cards columns={5}>
-  <Card title="Aportes y retiros" href="#" icon="fa-money-bill-transfer">
+  <Card title="Aportes y retiros" href="#aportes-y-retiros" icon="fa-money-bill-transfer">
     Registra movimientos puntuales o masivos de ingreso y salida de fondos.
   </Card>
-  <Card title="Retiros Shinkansen" href="#" icon="fa-building-columns">
+  <Card title="Retiros Shinkansen" href="#retiros-via-shinkansen" icon="fa-building-columns">
     Ejecuta retiros bancarios automáticos a cuentas del mismo cliente.
   </Card>
-  <Card title="Cuenta remunerada" href="#" icon="fa-piggy-bank">
+  <Card title="Cuenta remunerada" href="#aporteretiro-con-cuenta-remunerada" icon="fa-piggy-bank">
     Registra inversiones o rescates con impacto en orden y movimiento.
   </Card>
-  <Card title="Órdenes de instrumentos" href="#" icon="fa-chart-line">
+  <Card title="Órdenes de instrumentos" href="#orden-de-compraventa-de-instrumentos" icon="fa-chart-line">
     Ingresa órdenes de compra o venta y anula órdenes existentes.
   </Card>
-  <Card title="Operaciones spot" href="#" icon="fa-money-bill-trend-up">
+  <Card title="Operaciones spot" href="#compraventa-de-divisas-spot" icon="fa-money-bill-trend-up">
     Registra compras y ventas de divisas con liquidación spot.
   </Card>
 </Cards>
@@ -45,31 +45,34 @@ El flujo de movimientos depende del modelo de negocio de cada fintech. Un ejempl
 
 ## Aportes y retiros
 
-Permite el ingreso manual de aportes o retiros en el sistema, sumando o restando caja a un cliente.
+Permite registrar aportes o retiros sobre la caja de un cliente.
 
 **→ POST** `/api/publicapi/creasys/Movimientos/IngresoAporteRetiro` — Aporte o retiro puntual
 
-**→ POST** `/api/publicapi/creasys/Movimientos/IngresoAporteRetiroMasivo` — Aportes o retiros masivos
+**→ POST** `/api/publicapi/creasys/Movimientos/IngresoAporteRetiroMasivo` — Aportes o retiros masivos (acepta un array)
 
 <Accordion title="Ver parámetros principales" icon="fa-file-lines">
 
-**Parámetros:**
-
 | Parámetro | Tipo | Descripción |
 |---|---|---|
-| `Uuid` | string | Identificador único de idempotencia del movimiento |
-| `CodTipoMovimiento` | string | `APO_PAT` (aporte) o `RET_PAT` (retiro) |
-| `NumCuenta` | string | Número de la cuenta donde se aplica el movimiento |
-| `DscMedioPagoCobro` | string | Medio de pago: `TRANSFERENCIA`, `EFECTIVO`, `CHEQUE`, etc. |
-| `CodMoneda` | string | Moneda del movimiento: `CLP`, `USD`, `EUR` |
-| `MtoMovimiento` | decimal | Monto del aporte o retiro |
-| `ObsMovimiento` | string | Observación o comentario opcional |
+| `uuid` | string | Identificador único de idempotencia del movimiento |
+| `codTipoMovimiento` | string | `APO_PAT` (aporte) o `RET_PAT` (retiro) |
+| `numCuenta` | string | Número de la cuenta donde se aplica el movimiento |
+| `dscMedioPagoCobro` | string | Medio de pago: `TRANSFERENCIA`, `EFECTIVO`, `CHEQUE`, etc. |
+| `codMoneda` | string | Moneda del movimiento: `CLP`, `USD`, `EUR` |
+| `monto` | decimal | Monto del aporte o retiro |
+| `fechaMovimiento` | date | Fecha del movimiento (ISO 8601) |
+| `fechaLiquidacion` | date | Fecha de liquidación (ISO 8601) |
+| `obsMovimiento` | string | Observación o comentario opcional |
+| `banco` | string | Banco origen/destino (cuando aplica) |
+| `numeroCuenta` | string | Número de cuenta bancaria (cuando aplica) |
+| `tipoCuenta` | string | Tipo de cuenta bancaria (cuando aplica) |
 
 </Accordion>
 
 ### Tipos de movimientos y trazabilidad
 
-El campo `CodTipoMovimiento` identifica el tipo de movimiento registrado sobre una cuenta.
+El campo `codTipoMovimiento` identifica el tipo de movimiento registrado sobre una cuenta.
 
 **Movimientos no liquidados**
 
@@ -101,8 +104,6 @@ Donde `ORIGEN` corresponde a un identificador interno del sistema, canal o integ
 
 **Otros tipos de movimiento**
 
-Existen además otros códigos utilizados para operaciones específicas:
-
 | Tipo de movimiento | Código |
 |---|---|
 | Aporte ajuste contable | `APO_AJUST` |
@@ -114,45 +115,45 @@ Existen además otros códigos utilizados para operaciones específicas:
   Los identificadores de origen utilizados en movimientos liquidados son de uso interno y no forman parte de la documentación pública de la API. No todos los movimientos utilizan sufijo de trazabilidad, ya que su uso depende de la configuración aplicable en cada caso.
 </Callout>
 
-**Resultado esperado:** el movimiento quedará registrado sobre la cuenta con el tipo y la trazabilidad correspondientes.
-
 ```json title="Request Body (masivo)"
 [
   {
-    "Uuid": "123-123-123",
-    "CodTipoMovimiento": "APO_PAT",
-    "NumCuenta": "XXXXXXX/X",
-    "ObsMovimiento": "Aporte Patrimonial",
-    "FechaMovimiento": "2024-06-11",
-    "Monto": "1000000",
-    "CodMoneda": "CLP",
-    "DscMedioPagoCobro": "TRANSFERENCIA",
-    "FechaLiquidacion": "2024-06-11",
-    "Banco": "banco itau",
-    "NumeroCuenta": "XXXXXXXX",
-    "TipoCuenta": "Cuenta Corriente"
+    "uuid": "123-123-123",
+    "codTipoMovimiento": "APO_PAT",
+    "numCuenta": "XXXXXXX/X",
+    "obsMovimiento": "Aporte Patrimonial",
+    "fechaMovimiento": "2024-06-11",
+    "fechaLiquidacion": "2024-06-11",
+    "monto": 1000000,
+    "codMoneda": "CLP",
+    "dscMedioPagoCobro": "TRANSFERENCIA",
+    "banco": "Banco Itaú",
+    "numeroCuenta": "XXXXXXXX",
+    "tipoCuenta": "Cuenta Corriente"
   }
 ]
 ```
+
+**Resultado esperado:** el movimiento queda registrado sobre la cuenta con el tipo y trazabilidad correspondiente.
 
 <Accordion title="Catálogo de errores — Aportes/Retiros" icon="fa-duotone fa-circle-exclamation">
 
 | Código | Descripción |
 |---|---|
 | ARP-001 | No se encontró la cuenta `{numCuenta}` |
-| ARP-002 | Falta ingresar NumeroCuenta de Banco |
+| ARP-002 | Falta ingresar `numeroCuenta` de banco |
 | ARP-003 | No se encontró caja vigente `{codMoneda}` para la cuenta `{numCuenta}` |
-| ARP-004 | Tipo Origen Mov Caja `{codTipoMovimiento}` no existe |
-| ARP-005 | Falta ingresar TipoCuenta de Banco |
-| ARP-006 | Falta ingresar banco |
-| ARP-007 | Fecha Movimiento o Fecha Liquidacion NO es igual a la fecha actual (hoy) |
-| ARP-008 | Cuando CodMoneda es CLP el valor del Monto no puede contener decimales |
+| ARP-004 | Tipo origen mov caja `{codTipoMovimiento}` no existe |
+| ARP-005 | Falta ingresar `tipoCuenta` de banco |
+| ARP-006 | Falta ingresar `banco` |
+| ARP-007 | `fechaMovimiento` o `fechaLiquidacion` no es igual a la fecha actual |
+| ARP-008 | Cuando `codMoneda` es CLP el `monto` no puede contener decimales |
 | ARP-009 | La fecha operación debe ser igual a la fecha máxima de las operaciones ingresadas |
-| ARP-010 | Monto Máximo Permitido para RET_PAT_BA 7.000.000 |
+| ARP-010 | Monto máximo permitido para `RET_PAT_BA`: 7.000.000 |
 | ARP-011 | Saldo disponible insuficiente para ejecutar este movimiento |
 | ARP-012 | UUID duplicado en la misma transacción |
 | ARP-013 | UUID ya utilizado con anterioridad en otro movimiento de caja |
-| ARP-014 | La hora actual fuera de horario permitido |
+| ARP-014 | La hora actual está fuera del horario permitido |
 | ARP-015 | Excepción del sistema |
 
 </Accordion>
@@ -163,10 +164,10 @@ Existen además otros códigos utilizados para operaciones específicas:
 
 **→ POST** `/api/publicapi/creasys/Movimientos/IngresoAporteRetiroMasivo`
 
-Los retiros vía Shinkansen permiten transferencias automáticas y rápidas a cuentas bancarias del mismo cliente:
+Los retiros vía Shinkansen permiten transferencias bancarias automáticas a cuentas del mismo cliente:
 
 - **Montos ≤ 5.000.000 CLP** → automáticos e instantáneos
-- **Montos hasta 7.000.000 CLP** → se procesan aproximadamente a las 16:00 hrs, requieren firma de apoderado
+- **Montos hasta 7.000.000 CLP** → procesamiento aproximado a las 16:00 hrs, requieren firma de apoderado
 
 <Callout icon="🚨" theme="danger">
   Solo se permiten transferencias **a cuentas bancarias del mismo cliente**, nunca a terceros. El monto total no puede superar las 1.000 UF.
@@ -174,44 +175,38 @@ Los retiros vía Shinkansen permiten transferencias automáticas y rápidas a cu
 
 <Accordion title="Ver parámetros principales" icon="fa-file-lines">
 
-**Parámetros:**
-
 | Parámetro | Descripción |
 |---|---|
-| `CodTipoMovimiento` | Retiro patrimonial banco: `RET_PAT_BA` |
-| `NumCuenta` | Cuenta del cliente |
-| `CodMoneda` | Por el momento solo `CLP` |
-| `Banco` | Banco del cliente |
-| `NumeroCuenta` | Número de cuenta bancaria del cliente |
-| `TipoCuenta` | Tipo de cuenta bancaria |
-| `Uuid` | Identificador único de idempotencia |
+| `uuid` | Identificador único de idempotencia |
+| `codTipoMovimiento` | Retiro patrimonial banco: `RET_PAT_BA` |
+| `numCuenta` | Cuenta del cliente |
+| `codMoneda` | Por el momento solo `CLP` |
+| `banco` | Banco del cliente |
+| `numeroCuenta` | Número de cuenta bancaria del cliente |
+| `tipoCuenta` | Tipo de cuenta bancaria |
 
 </Accordion>
 
 ```json title="Request Body"
 [
   {
-    "Uuid": "xxx-xxxx-xxxx-xxxx-xxxx-xxxx",
-    "CodTipoMovimiento": "RET_PAT_BA",
-    "NumCuenta": "17931004/60",
-    "ObsMovimiento": "RETIRO PATRIMONIAL SHINKANSEN",
-    "FechaMovimiento": "2024-02-06T00:00:00",
-    "Monto": 1000,
-    "CodMoneda": "CLP",
-    "DscMedioPagoCobro": "TRANSFERENCIA",
-    "FechaLiquidacion": "2024-02-06T00:00:00",
-    "Banco": "Banco BICE",
-    "NumeroCuenta": "37684701",
-    "TipoCuenta": "Cuenta Corriente"
+    "uuid": "xxx-xxxx-xxxx-xxxx-xxxx-xxxx",
+    "codTipoMovimiento": "RET_PAT_BA",
+    "numCuenta": "17931004/60",
+    "obsMovimiento": "RETIRO PATRIMONIAL SHINKANSEN",
+    "fechaMovimiento": "2024-02-06",
+    "fechaLiquidacion": "2024-02-06",
+    "monto": 1000,
+    "codMoneda": "CLP",
+    "dscMedioPagoCobro": "TRANSFERENCIA",
+    "banco": "Banco BICE",
+    "numeroCuenta": "37684701",
+    "tipoCuenta": "Cuenta Corriente"
   }
 ]
 ```
 
-<Callout icon="💡" theme="info">
-  Una vez ingresado el retiro, se retorna un `id` que puedes usar para consultar el estado vía `GET /MovimientosShinkansen`.
-</Callout>
-
-**Resultado esperado:** el retiro quedará ingresado para procesamiento y podrás consultar su estado posteriormente.
+**Resultado esperado:** el retiro queda ingresado para procesamiento bancario y puedes consultar su estado posteriormente.
 
 <br />
 
@@ -219,24 +214,22 @@ Los retiros vía Shinkansen permiten transferencias automáticas y rápidas a cu
 
 **→ POST** `/api/publicapi/creasys/Operaciones/IngresoOperacionCuentaRemunerada`
 
-Ingresa una operación de inversión o rescate que se traduce automáticamente en una orden financiera y un movimiento de caja. El flujo incluye:
+Ingresa una operación de inversión o rescate sobre una cuenta remunerada. El endpoint genera automáticamente:
 
-1. Creación de **movimiento de caja**
-2. Creación de **orden de compra/venta de instrumento**
-3. Impacto directo en **cartera y caja del cliente**
+1. Un **movimiento de caja**
+2. Una **orden de compra/venta del instrumento**
+3. El impacto correspondiente en **cartera y caja del cliente**
 
 <Accordion title="Ver parámetros principales" icon="fa-file-lines">
 
-**Parámetros:**
-
 | Parámetro | Descripción |
 |---|---|
-| `Uuid` | Identificador único para la orden (idempotencia) |
-| `NumCuenta` | Número de cuenta del cliente |
-| `CodTipoOperacion` | `INVERSION` o `RESCATE` |
-| `Nemotecnico` | Código Bolsa del instrumento |
-| `FechaOperacion` | Fecha de la operación (ISO 8601) |
-| `Monto` | Monto total de la operación |
+| `uuid` | Identificador único para la operación (idempotencia) |
+| `numCuenta` | Número de cuenta del cliente |
+| `codTipoOperacion` | `INVERSION` o `RESCATE` |
+| `nemotecnico` | Código bolsa del instrumento |
+| `fechaOperacion` | Fecha de la operación (ISO 8601) |
+| `monto` | Monto total de la operación |
 
 </Accordion>
 
@@ -244,9 +237,9 @@ Ingresa una operación de inversión o rescate que se traduce automáticamente e
 [
   {
     "idOperacion": 0,
-    "uudi": "xxx-xxxx-xxxx-xxxx",
+    "uuid": "xxx-xxxx-xxxx-xxxx",
     "numCuenta": "12345678/80",
-    "CodTipoOperacion": "INVERSION",
+    "codTipoOperacion": "INVERSION",
     "nemotecnico": "VECTOR-A",
     "fechaOperacion": "2024-08-27T20:55:41.260Z",
     "monto": 1000
@@ -254,21 +247,21 @@ Ingresa una operación de inversión o rescate que se traduce automáticamente e
 ]
 ```
 
+**Resultado esperado:** se genera el movimiento de caja y la orden financiera asociada en la cuenta del cliente.
+
 <Accordion title="Catálogo de errores — Cuenta Remunerada" icon="fa-duotone fa-circle-exclamation">
 
 | Código | Descripción |
 |---|---|
-| OCR-001 | No existe cuenta disponible con el número `{NumCuenta}` |
+| OCR-001 | No existe cuenta disponible con `numCuenta` |
 | OCR-002 | No se pudo obtener el precio para la operación |
 | OCR-003 | No existe operación concepto |
-| OCR-004 | No existe instrumento con nemotécnico |
-| OCR-005 | No se encontró caja vigente `{monedaTransaccion}` para `{NumCuenta}` |
-| OCR-006 | El UUID ya ha sido procesado previamente |
+| OCR-004 | No existe instrumento con `nemotecnico` |
+| OCR-005 | No se encontró caja vigente para `numCuenta` |
+| OCR-006 | El `uuid` ya ha sido procesado previamente |
 | OCR-007 | Error en la operación |
 
 </Accordion>
-
-**Resultado esperado:** la operación generará el movimiento de caja y la orden financiera asociada.
 
 <br />
 
@@ -276,20 +269,20 @@ Ingresa una operación de inversión o rescate que se traduce automáticamente e
 
 **→ POST** `/api/publicapi/creasys/Ordenes/IngresarOrdenesMercado`
 
-Ingresa una operación de compra o venta de un instrumento. Esta orden va directamente al sistema Voultech y al mercado a ejecutarse.
+Ingresa una orden de compra o venta de un instrumento. La orden viaja al motor de Voultech y al mercado para su ejecución.
 
 <Accordion title="Ver parámetros principales" icon="fa-file-lines">
 
-**Parámetros:**
-
 | Parámetro | Descripción |
 |---|---|
-| `uuid` | ID único para la orden (idempotencia) |
+| `uuid` | Identificador único de la orden (idempotencia) |
 | `numCuenta` | Número de cuenta del cliente |
 | `tipoOperacion` | `C` (Compra) o `V` (Venta) |
 | `cantidad` | Cantidad a transar |
-| `nemotecnico` | Código Bolsa del instrumento |
-| `tipoSeguridad` | Según [FIX Dictionary 4.2](https://www.onixs.biz/fix-dictionary/4.2/tagnum_167.html) |
+| `precio` | Precio unitario |
+| `tipoPrecio` | `LIMIT` o `MARKET` |
+| `nemotecnico` | Código bolsa del instrumento |
+| `tipoSeguridad` | Según [FIX Dictionary 4.2](https://www.onixs.biz/fix-dictionary/4.2/tagnum_167.html) (ej: `CS`) |
 | `codBolsa` | Bolsa de Santiago: `XSGO` |
 | `tipoLiquidacion` | `CASH` (PH), `NEXT_DAY` (PM) o `T2` (CN) |
 | `comision` | Comisión porcentual (opcional, máx. 2 decimales, entre `0` y `1`) |
@@ -299,7 +292,7 @@ Ingresa una operación de compra o venta de un instrumento. Esta orden va direct
 ```json title="Request Body"
 [
   {
-    "uudi": "abcdefgh-12kl-3456-mnop789qrstu",
+    "uuid": "abcdefgh-12kl-3456-mnop789qrstu",
     "numCuenta": "11931044/80",
     "nemotecnico": "COPEC",
     "cantidad": 100,
@@ -318,22 +311,31 @@ Ingresa una operación de compra o venta de un instrumento. Esta orden va direct
   Valores especiales en `cantidad` de la respuesta: `98` = Cancelado, `99` = Rechazado, `50` = Parcialmente asignado, `100` = Asignado.
 </Callout>
 
-**Resultado esperado:** la orden quedará ingresada para ejecución en mercado según los parámetros enviados.
+**Resultado esperado:** la orden queda ingresada para ejecución en mercado según los parámetros enviados.
 
 ### Anular orden
 
 **→ POST** `/api/publicapi/creasys/Ordenes/AnularOrden`
 
+<Accordion title="Ver parámetros" icon="fa-file-lines">
+
+| Parámetro | Descripción |
+|---|---|
+| `uuid` | Identificador de la orden a anular |
+| `numCuenta` | Cuenta sobre la que se ingresó la orden |
+
+</Accordion>
+
 ```json title="Request Body"
 [
   {
-    "uudi": "abcdefgh-12kl-3456-mnop789qrstu",
+    "uuid": "abcdefgh-12kl-3456-mnop789qrstu",
     "numCuenta": "12345678/0"
   }
 ]
 ```
 
-**Resultado esperado:** la orden indicada quedará solicitada para anulación.
+**Resultado esperado:** la orden indicada queda solicitada para anulación.
 
 <br />
 
@@ -344,23 +346,26 @@ Ingresa una operación de compra o venta de un instrumento. Esta orden va direct
 Ingresa una operación spot de compra o venta de divisas.
 
 <Callout icon="⚠️" theme="warning">
-  Para comprar efectivamente las divisas debes conectarte a la **API FX de Voultech**.
+  Para comprar efectivamente las divisas debes conectarte a la **API FX de Voultech** y obtener el precio de mesa.
 </Callout>
 
 <Accordion title="Ver parámetros principales" icon="fa-file-lines">
 
-**Parámetros:**
-
 | Parámetro | Descripción |
 |---|---|
-| `CodTipoOperacion` | `COMPRA` o `VENTA` |
-| `Contraparte` | Usar `M/X` como contraparte default |
-| `CodMonedaOperacion` | `CLP`, `USD`, `EUR` |
-| `CodMonedaPagoCobro` | `CLP`, `USD`, `EUR` |
-| `Precio` | Precio unitario final entregado al cliente |
-| `PrecioMesa` | Precio de la mesa (obtenido con API FX) |
-| `PrecioTransferencia` | Debe ser igual a `PrecioMesa` |
-| `Monto` | Cantidad × Precio. Siempre en CLP, redondeado sin decimales |
+| `numCuenta` | Cuenta del cliente |
+| `codTipoOperacion` | `COMPRA` o `VENTA` |
+| `contraparte` | Usar `M/X` como contraparte default |
+| `codMonedaOperacion` | `CLP`, `USD`, `EUR` |
+| `codMonedaPagoCobro` | `CLP`, `USD`, `EUR` |
+| `cantidad` | Cantidad de la divisa operada |
+| `precio` | Precio unitario final entregado al cliente |
+| `precioMesa` | Precio de mesa (obtenido vía API FX) |
+| `precioTransferencia` | Debe ser igual a `precioMesa` |
+| `monto` | `cantidad × precio`. Siempre en CLP, redondeado sin decimales |
+| `fechaOperacion` | Fecha de la operación |
+| `fechaLiquidacion` | Fecha de liquidación |
+| `obsOperacion` | Observación opcional |
 
 </Accordion>
 
@@ -368,37 +373,39 @@ Ingresa una operación spot de compra o venta de divisas.
 [
   {
     "idOperacion": 0,
-    "NumCuenta": "17931004/80",
-    "CodTipoOperacion": "VENTA",
-    "ObsOperacion": "Prueba",
-    "FechaOperacion": "2023-05-26",
-    "FechaLiquidacion": "2023-05-26",
-    "Contraparte": "M/X",
-    "CodMonedaOperacion": "USD",
-    "CodMonedaPagoCobro": "CLP",
-    "Cantidad": "1",
-    "Precio": "500",
-    "PrecioMesa": "500",
-    "PrecioTransferencia": "500",
-    "Monto": "500"
+    "numCuenta": "17931004/80",
+    "codTipoOperacion": "VENTA",
+    "obsOperacion": "Prueba",
+    "fechaOperacion": "2023-05-26",
+    "fechaLiquidacion": "2023-05-26",
+    "contraparte": "M/X",
+    "codMonedaOperacion": "USD",
+    "codMonedaPagoCobro": "CLP",
+    "cantidad": 1,
+    "precio": 500,
+    "precioMesa": 500,
+    "precioTransferencia": 500,
+    "monto": 500
   }
 ]
 ```
+
+**Resultado esperado:** la operación spot queda registrada con su moneda operada, moneda de pago/cobro y monto calculado.
 
 <Accordion title="Catálogo de errores — Operaciones Spot" icon="fa-duotone fa-circle-exclamation">
 
 | Código | Descripción |
 |---|---|
-| SPT-001 | No existe cuenta disponible con el número `{numCuenta}` |
-| SPT-002 | No se encontró caja vigente `{CodMonedaOperacion}` para la cuenta `{numCuenta}` |
-| SPT-003 | No existe caja vigente `{CodMonedaPagoCobro}` para la cuenta `{numCuenta}` |
-| SPT-004 | No se encuentra tipo de operación `{CodTipoOperacion}` para Spot |
-| SPT-005 | No existe instrumento con nemotécnico `{CodMonedaOperacion}` |
-| SPT-006 | No existe la contraparte `{Contraparte}` |
-| SPT-007 | Tipo Origen Mov Caja Operación no encontrado |
-| SPT-008 | Tipo Origen Mov Caja Pago Cobro no se encuentra |
+| SPT-001 | No existe cuenta disponible con `numCuenta` |
+| SPT-002 | No se encontró caja vigente `codMonedaOperacion` para `numCuenta` |
+| SPT-003 | No existe caja vigente `codMonedaPagoCobro` para `numCuenta` |
+| SPT-004 | No se encuentra tipo de operación `codTipoOperacion` para Spot |
+| SPT-005 | No existe instrumento con nemotécnico `codMonedaOperacion` |
+| SPT-006 | No existe la `contraparte` |
+| SPT-007 | Tipo origen mov caja operación no encontrado |
+| SPT-008 | Tipo origen mov caja pago cobro no se encuentra |
 | SPT-009 | La fecha operación debe ser igual a la fecha máxima de operaciones ingresadas |
-| SPT-010 | El monto ingresado no corresponde a (P×Q) |
+| SPT-010 | El `monto` ingresado no corresponde a `precio × cantidad` |
 | SPT-011 | Saldo disponible insuficiente para ejecutar esta operación |
 | SPT-012 | UUID duplicado en la misma transacción |
 | SPT-013 | UUID ya utilizado en operación anterior |
@@ -406,5 +413,3 @@ Ingresa una operación spot de compra o venta de divisas.
 | SPT-015 | Excepción del sistema |
 
 </Accordion>
-
-**Resultado esperado:** la operación spot quedará registrada con su moneda operada, moneda de pago/cobro y monto calculado.
