@@ -35,7 +35,7 @@ Completa tu primera integración con la API de Voultech: autentícate, consulta 
 
 Envía tus credenciales al endpoint `SignIn` para obtener un **Bearer Token** que incluirás en todas las llamadas posteriores.
 
-**→ POST** `/api/publicapi/shared/auth/SignIn`
+**→ POST** `/api/publicapi/shared/Auth/SignIn`
 
 ```json title="Request Body"
 {
@@ -60,7 +60,7 @@ Authorization: Bearer {tu_token}
 ```
 
 <Callout icon="🔄" theme="info">
-  Si tu token está por expirar, renuévalo con **GET** `/api/publicapi/shared/auth/RefreshToken` sin necesidad de volver a iniciar sesión.
+  Si tu token está por expirar, renuévalo con **GET** `/api/publicapi/shared/Auth/RefreshToken` sin necesidad de volver a iniciar sesión.
 </Callout>
 
 <br />
@@ -172,8 +172,6 @@ Tipos de documento admitidos:
 
 ### 3.3 Crear la cuenta de inversión
 
-### 3.3 Crear la cuenta de inversión
-
 **→ POST** `/api/publicapi/creasys/Cuentas`
 
 ```json title="Request Body"
@@ -217,9 +215,6 @@ Simula el primer aporte de fondos del cliente.
 **Resultado esperado:** el aporte quedará registrado una sola vez por cada `Uuid` único.
 
 <br />
-**Resultado:** el sistema procesará el aporte una sola vez por cada `Uuid` único.
-
-<br />
 
 ## Paso 5: Verifica el saldo
 
@@ -247,11 +242,11 @@ Si `saldoDisponible` refleja `100000`, completaste el flujo básico de esta inte
 ### Próximos pasos
 
 <Cards>
-  <Card title="Ejecutar una orden de mercado" href="#" icon="fa-duotone fa-chart-line">Compra tu primer instrumento con POST /Ordenes/IngresarOrdenesMercado</Card>
+  <Card title="Ejecutar una orden de mercado" href="/docs/movimientos" icon="fa-duotone fa-chart-line">Compra tu primer instrumento con POST /Ordenes/IngresarOrdenesMercado</Card>
 
-  <Card title="Consultar la cartera" href="#" icon="fa-duotone fa-briefcase">Revisa el portafolio del cliente con GET /Cartera</Card>
+  <Card title="Consultar la cartera" href="/docs/consultas-operativas" icon="fa-duotone fa-briefcase">Revisa el portafolio del cliente con GET /Cartera</Card>
 
-  <Card title="Sistema de Eventos" href="#" icon="fa-duotone fa-bell">Suscríbete para monitorear movimientos en tiempo real</Card>
+  <Card title="Sistema de Eventos" href="/docs/eventos" icon="fa-duotone fa-bell">Suscríbete para monitorear movimientos en tiempo real</Card>
 
-  <Card title="Errores comunes" href="#" icon="fa-duotone fa-circle-exclamation">Aprende a manejar los códigos de error de la API</Card>
+  <Card title="Preguntas Frecuentes" href="/docs/faq" icon="fa-duotone fa-circle-question">Resuelve las dudas más comunes de integración</Card>
 </Cards>

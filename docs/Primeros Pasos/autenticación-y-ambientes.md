@@ -17,14 +17,14 @@ Configura el acceso a la API de Voultech obteniendo tus credenciales, selecciona
 3. Utiliza el token obtenido en `SignIn` en todas las solicitudes a endpoints protegidos.
 
 <Cards columns={3}>
-  <Card title="Credenciales" href="#" icon="fa-key">
+  <Card title="Credenciales" icon="fa-key">
     Obtén `userName`, `password` y `abrAsesor` para acceder a la API.
   </Card>
-  <Card title="Ambientes" href="#" icon="fa-server">
+  <Card title="Ambientes" icon="fa-server">
     Verifica si operarás en Sandbox o en Producción antes de iniciar sesión.
   </Card>
-  <Card title="Sesión" href="#" icon="fa-shield-halved">
-    Inicia sesión, renueva el token y consulta el estado de autenticación.
+  <Card title="Sesión" icon="fa-shield-halved">
+    Inicia sesión, renueva el token y cierra sesión cuando termines.
   </Card>
 </Cards>
 
@@ -67,7 +67,7 @@ Contacta al equipo de Voultech (**soporte@voultech.com**) para recibir:
 
 Envía tus credenciales para obtener un token JWT que incluirás en todas las llamadas posteriores.
 
-**→ POST** `/api/publicapi/shared/auth/SignIn`
+**→ POST** `/api/publicapi/shared/Auth/SignIn`
 
 ```json title="Request Body"
 {
@@ -101,7 +101,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
 
 Si el token está por expirar, puedes renovarlo **sin iniciar sesión nuevamente**.
 
-**→ GET** `/api/publicapi/shared/auth/RefreshToken`
+**→ GET** `/api/publicapi/shared/Auth/RefreshToken`
 
 ```
 Authorization: Bearer {tu_token_actual}
@@ -122,34 +122,17 @@ Authorization: Bearer {tu_token_actual}
 
 <br />
 
-## Consultar sesión actual
+## Cerrar sesión
 
-Obtén los datos del usuario autenticado y la configuración del sistema.
+Cuando termines de operar, finaliza la sesión para invalidar el token actual.
 
-**→ GET** `/api/publicapi/shared/auth/Me`
+**→ POST** `/api/publicapi/shared/Auth/SignOut`
 
 ```
 Authorization: Bearer {tu_token}
 ```
 
-**Resultado esperado:** obtendrás la información del usuario autenticado y la configuración disponible para la sesión actual.
-
-<br />
-
-## Cerrar sesión
-
-<Accordion title="Ver opciones para cerrar sesión" icon="fa-right-from-bracket">
-
-Tienes dos opciones para finalizar la sesión:
-
-| Endpoint | Método | Comportamiento |
-|---|---|---|
-| `/api/publicapi/shared/auth/SignOut` | POST | Expira la cookie de autenticación |
-| `/api/publicapi/shared/auth/Logout` | POST | Elimina la cookie de autenticación |
-
-</Accordion>
-
-**Resultado esperado:** la sesión quedará finalizada según el mecanismo implementado en tu integración.
+**Resultado esperado:** la sesión quedará finalizada y el token actual dejará de ser válido.
 
 <br />
 

@@ -34,7 +34,7 @@ La API de Voultech ofrece una solución **Investment-as-a-Service** que permite 
 | Requisito | Detalle |
 |---|---|
 | **Credenciales** | Solicita `userName`, `password` y `abrAsesor` (código de asesor) al equipo de Voultech |
-| **Autenticación** | `POST /api/publicapi/shared/auth/SignIn` para obtener tu Bearer token |
+| **Autenticación** | `POST /api/publicapi/shared/Auth/SignIn` para obtener tu Bearer token |
 | **Sandbox** | `https://apiwebcbvoultechcertificacion.azurewebsites.net` |
 | **Producción** | Acceso bajo coordinación directa con el equipo de Voultech |
 | **Formato** | API RESTful, JSON, OpenAPI 3.0.1, vía HTTPS |
@@ -48,11 +48,11 @@ La API de Voultech ofrece una solución **Investment-as-a-Service** que permite 
 ## Empieza aquí
 
 <Cards>
-  <Card title="Guía de Inicio Rápido" href="#" icon="fa-duotone fa-rocket-launch">Tu primera integración en 5 pasos: autenticarte, crear cliente, abrir cuenta y hacer tu primer aporte.</Card>
+  <Card title="Guía de Inicio Rápido" href="/docs/guía-de-inicio-rápido" icon="fa-duotone fa-rocket-launch">Tu primera integración en 5 pasos: autenticarte, crear cliente, abrir cuenta y hacer tu primer aporte.</Card>
 
-  <Card title="Autenticación" href="#" icon="fa-duotone fa-key">Cómo obtener y renovar tu Bearer token para acceder a la API.</Card>
+  <Card title="Autenticación" href="/docs/autenticación-y-ambientes" icon="fa-duotone fa-key">Cómo obtener y renovar tu Bearer token para acceder a la API.</Card>
 
-  <Card title="API Reference" href="#" icon="fa-duotone fa-code">Explora todos los endpoints disponibles con ejemplos interactivos.</Card>
+  <Card title="API Reference" href="/reference" icon="fa-duotone fa-code">Explora todos los endpoints disponibles con ejemplos interactivos.</Card>
 </Cards>
 
 <br />
@@ -60,17 +60,17 @@ La API de Voultech ofrece una solución **Investment-as-a-Service** que permite 
 ## Guías de integración
 
 <Cards>
-  <Card kind="tile" title="Enrolamiento de Clientes" href="#" icon="fa-duotone fa-user-check">Crea clientes, sube documentos y completa el KYC</Card>
+  <Card kind="tile" title="Enrolamiento de Clientes" href="/docs/enrolamiento-de-clientes" icon="fa-duotone fa-user-check">Crea clientes, sube documentos y completa el KYC</Card>
 
-  <Card kind="tile" title="Gestión de Cuentas" href="#" icon="fa-duotone fa-building-columns">Cuentas de inversión, cuentas bancarias y comisiones</Card>
+  <Card kind="tile" title="Gestión de Cuentas" href="/docs/gestión-de-cuentas" icon="fa-duotone fa-building-columns">Cuentas de inversión, cuentas bancarias y comisiones</Card>
 
-  <Card kind="tile" title="Movimientos y Operaciones" href="#" icon="fa-duotone fa-arrow-right-arrow-left">Aportes, retiros, órdenes y operaciones spot</Card>
+  <Card kind="tile" title="Movimientos y Operaciones" href="/docs/movimientos" icon="fa-duotone fa-arrow-right-arrow-left">Aportes, retiros, órdenes y operaciones spot</Card>
 
-  <Card kind="tile" title="Sistema de Eventos" href="#" icon="fa-duotone fa-bell">Notificaciones en tiempo real vía Service Bus</Card>
+  <Card kind="tile" title="Sistema de Eventos" href="/docs/eventos" icon="fa-duotone fa-bell">Notificaciones en tiempo real vía Service Bus</Card>
 
-  <Card kind="tile" title="Cuentas Internacionales (Alpaca)" href="#" icon="fa-duotone fa-globe">Opera instrumentos en mercados internacionales</Card>
+  <Card kind="tile" title="Cuentas Internacionales (Alpaca)" href="/docs/introduccion-alpaca" icon="fa-duotone fa-globe">Opera instrumentos en mercados internacionales</Card>
 
-  <Card kind="tile" title="Cartola y Reportes" href="#" icon="fa-duotone fa-file-pdf">Genera cartolas y reportes en PDF</Card>
+  <Card kind="tile" title="Cartolas y Reportes" href="/docs/cartolas-y-reportes" icon="fa-duotone fa-file-pdf">Genera cartolas y reportes en PDF</Card>
 </Cards>
 
 <br />
@@ -78,15 +78,11 @@ La API de Voultech ofrece una solución **Investment-as-a-Service** que permite 
 ## Referencia
 
 <Cards>
-  <Card kind="tile" title="Listados del Sistema" href="#" icon="fa-duotone fa-list">Catálogos de bancos, comunas, monedas, perfiles y más</Card>
+  <Card kind="tile" title="Listados del Sistema" href="/docs/datos-del-sistema" icon="fa-duotone fa-list">Catálogos de bancos, comunas, monedas, perfiles y más</Card>
 
-  <Card kind="tile" title="Respuestas y Errores" href="#" icon="fa-duotone fa-circle-exclamation">Códigos HTTP, paginación y catálogos de errores</Card>
+  <Card kind="tile" title="Preguntas Frecuentes" href="/docs/faq" icon="fa-duotone fa-circle-question">Respuestas a las dudas más comunes de integración</Card>
 
-  <Card kind="tile" title="Preguntas Frecuentes" href="#" icon="fa-duotone fa-circle-question">Respuestas a las dudas más comunes de integración</Card>
+  <Card kind="tile" title="Rate Limits" href="/docs/rate-limits" icon="fa-duotone fa-gauge-high">Límites de carga, horarios y restricciones</Card>
 
-  <Card kind="tile" title="Rate Limits" href="#" icon="fa-duotone fa-gauge-high">Límites de carga, horarios y restricciones</Card>
-
-  <Card kind="tile" title="Glosario" href="#" icon="fa-duotone fa-book">Términos técnicos y financieros</Card>
-
-  <Card kind="tile" title="Entidades Principales" href="#" icon="fa-duotone fa-diagram-project">Cliente, Cuenta, Caja, Orden, Cartera y más</Card>
+  <Card kind="tile" title="Glosario" href="/docs/glosario" icon="fa-duotone fa-book">Términos técnicos y financieros</Card>
 </Cards>
