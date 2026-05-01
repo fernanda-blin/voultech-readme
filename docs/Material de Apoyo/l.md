@@ -13,19 +13,19 @@ Interpreta las respuestas de la API identificando códigos HTTP, paginación, fo
 ## Contenido de esta sección
 
 <Cards columns={5}>
-  <Card title="Códigos HTTP" href="#" icon="fa-code">
+  <Card title="Códigos HTTP" href="#codigos-de-respuesta" icon="fa-code">
     Consulta el significado de los códigos de respuesta más utilizados por la API.
   </Card>
-  <Card title="Paginación" href="#" icon="fa-table-list">
+  <Card title="Paginación" href="#paginacion" icon="fa-table-list">
     Revisa cómo interpretar la cabecera `X-Pagination` y sus parámetros.
   </Card>
-  <Card title="Errores" href="#" icon="fa-circle-exclamation">
+  <Card title="Errores" href="#formato-de-errores" icon="fa-circle-exclamation">
     Consulta el formato estándar de errores técnicos y errores de negocio.
   </Card>
-  <Card title="Catálogos por módulo" href="#" icon="fa-list-check">
+  <Card title="Catálogos por módulo" href="#catalogos-de-errores-por-modulo" icon="fa-list-check">
     Revisa códigos de error específicos para aportes, spot, KYC y cuenta remunerada.
   </Card>
-  <Card title="Entidades" href="#" icon="fa-diagram-project">
+  <Card title="Entidades" href="#entidades-principales" icon="fa-diagram-project">
     Consulta las entidades principales utilizadas en la integración.
   </Card>
 </Cards>
@@ -220,8 +220,7 @@ Para operaciones de negocio (aportes, retiros, órdenes), los errores incluyen u
 | **Orden** | Instrucción de compra o venta de instrumentos financieros |
 | **Asignación** | Detalle de ejecución y distribución de órdenes en el mercado |
 | **MovimientosShinkansen** | Retiros vía Banco Online |
-| **MovimientosBancoSecurity** | Consulta de movimientos desde Banco Security |
-| **MovimientosBancoBice** | Consulta de movimientos desde Banco Bice |
+| **MovimientosBancoBice** | Consulta de movimientos desde Banco BICE |
 
 </Accordion>
 

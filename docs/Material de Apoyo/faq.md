@@ -116,7 +116,7 @@ Sí, pero el formato **debe ser consistente**. Algunos endpoints aceptan `123456
 
 <Accordion title="¿Puedo hacer PATCH para actualizar clientes o cuentas?" icon="fa-duotone fa-pen">
 
-Actualmente no existe soporte para `PATCH` o actualización parcial. Si necesitas cambiar información, debes usar `PUT` con el objeto completo o consultar al equipo técnico por un flujo de actualización permitido.
+Actualmente no existe soporte para `PATCH` ni `PUT` sobre clientes ni cuentas. Si necesitas modificar información, contacta al equipo de Voultech para coordinar el flujo de actualización.
 
 </Accordion>
 
@@ -126,7 +126,7 @@ Actualmente no existe soporte para `PATCH` o actualización parcial. Si necesita
 
 <Accordion title="¿Qué pasa si intento inyectar un documento con codTipo incorrecto?" icon="fa-duotone fa-file-circle-xmark">
 
-El endpoint `POST /Documentos` **no devuelve error explícito** si el `codTipo` es inválido, pero el documento **no será procesado internamente**. Siempre usa nomenclaturas conocidas: `ciFrontal`, `ciReverso`, `contrato`, `mandato`. En caso de duda, confirma con el equipo de soporte.
+El endpoint `POST /Documentos` **no devuelve error explícito** si el `codTipo` es inválido, pero el documento **no será procesado internamente**. Siempre usa nomenclaturas conocidas: `ciFrontal`, `ciReverso`, `contrato`, `mandato`. En caso de duda, confirma con el equipo de Voultech ([hey@voultech.com](mailto:hey@voultech.com)).
 
 </Accordion>
 
@@ -174,16 +174,13 @@ Las fechas deben estar en formato **ISO 8601 completo con hora** (ej. `2025-10-0
 
 <Accordion title="¿Cómo se interpretan los saldos?" icon="fa-duotone fa-scale-balanced">
 
-Los saldos de caja consultados por API no incluyen operaciones **en proceso de liquidación**. Si estás operando justo en la apertura/cierre de mercado, podrías ver desfases. Usa `GET /shared/Cierre/DatosEnProceso` para detectar si los datos están aún en movimiento.
+Los saldos de caja consultados por API no incluyen operaciones **en proceso de liquidación**. Si estás operando justo en la apertura/cierre de mercado, podrías ver desfases. Espera a que el cierre del sistema termine antes de mostrar saldos al cliente.
 
 </Accordion>
 
 <Accordion title="¿Cómo obtener el precio del dólar?" icon="fa-duotone fa-dollar-sign">
 
-Puedes:
-
-- Suscribirte al WebSocket de precios
-- Consultar directamente vía `GET /v2/quotes/last` (requiere autenticación en la API FX)
+Puedes suscribirte al WebSocket de precios o consultar la API FX de Voultech, que se gestiona como una integración separada (consulta con el equipo de Voultech para obtener acceso).
 
 </Accordion>
 
@@ -221,20 +218,6 @@ Este enfoque permite validar el flujo completo desde la operación hasta la rece
 No. El sistema de eventos está diseñado para notificaciones **en tiempo real** (pub/sub). Si pierdes el mensaje, deberás consultar el estado manualmente vía API (por ejemplo: consultar saldo o estado KYC directamente).
 
 </Accordion>
-
-<Accordion title="¿Hay forma de saber si los datos están aún en proceso?" icon="fa-duotone fa-spinner">
-
-Sí. Usa este endpoint:
-
-```
-GET /api/publicapi/shared/Cierre/DatosEnProceso
-```
-
-Te indica si hay datos que aún se están actualizando, como saldos o movimientos aún no consolidados.
-
-</Accordion>
-
-<br />
 
 ## Testing y validación
 

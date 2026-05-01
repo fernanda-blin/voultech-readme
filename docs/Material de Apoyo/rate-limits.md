@@ -13,16 +13,16 @@ Consulta los límites operativos, restricciones horarias y recomendaciones de co
 ## Contenido de esta sección
 
 <Cards columns={4}>
-  <Card title="Paginación" href="#" icon="fa-table-list">
+  <Card title="Paginación" href="#limites-de-paginacion" icon="fa-table-list">
     Revisa los límites de `PageSize` y el uso recomendado de paginación.
   </Card>
-  <Card title="Restricciones horarias" href="#" icon="fa-clock">
+  <Card title="Restricciones horarias" href="#restricciones-horarias" icon="fa-clock">
     Consulta horarios de procesamiento para retiros y eventos automáticos.
   </Card>
-  <Card title="Idempotencia" href="#" icon="fa-rotate">
+  <Card title="Idempotencia" href="#idempotencia-y-reintentos" icon="fa-rotate">
     Usa `Uuid` para reintentos seguros y prevención de duplicados.
   </Card>
-  <Card title="Eventos vs polling" href="#" icon="fa-bell">
+  <Card title="Eventos vs polling" href="#eventos-vs-polling" icon="fa-bell">
     Prioriza notificaciones automáticas sobre consultas frecuentes al sistema.
   </Card>
 </Cards>

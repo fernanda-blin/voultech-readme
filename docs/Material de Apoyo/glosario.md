@@ -13,10 +13,10 @@ Consulta las definiciones de los términos técnicos y financieros utilizados en
 ## Categorías del glosario
 
 <Cards columns={2}>
-  <Card title="Términos técnicos de integración" href="#" icon="fa-code">
+  <Card title="Términos técnicos de integración" href="#terminos-tecnicos-de-integracion" icon="fa-code">
     Revisa conceptos utilizados en autenticación, onboarding, cuentas, movimientos, eventos y estructuras operativas.
   </Card>
-  <Card title="Términos financieros" href="#" icon="fa-coins">
+  <Card title="Términos financieros" href="#terminos-financieros" icon="fa-coins">
     Consulta conceptos de inversión, mercado, riesgo, liquidez y operaciones financieras.
   </Card>
 </Cards>
