@@ -63,7 +63,7 @@ El **módulo internacional** de Voultech permite a tus clientes operar acciones 
 ### Bolsas y horario
 
 - Mercado americano abierto de **lunes a viernes 14:30–21:00 UTC** (ajustado por DST)
-- Consultá el estado en tiempo real con `GET /ClockAlpaca`
+- Consulta el estado en tiempo real con `GET /ClockAlpaca`
 - Las órdenes ingresadas con mercado cerrado quedan **pendientes** hasta la apertura
 
 <Callout icon="⚠️" theme="warning">
@@ -82,6 +82,6 @@ El **módulo internacional** de Voultech permite a tus clientes operar acciones 
 
 ## Próximos pasos
 
-- Comenzá con **[Cuentas Internacionales](/docs/cuentas-internacionales)** para crear tu primera cuenta Alpaca
-- Revisá **[Assets e Instrumentos](/docs/assets-e-instrumentos-disponibles)** para encontrar tickers disponibles
-- Continuá con **[Órdenes Internacionales](/docs/ordenes-internacionales)** para enviar tu primera orden
+- Comienza con **[Cuentas Internacionales](/docs/cuentas-internacionales)** para crear tu primera cuenta Alpaca
+- Revisa **[Assets e Instrumentos](/docs/assets-e-instrumentos-disponibles)** para encontrar tickers disponibles
+- Continúa con **[Órdenes Internacionales](/docs/ordenes-internacionales)** para enviar tu primera orden

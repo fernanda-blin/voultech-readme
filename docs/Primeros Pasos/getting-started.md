@@ -85,4 +85,6 @@ La API de Voultech ofrece una solución **Investment-as-a-Service** que permite 
   <Card kind="tile" title="Rate Limits" href="/docs/rate-limits" icon="fa-duotone fa-gauge-high">Límites de carga, horarios y restricciones</Card>
 
   <Card kind="tile" title="Glosario" href="/docs/glosario" icon="fa-duotone fa-book">Términos técnicos y financieros</Card>
+
+  <Card kind="tile" title="Respuestas y Errores" href="/docs/respuestas-y-errores" icon="fa-duotone fa-triangle-exclamation">Códigos HTTP, paginación, errores y entidades</Card>
 </Cards>

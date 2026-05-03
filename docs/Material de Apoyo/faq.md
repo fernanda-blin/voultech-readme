@@ -35,6 +35,10 @@ Consulta respuestas rápidas a las preguntas más frecuentes sobre autenticació
 
 **Resultado esperado:** podrás resolver dudas frecuentes de integración sin salir de esta página.
 
+<Callout icon="📖" theme="info">
+  ¿Buscas el detalle técnico de códigos HTTP, paginación o catálogos de errores? Ver [Respuestas y Errores](/docs/respuestas-y-errores).
+</Callout>
+
 ## Autenticación y acceso
 
 <Accordion title="¿Qué necesito para comenzar a integrarme con la API?" icon="fa-duotone fa-key">

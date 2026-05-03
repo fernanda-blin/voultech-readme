@@ -17,13 +17,13 @@ Crea y gestiona cuentas Alpaca para que tus clientes operen en mercados internac
     Crea una cuenta Alpaca asociada a una cuenta local.
   </Card>
   <Card title="Detalle de cuenta" href="#obtener-una-cuenta-alpaca" icon="fa-id-card">
-    Consultá el detalle de una cuenta internacional específica.
+    Consulta el detalle de una cuenta internacional específica.
   </Card>
   <Card title="Listar cuentas" href="#obtener-todas-las-cuentas-alpaca" icon="fa-list">
-    Listá las cuentas Alpaca del asesor autenticado.
+    Lista las cuentas Alpaca del asesor autenticado.
   </Card>
   <Card title="Saldo" href="#obtener-saldo-de-una-cuenta-alpaca" icon="fa-wallet">
-    Revisá equity, cash, buying power y portafolio.
+    Revisa equity, cash, buying power y portafolio.
   </Card>
 </Cards>
 
@@ -90,7 +90,7 @@ Crea una cuenta Alpaca para el cliente especificado usando el asesor autenticado
 ```
 
 <Callout icon="📘" theme="info">
-  La respuesta entrega el `accountNumber` de Alpaca, que necesitás para consultar saldo, custodias, actividad y órdenes.
+  La respuesta entrega el `accountNumber` de Alpaca, que necesitas para consultar saldo, custodias, actividad y órdenes.
 </Callout>
 
 <br />
@@ -199,7 +199,7 @@ Obtiene el saldo completo de una cuenta Alpaca: equity, cash, buying power y val
 </Accordion>
 
 <Callout icon="⚠️" theme="warning">
-  **No existe WebSocket para el equity total.** Implementá **polling periódico** a este endpoint. Para saldo de caja (`cash`) sí está disponible WebSocket.
+  **No existe WebSocket para el equity total.** Implementa **polling periódico** a este endpoint. Para saldo de caja (`cash`) sí está disponible WebSocket.
 </Callout>
 
 <br />
@@ -207,7 +207,7 @@ Obtiene el saldo completo de una cuenta Alpaca: equity, cash, buying power y val
 ## Flujo recomendado
 
 1. Creá la cuenta con `POST /CuentaAlpaca/CrearClienteAlpaca` incluyendo `fundingSource`
-2. Guardá el `accountNumber` retornado
-3. Consultá el detalle con `GET /CuentaAlpaca/ObtenerCuentaAlpaca/{accountNumber}`
-4. Verificá el saldo con `GET /CuentaAlpaca/SaldoAlpaca/{accountNumber}`
-5. Usá ese `accountNumber` en las páginas de actividad, custodias y órdenes
+2. Guarda el `accountNumber` retornado
+3. Consulta el detalle con `GET /CuentaAlpaca/ObtenerCuentaAlpaca/{accountNumber}`
+4. Verifica el saldo con `GET /CuentaAlpaca/SaldoAlpaca/{accountNumber}`
+5. Usa ese `accountNumber` en las páginas de actividad, custodias y órdenes

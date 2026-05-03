@@ -151,6 +151,10 @@ Authorization: Bearer {tu_token}
   La seguridad se basa en la **asociación entre el token, el asesor y el recurso**. No puedes consultar datos de clientes o cuentas que no estén vinculados a tu código de asesor.
 </Callout>
 
+<Callout icon="📖" theme="info">
+  Para más detalle sobre códigos HTTP y formato de errores, revisa [Respuestas y Errores](/docs/respuestas-y-errores).
+</Callout>
+
 <br />
 
 ## Swagger interactivo

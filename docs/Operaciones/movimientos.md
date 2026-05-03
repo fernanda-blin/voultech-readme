@@ -413,3 +413,12 @@ Ingresa una operación spot de compra o venta de divisas.
 | SPT-015 | Excepción del sistema |
 
 </Accordion>
+
+<br />
+
+## Próximos pasos
+
+<Cards columns={2}>
+  <Card title="Sistema de Eventos" href="/docs/eventos" icon="fa-duotone fa-bell">Recibe notificaciones automáticas cuando se ejecutan movimientos y órdenes en tiempo real.</Card>
+  <Card title="Operaciones internacionales" href="/docs/introduccion-alpaca" icon="fa-duotone fa-globe">¿Necesitas operar en mercados internacionales? Conoce el módulo Alpaca.</Card>
+</Cards>

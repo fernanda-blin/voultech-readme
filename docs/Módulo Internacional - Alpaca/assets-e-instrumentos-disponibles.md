@@ -14,7 +14,7 @@ Busca instrumentos disponibles para operar en bolsa internacional, consulta coti
 
 <Cards columns={4}>
   <Card title="Buscar assets" href="#buscar-assets" icon="fa-magnifying-glass">
-    Buscá instrumentos por símbolo, nombre o bolsa.
+    Busca instrumentos por símbolo, nombre o bolsa.
   </Card>
   <Card title="Última cotización" href="#ultima-cotizacion-de-un-activo" icon="fa-chart-line">
     Precio bid/ask en tiempo real para un activo.
@@ -129,7 +129,7 @@ Obtiene el estado actual del reloj de mercado de Alpaca: si está abierto, próx
 ```
 
 <Callout icon="💡" theme="info">
-  Usá este endpoint antes de enviar órdenes para validar que el mercado esté operativo.
+  Usa este endpoint antes de enviar órdenes para validar que el mercado esté operativo.
 </Callout>
 
 <br />
@@ -190,7 +190,7 @@ Endpoints proxy al micro de Alpaca para consultar market data histórica y en ti
 | `sort` | string | Orden: `asc` o `desc` |
 
 <Callout icon="💡" theme="info">
-  Para endpoints batch usá `symbols=AAPL,MSFT`. Para un solo símbolo, usá el endpoint `/{symbol}/...` o el batch con un solo ticker.
+  Para endpoints batch usa `symbols=AAPL,MSFT`. Para un solo símbolo, usa el endpoint `/{symbol}/...` o el batch con un solo ticker.
 </Callout>
 
 ### Bars (OHLCV)

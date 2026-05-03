@@ -33,6 +33,8 @@ Consulta los catálogos del sistema para obtener valores válidos que te permita
 GET /api/publicapi/creasys/{NombreLista}
 ```
 
+`{NombreLista}` es un patrón: reemplázalo por el nombre del catálogo que necesites (`Pais`, `Banco`, `Moneda`, `PerfilRiesgo`, `TipoCuenta`, etc.). Los catálogos disponibles están listados más abajo.
+
 **Resultado esperado:** obtienes los valores de referencia necesarios para construir requests válidos en el resto de la integración.
 
 <br />

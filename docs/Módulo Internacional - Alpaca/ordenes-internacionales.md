@@ -114,13 +114,13 @@ Ingresa órdenes para cuentas **nacionales (XSGO)** o **internacionales (ALPACA)
 
 ## Flujo recomendado
 
-1. Verificá que el mercado esté abierto con `GET /ClockAlpaca`
-2. Buscá el ticker disponible con `GET /Asset?search=...` o `GET /Asset?nemo=...`
-3. Consultá la cotización actual con `GET /Asset/LastQuote?nemo=...`
+1. Verifica que el mercado esté abierto con `GET /ClockAlpaca`
+2. Busca el ticker disponible con `GET /Asset?search=...` o `GET /Asset?nemo=...`
+3. Consulta la cotización actual con `GET /Asset/LastQuote?nemo=...`
 4. Generá un `uuid` único (idempotencia)
-5. Enviá la orden con `POST /Ordenes/IngresarOrdenesMercado`
-6. Esperá la confirmación de ejecución vía Service Bus
-7. Consultá la posición resultante con `GET /CuentaAlpaca/Custodias/{accountNumber}`
+5. Envía la orden con `POST /Ordenes/IngresarOrdenesMercado`
+6. Espera la confirmación de ejecución vía Service Bus
+7. Consulta la posición resultante con `GET /CuentaAlpaca/Custodias/{accountNumber}`
 
 <br />
 

@@ -182,3 +182,12 @@ Habilita una caja en una moneda específica dentro de la cuenta de inversión. L
 ## Consultar cajas
 
 Para revisar saldos de las cajas, ver la sección [Consultas Operativas](/docs/consultas-operativas) que cubre `GET /Cajas`, `GET /Cajas/ConSaldo` y `GET /Cajas/ConSaldoOnline`.
+
+<br />
+
+## Próximos pasos
+
+<Cards columns={2}>
+  <Card title="Movimientos y Operaciones" href="/docs/movimientos" icon="fa-duotone fa-arrow-right-arrow-left">Aportes, retiros, órdenes de instrumentos y operaciones spot.</Card>
+  <Card title="Cuentas Internacionales (Alpaca)" href="/docs/introduccion-alpaca" icon="fa-duotone fa-globe">Apertura de cuentas para operar instrumentos en mercados internacionales.</Card>
+</Cards>

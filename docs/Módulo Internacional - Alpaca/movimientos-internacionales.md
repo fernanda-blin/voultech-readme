@@ -78,7 +78,7 @@ Registra un movimiento internacional de tipo **retiro** o **aporte patrimonial**
 ```
 
 <Callout icon="💡" theme="info">
-  Usá `uuid` para mantener trazabilidad e idempotencia sobre cada movimiento internacional registrado.
+  Usa `uuid` para mantener trazabilidad e idempotencia sobre cada movimiento internacional registrado.
 </Callout>
 
 <br />
@@ -141,19 +141,19 @@ Listado de movimientos patrimoniales para una cuenta específica, con filtros op
 ### Aporte (Voultech → Alpaca)
 
 1. El cliente deposita CLP/USD en su cuenta Voultech
-2. Registrá el aporte con `POST /MovimientosAlpaca/MovimientoInternacionalAlpaca` con `codTipoMovimiento: APO_PAT_IT`
-3. Guardá el `uuid` y `id` retornados
-4. Esperá confirmación asíncrona
+2. Registra el aporte con `POST /MovimientosAlpaca/MovimientoInternacionalAlpaca` con `codTipoMovimiento: APO_PAT_IT`
+3. Guarda el `uuid` y `id` retornados
+4. Espera confirmación asíncrona
 
 ### Retiro (Alpaca → Voultech)
 
 1. El cliente solicita un retiro
-2. Registrá el retiro con `codTipoMovimiento: RET_PAT_IT`
-3. Verificá el estado consultando `GET /MovimientosAlpaca/patrimoniales/{numCuenta}` con `estadoActual=executed`
+2. Registra el retiro con `codTipoMovimiento: RET_PAT_IT`
+3. Verifica el estado consultando `GET /MovimientosAlpaca/patrimoniales/{numCuenta}` con `estadoActual=executed`
 
 <br />
 
 ## Relación con otros componentes
 
-- Usá **[Cuentas Internacionales](/docs/cuentas-internacionales)** para validar el saldo antes de procesar un retiro
-- Consultá **[Actividad y Custodias](/docs/actividad-y-custodias)** para ver el detalle del JNLC asociado
+- Usa **[Cuentas Internacionales](/docs/cuentas-internacionales)** para validar el saldo antes de procesar un retiro
+- Consulta **[Actividad y Custodias](/docs/actividad-y-custodias)** para ver el detalle del JNLC asociado

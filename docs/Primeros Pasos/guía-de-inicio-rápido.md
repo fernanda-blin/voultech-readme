@@ -249,4 +249,6 @@ Si `saldoDisponible` refleja `100000`, completaste el flujo básico de esta inte
   <Card title="Sistema de Eventos" href="/docs/eventos" icon="fa-duotone fa-bell">Suscríbete para monitorear movimientos en tiempo real</Card>
 
   <Card title="Preguntas Frecuentes" href="/docs/faq" icon="fa-duotone fa-circle-question">Resuelve las dudas más comunes de integración</Card>
+
+  <Card title="Respuestas y Errores" href="/docs/respuestas-y-errores" icon="fa-duotone fa-triangle-exclamation">Interpreta códigos HTTP, paginación y errores de la API</Card>
 </Cards>

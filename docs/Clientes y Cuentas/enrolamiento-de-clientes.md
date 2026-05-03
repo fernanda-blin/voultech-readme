@@ -24,7 +24,7 @@ Registra un cliente en Voultech con sus datos personales y documentación KYC, y
     Recupera datos completos del cliente, incluyendo contactos asociados.
   </Card>
   <Card title="Subir documentos" href="#subir-documentos-caso-avanzado" icon="fa-file-arrow-up">
-    Sólo si enrolaste con datos mínimos y necesitás cargar documentos después.
+    Sólo si enrolaste con datos mínimos y necesitas cargar documentos después.
   </Card>
 </Cards>
 
@@ -37,7 +37,7 @@ Registra un cliente en Voultech con sus datos personales y documentación KYC, y
 Crea un cliente en el sistema. El body incluye los datos de la **persona** (natural o jurídica) y el **asesor** (tu fintech). Esta llamada crea simultáneamente la persona y el cliente — no necesitas llamar a `POST /Personas` por separado.
 
 <Callout icon="📎" theme="info">
-  En el flujo típico de enrolamiento, la documentación KYC del cliente (cédula, contrato, etc.) se carga **junto con la creación del cliente**. Sólo si enrolás con datos mínimos y posponés la carga, usá `POST /Documentos` después (ver [Subir documentos](#subir-documentos-caso-avanzado)).
+  En el flujo típico de enrolamiento, la documentación KYC del cliente (cédula, contrato, etc.) se carga **junto con la creación del cliente**. Sólo si enrolás con datos mínimos y posponés la carga, usa `POST /Documentos` después (ver [Subir documentos](#subir-documentos-caso-avanzado)).
 </Callout>
 
 <Accordion title="Ver campos del body" icon="fa-file-lines">
@@ -120,7 +120,7 @@ Devuelve los datos completos del cliente, incluyendo persona, dirección, teléf
 
 **→ GET** `/api/publicapi/creasys/Personas?identificador={RUT}`
 
-Si necesitás los datos de una **persona** que aún no es cliente (por ejemplo, un representante legal o relacionado), usá este endpoint.
+Si necesitas los datos de una **persona** que aún no es cliente (por ejemplo, un representante legal o relacionado), usa este endpoint.
 
 **Resultado esperado:** datos de la persona registrada, sin el contexto de cliente/asesor.
 
@@ -129,7 +129,7 @@ Si necesitás los datos de una **persona** que aún no es cliente (por ejemplo, 
 ## Subir documentos (caso avanzado)
 
 <Callout icon="📌" theme="info">
-  En el flujo típico **no necesitás este endpoint** — la documentación KYC se carga junto con `POST /Clientes`. Usá `POST /Documentos` sólo si enrolaste con datos mínimos y querés adjuntar los documentos en una llamada posterior.
+  En el flujo típico **no necesitas este endpoint** — la documentación KYC se carga junto con `POST /Clientes`. Usa `POST /Documentos` sólo si enrolaste con datos mínimos y quieres adjuntar los documentos en una llamada posterior.
 </Callout>
 
 **→ POST** `/api/publicapi/creasys/Documentos`
