@@ -90,7 +90,7 @@ Versión **optimizada** del snapshot, ideal para consultas masivas o vistas de a
 </Accordion>
 
 <Callout icon="💡" theme="info">
-  Usá `CarteraActualOptimizada` para vistas rápidas y frecuentes. Usá `Cartera` o `CarteraDetallada` cuando necesites el detalle completo.
+  Usa `CarteraActualOptimizada` para vistas rápidas y frecuentes. Usa `Cartera` o `CarteraDetallada` cuando necesites el detalle completo.
 </Callout>
 
 **Resultado esperado:** obtienes la posición vigente del cliente con el nivel de detalle que mejor se ajuste a tu caso de uso.
