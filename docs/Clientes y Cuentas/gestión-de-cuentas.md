@@ -14,6 +14,18 @@ Una vez registrado el cliente, gestiona su operativa creando una cuenta de inver
   Flujo base: **Crear cuenta de inversión → Asociar cuenta bancaria → Crear cajas por moneda**.
 </Callout>
 
+## Cuenta de inversión vs cuenta bancaria
+
+Son dos cosas distintas. La cuenta de inversión vive dentro de Voultech; la cuenta bancaria es la cuenta del cliente en su banco, sólo se asocia para mover plata entre el banco y Voultech.
+
+| | Cuenta de inversión | Cuenta bancaria |
+|---|---|---|
+| **Endpoint** | `POST /Cuentas` | `POST /CuentaCorriente` |
+| **Qué representa** | Cuenta operativa del cliente dentro de Voultech (donde se administra la inversión, las cajas y la cartera) | Cuenta del cliente en un banco (BICE, Itaú, Santander, etc.) |
+| **Identificador** | `numCuenta` (ej. `12345678/17`) — generado por la fintech | `numeroCuentaCte` — número real del cliente en el banco |
+| **Para qué sirve** | Operar: comprar/vender instrumentos, registrar movimientos, ver cartera | Recibir abonos del cliente y ejecutar retiros hacia el cliente |
+| **Cuántas puede tener** | Varias por cliente (distintos perfiles, monedas, mercados) | Varias por cliente (distintos bancos o monedas) |
+
 ## Operaciones disponibles
 
 <Cards columns={3}>

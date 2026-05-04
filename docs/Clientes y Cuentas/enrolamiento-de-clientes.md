@@ -47,7 +47,7 @@ Crea un cliente en el sistema. El body incluye los datos de la **persona** (natu
 | `persona` | object | Datos de la persona (ver schema `PersonaMantencionDTO`) |
 | `pep` | string | `S` si es Persona Expuesta Políticamente, `N` en caso contrario |
 | `fatca` | string | `S` si aplica FATCA, `N` en caso contrario |
-| `codIdentificacion` | string | Código adicional de identificación (opcional) |
+| `codIdentificacion` | string | Código del proveedor KYC que validó la identidad (Rillis o Identyz). Lo entrega el proveedor cuando completa la verificación; lo guardas y lo envías al crear el cliente. |
 | `relacionado` | object | Datos del banco relacionado al cliente (opcional) |
 | `asesor` | array | Lista con el `abrNombre` (código de asesor) que vincula al cliente con tu fintech |
 
@@ -96,6 +96,10 @@ Crea un cliente en el sistema. El body incluye los datos de la **persona** (natu
 
 <Callout icon="💡" theme="info">
   Antes de enviar el cliente, consulta los catálogos válidos: `GET /Comuna`, `GET /Pais`, `GET /EstadoCivil`, `GET /TipoIdentificacion`, `GET /TipoEntidad`. Ver [Listados del Sistema](/docs/datos-del-sistema).
+</Callout>
+
+<Callout icon="🆔" theme="info">
+  El `codIdentificacion` identifica al proveedor KYC que validó la identidad del cliente. Voultech soporta **Rillis** e **Identyz**. Cuando integras uno de los dos, el proveedor te entrega un código por verificación que debes guardar y enviar acá. Si dejas el campo vacío, el sistema asume que la validación se ejecutará por el flujo interno de Voultech.
 </Callout>
 
 **Respuesta exitosa:** `201 Created`. El cliente queda registrado y la documentación KYC asociada queda lista para validación automática.
@@ -173,14 +177,20 @@ Carga documentos KYC del cliente codificados en **Base64**. La validación de id
 
 <br />
 
-## Crear persona sin cliente (caso avanzado)
+## Crear persona asociada (caso avanzado)
 
 <Callout icon="📌" theme="info">
-  Para el flujo base de enrolamiento, **no necesitas** este endpoint — `POST /Clientes` ya crea la persona internamente.
+  **Persona ≠ Cliente.** Una persona es la entidad natural o jurídica registrada en el sistema; un cliente es una persona enrolada con tu fintech. En el flujo base **no necesitas este endpoint** — `POST /Clientes` ya crea la persona internamente.
 </Callout>
 
 **→ POST** `/api/publicapi/creasys/Personas`
 
-Crea una persona en el sistema sin asociarla a un cliente. Útil cuando registrás representantes legales, beneficiarios o personas relacionadas que después se vinculan a un cliente existente.
+Crea una **persona que no es cliente** pero que está asociada a un cliente con un tipo de relación. Casos típicos:
 
-**Resultado esperado:** la persona queda registrada en el sistema, disponible para vincularse posteriormente con un cliente.
+- **Cónyuge** del cliente (relevante para régimen patrimonial conyugal)
+- **Representante legal** (en clientes jurídicos)
+- **Beneficiario**, **apoderado** o **relacionado** según norma CMF
+
+La persona queda registrada y luego se vincula al cliente principal con un `codTipoRelacion` (cónyuge, representante, etc.).
+
+**Resultado esperado:** la persona queda registrada en el sistema, disponible para vincularse a un cliente existente con su tipo de relación.

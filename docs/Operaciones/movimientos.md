@@ -265,11 +265,15 @@ Ingresa una operación de inversión o rescate sobre una cuenta remunerada. El e
 
 <br />
 
-## Orden de compra/venta de instrumentos
+## Orden de compra/venta de instrumentos (renta variable)
 
 **→ POST** `/api/publicapi/creasys/Ordenes/IngresarOrdenesMercado`
 
-Ingresa una orden de compra o venta de un instrumento. La orden viaja al motor de Voultech y al mercado para su ejecución.
+Ingresa una orden de compra o venta de un instrumento de renta variable. La orden viaja al motor de Voultech y al mercado para su ejecución.
+
+<Callout icon="📚" theme="info">
+  En el API reference este endpoint aparece tanto en **Órdenes — Renta Variable** (mercado nacional) como en **Órdenes Internacionales** (Alpaca). Es el mismo endpoint: el destino lo determinan `tipoSeguridad`, `codBolsa` y la cuenta utilizada.
+</Callout>
 
 <Accordion title="Ver parámetros principales" icon="fa-file-lines">
 
@@ -339,11 +343,11 @@ Ingresa una orden de compra o venta de un instrumento. La orden viaja al motor d
 
 <br />
 
-## Compra/venta de divisas (Spot)
+## Compra/venta de divisas (FX / Spot)
 
 **→ POST** `/api/publicapi/creasys/Operaciones/IngresoOperacionSpot`
 
-Ingresa una operación spot de compra o venta de divisas.
+Ingresa una operación spot de compra o venta de divisas. En el API reference vive bajo la categoría **Órdenes — FX y Spot**, separada de las órdenes de renta variable.
 
 <Callout icon="⚠️" theme="warning">
   Para comprar efectivamente las divisas debes conectarte a la **API FX de Voultech** y obtener el precio de mesa.

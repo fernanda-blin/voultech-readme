@@ -140,7 +140,11 @@ Si la creación fue exitosa, recibirás una respuesta **`201 Created`**.
 
 **Resultado:** el cliente queda registrado para continuar con la carga de documentos y la apertura de cuenta.
 
-### 3.2 Subir documentos
+### 3.2 Subir documentos (sólo si no los enviaste en 3.1)
+
+<Callout icon="📌" theme="warning">
+  En el flujo ideal, los documentos se envían **junto con `POST /Clientes`**. Usa este paso únicamente si enrolaste con datos mínimos y necesitas adjuntar los documentos en una llamada posterior.
+</Callout>
 
 Sube la documentación requerida (cédula, contrato) codificada en **Base64**.
 
