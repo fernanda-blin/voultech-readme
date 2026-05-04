@@ -1,5 +1,5 @@
 ---
-title: 07. Órdenes — FX y Spot
+title: 07. Órdenes FX
 hidden: false
 ---
 
