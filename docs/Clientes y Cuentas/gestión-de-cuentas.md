@@ -200,6 +200,8 @@ Para revisar saldos de las cajas, ver la sección [Consultas Operativas](/docs/c
 ## Próximos pasos
 
 <Cards columns={2}>
-  <Card title="Movimientos y Operaciones" href="/docs/movimientos" icon="fa-duotone fa-arrow-right-arrow-left">Aportes, retiros, órdenes de instrumentos y operaciones spot.</Card>
+  <Card title="Movimientos de Caja" href="/docs/movimientos" icon="fa-duotone fa-money-bill-transfer">Aportes, retiros y cuenta remunerada.</Card>
+  <Card title="Órdenes de Renta Variable" href="/docs/ordenes-renta-variable" icon="fa-duotone fa-chart-line">Ingresa y anula órdenes de compra/venta de instrumentos.</Card>
+  <Card title="Órdenes FX (Spot)" href="/docs/ordenes-fx" icon="fa-duotone fa-money-bill-trend-up">Compra y venta de divisas con liquidación spot.</Card>
   <Card title="Cuentas Internacionales (Alpaca)" href="/docs/introduccion-alpaca" icon="fa-duotone fa-globe">Apertura de cuentas para operar instrumentos en mercados internacionales.</Card>
 </Cards>

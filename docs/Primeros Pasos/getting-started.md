@@ -64,7 +64,11 @@ La API de Voultech ofrece una solución **Investment-as-a-Service** que permite 
 
   <Card kind="tile" title="Gestión de Cuentas" href="/docs/gestión-de-cuentas" icon="fa-duotone fa-building-columns">Cuentas de inversión, cuentas bancarias y comisiones</Card>
 
-  <Card kind="tile" title="Movimientos y Operaciones" href="/docs/movimientos" icon="fa-duotone fa-arrow-right-arrow-left">Aportes, retiros, órdenes y operaciones spot</Card>
+  <Card kind="tile" title="Movimientos de Caja" href="/docs/movimientos" icon="fa-duotone fa-arrow-right-arrow-left">Aportes, retiros y cuenta remunerada</Card>
+
+  <Card kind="tile" title="Órdenes de Renta Variable" href="/docs/ordenes-renta-variable" icon="fa-duotone fa-chart-line">Compra y venta de instrumentos, anulación de órdenes</Card>
+
+  <Card kind="tile" title="Órdenes FX (Spot)" href="/docs/ordenes-fx" icon="fa-duotone fa-money-bill-trend-up">Compra y venta de divisas con liquidación spot</Card>
 
   <Card kind="tile" title="Sistema de Eventos" href="/docs/eventos" icon="fa-duotone fa-bell">Notificaciones en tiempo real vía Service Bus</Card>
 

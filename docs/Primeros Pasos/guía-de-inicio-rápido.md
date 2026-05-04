@@ -246,7 +246,7 @@ Si `saldoDisponible` refleja `100000`, completaste el flujo básico de esta inte
 ### Próximos pasos
 
 <Cards>
-  <Card title="Ejecutar una orden de mercado" href="/docs/movimientos" icon="fa-duotone fa-chart-line">Compra tu primer instrumento con POST /Ordenes/IngresarOrdenesMercado</Card>
+  <Card title="Ejecutar una orden de mercado" href="/docs/ordenes-renta-variable" icon="fa-duotone fa-chart-line">Compra tu primer instrumento con POST /Ordenes/IngresarOrdenesMercado</Card>
 
   <Card title="Consultar la cartera" href="/docs/consultas-operativas" icon="fa-duotone fa-briefcase">Revisa el portafolio del cliente con GET /Cartera</Card>
 

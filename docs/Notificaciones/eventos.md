@@ -225,8 +225,8 @@ Los mensajes se envían en formato **JSON** con una frecuencia aproximada de **1
 | 005 | Document rejected | Documento rechazado por proveedor |
 | 006 | Code not found | No se encuentra codIdentificación |
 
-**Resultado esperado:** determinas si la validación KYC fue aprobada o rechazada y actuás según el código informado.
+**Resultado esperado:** determinas si la validación KYC fue aprobada o rechazada y actúas según el código informado.
 
 <Callout icon="💡" theme="info">
-  El sistema de eventos está diseñado para notificaciones **en tiempo real** (pub/sub). Si perdés un mensaje, puedes consultar el estado manualmente vía API (por ejemplo: saldos o estado KYC directamente).
+  El sistema de eventos está diseñado para notificaciones **en tiempo real** (pub/sub). Si pierdes un mensaje, puedes consultar el estado manualmente vía API (por ejemplo: saldos o estado KYC directamente).
 </Callout>

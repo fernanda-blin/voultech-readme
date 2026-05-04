@@ -1,29 +1,33 @@
 ---
-title: Movimientos y Operaciones
+title: Movimientos de Caja
 excerpt: >-
-  Gestiona movimientos y operaciones financieras: aportes, retiros, retiros
-  Shinkansen, órdenes de instrumentos y operaciones spot.
+  Registra aportes, retiros y operaciones sobre la caja del cliente: aportes
+  puntuales, retiros vía Shinkansen y cuenta remunerada.
 deprecated: false
 hidden: false
 metadata:
   robots: index
 ---
-Ejecuta movimientos y operaciones financieras sobre las cuentas de tus clientes: aportes, retiros, órdenes sobre instrumentos y compra/venta de divisas.
+Registra movimientos sobre la caja del cliente: aportes y retiros patrimoniales, retiros automáticos vía Shinkansen y operaciones sobre cuenta remunerada.
+
+<Callout icon="🧭" theme="info">
+  Esta página cubre **movimientos de caja**. Para órdenes sobre instrumentos ver [Órdenes de Renta Variable](/docs/ordenes-renta-variable). Para compra/venta de divisas ver [Órdenes FX (Spot)](/docs/ordenes-fx).
+</Callout>
 
 ## Flujo estándar
 
 El flujo de movimientos depende del modelo de negocio de cada fintech. Un ejemplo típico:
 
-1. El cliente realiza un **aporte**
+1. El cliente realiza un **aporte** sobre su caja
 2. La fintech recibe la notificación a través del **Sistema de Eventos**
-3. El cliente realiza una **compra de divisas extranjeras**
-4. Ejecuta una **orden de compra de instrumento financiero**
+3. El cliente realiza una **compra de divisas** (ver [Órdenes FX](/docs/ordenes-fx))
+4. Ejecuta una **orden de instrumento financiero** (ver [Órdenes de Renta Variable](/docs/ordenes-renta-variable))
 5. Al cerrar la inversión, **vende el instrumento** y **reconvierte la divisa**
-6. Se realiza el **retiro de fondos**
+6. Se realiza el **retiro de fondos** desde la caja
 
-## Operaciones disponibles
+## Operaciones de caja disponibles
 
-<Cards columns={5}>
+<Cards columns={3}>
   <Card title="Aportes y retiros" href="#aportes-y-retiros" icon="fa-money-bill-transfer">
     Registra movimientos puntuales o masivos de ingreso y salida de fondos.
   </Card>
@@ -31,13 +35,7 @@ El flujo de movimientos depende del modelo de negocio de cada fintech. Un ejempl
     Ejecuta retiros bancarios automáticos a cuentas del mismo cliente.
   </Card>
   <Card title="Cuenta remunerada" href="#aporteretiro-con-cuenta-remunerada" icon="fa-piggy-bank">
-    Registra inversiones o rescates con impacto en orden y movimiento.
-  </Card>
-  <Card title="Órdenes de instrumentos" href="#orden-de-compraventa-de-instrumentos" icon="fa-chart-line">
-    Ingresa órdenes de compra o venta y anula órdenes existentes.
-  </Card>
-  <Card title="Operaciones spot" href="#compraventa-de-divisas-spot" icon="fa-money-bill-trend-up">
-    Registra compras y ventas de divisas con liquidación spot.
+    Registra inversiones o rescates sobre cuenta remunerada.
   </Card>
 </Cards>
 
@@ -265,164 +263,11 @@ Ingresa una operación de inversión o rescate sobre una cuenta remunerada. El e
 
 <br />
 
-## Orden de compra/venta de instrumentos (renta variable)
-
-**→ POST** `/api/publicapi/creasys/Ordenes/IngresarOrdenesMercado`
-
-Ingresa una orden de compra o venta de un instrumento de renta variable. La orden viaja al motor de Voultech y al mercado para su ejecución.
-
-<Callout icon="📚" theme="info">
-  En el API reference este endpoint aparece tanto en **Órdenes — Renta Variable** (mercado nacional) como en **Órdenes Internacionales** (Alpaca). Es el mismo endpoint: el destino lo determinan `tipoSeguridad`, `codBolsa` y la cuenta utilizada.
-</Callout>
-
-<Accordion title="Ver parámetros principales" icon="fa-file-lines">
-
-| Parámetro | Descripción |
-|---|---|
-| `uuid` | Identificador único de la orden (idempotencia) |
-| `numCuenta` | Número de cuenta del cliente |
-| `tipoOperacion` | `C` (Compra) o `V` (Venta) |
-| `cantidad` | Cantidad a transar |
-| `precio` | Precio unitario |
-| `tipoPrecio` | `LIMIT` o `MARKET` |
-| `nemotecnico` | Código bolsa del instrumento |
-| `tipoSeguridad` | Según [FIX Dictionary 4.2](https://www.onixs.biz/fix-dictionary/4.2/tagnum_167.html) (ej: `CS`) |
-| `codBolsa` | Bolsa de Santiago: `XSGO` |
-| `tipoLiquidacion` | `CASH` (PH), `NEXT_DAY` (PM) o `T2` (CN) |
-| `comision` | Comisión porcentual (opcional, máx. 2 decimales, entre `0` y `1`) |
-
-</Accordion>
-
-```json title="Request Body"
-[
-  {
-    "uuid": "abcdefgh-12kl-3456-mnop789qrstu",
-    "numCuenta": "11931044/80",
-    "nemotecnico": "COPEC",
-    "cantidad": 100,
-    "precio": 1000,
-    "tipoPrecio": "LIMIT",
-    "tipoOperacion": "C",
-    "tipoSeguridad": "CS",
-    "tipoLiquidacion": "T2",
-    "codBolsa": "XSGO",
-    "comision": 0
-  }
-]
-```
-
-<Callout icon="💡" theme="info">
-  Valores especiales en `cantidad` de la respuesta: `98` = Cancelado, `99` = Rechazado, `50` = Parcialmente asignado, `100` = Asignado.
-</Callout>
-
-**Resultado esperado:** la orden queda ingresada para ejecución en mercado según los parámetros enviados.
-
-### Anular orden
-
-**→ POST** `/api/publicapi/creasys/Ordenes/AnularOrden`
-
-<Accordion title="Ver parámetros" icon="fa-file-lines">
-
-| Parámetro | Descripción |
-|---|---|
-| `uuid` | Identificador de la orden a anular |
-| `numCuenta` | Cuenta sobre la que se ingresó la orden |
-
-</Accordion>
-
-```json title="Request Body"
-[
-  {
-    "uuid": "abcdefgh-12kl-3456-mnop789qrstu",
-    "numCuenta": "12345678/0"
-  }
-]
-```
-
-**Resultado esperado:** la orden indicada queda solicitada para anulación.
-
-<br />
-
-## Compra/venta de divisas (FX / Spot)
-
-**→ POST** `/api/publicapi/creasys/Operaciones/IngresoOperacionSpot`
-
-Ingresa una operación spot de compra o venta de divisas. En el API reference vive bajo la categoría **Órdenes — FX y Spot**, separada de las órdenes de renta variable.
-
-<Callout icon="⚠️" theme="warning">
-  Para comprar efectivamente las divisas debes conectarte a la **API FX de Voultech** y obtener el precio de mesa.
-</Callout>
-
-<Accordion title="Ver parámetros principales" icon="fa-file-lines">
-
-| Parámetro | Descripción |
-|---|---|
-| `numCuenta` | Cuenta del cliente |
-| `codTipoOperacion` | `COMPRA` o `VENTA` |
-| `contraparte` | Usar `M/X` como contraparte default |
-| `codMonedaOperacion` | `CLP`, `USD`, `EUR` |
-| `codMonedaPagoCobro` | `CLP`, `USD`, `EUR` |
-| `cantidad` | Cantidad de la divisa operada |
-| `precio` | Precio unitario final entregado al cliente |
-| `precioMesa` | Precio de mesa (obtenido vía API FX) |
-| `precioTransferencia` | Debe ser igual a `precioMesa` |
-| `monto` | `cantidad × precio`. Siempre en CLP, redondeado sin decimales |
-| `fechaOperacion` | Fecha de la operación |
-| `fechaLiquidacion` | Fecha de liquidación |
-| `obsOperacion` | Observación opcional |
-
-</Accordion>
-
-```json title="Request Body"
-[
-  {
-    "idOperacion": 0,
-    "numCuenta": "17931004/80",
-    "codTipoOperacion": "VENTA",
-    "obsOperacion": "Prueba",
-    "fechaOperacion": "2023-05-26",
-    "fechaLiquidacion": "2023-05-26",
-    "contraparte": "M/X",
-    "codMonedaOperacion": "USD",
-    "codMonedaPagoCobro": "CLP",
-    "cantidad": 1,
-    "precio": 500,
-    "precioMesa": 500,
-    "precioTransferencia": 500,
-    "monto": 500
-  }
-]
-```
-
-**Resultado esperado:** la operación spot queda registrada con su moneda operada, moneda de pago/cobro y monto calculado.
-
-<Accordion title="Catálogo de errores — Operaciones Spot" icon="fa-duotone fa-circle-exclamation">
-
-| Código | Descripción |
-|---|---|
-| SPT-001 | No existe cuenta disponible con `numCuenta` |
-| SPT-002 | No se encontró caja vigente `codMonedaOperacion` para `numCuenta` |
-| SPT-003 | No existe caja vigente `codMonedaPagoCobro` para `numCuenta` |
-| SPT-004 | No se encuentra tipo de operación `codTipoOperacion` para Spot |
-| SPT-005 | No existe instrumento con nemotécnico `codMonedaOperacion` |
-| SPT-006 | No existe la `contraparte` |
-| SPT-007 | Tipo origen mov caja operación no encontrado |
-| SPT-008 | Tipo origen mov caja pago cobro no se encuentra |
-| SPT-009 | La fecha operación debe ser igual a la fecha máxima de operaciones ingresadas |
-| SPT-010 | El `monto` ingresado no corresponde a `precio × cantidad` |
-| SPT-011 | Saldo disponible insuficiente para ejecutar esta operación |
-| SPT-012 | UUID duplicado en la misma transacción |
-| SPT-013 | UUID ya utilizado en operación anterior |
-| SPT-014 | Error del sistema |
-| SPT-015 | Excepción del sistema |
-
-</Accordion>
-
-<br />
-
 ## Próximos pasos
 
 <Cards columns={2}>
-  <Card title="Sistema de Eventos" href="/docs/eventos" icon="fa-duotone fa-bell">Recibe notificaciones automáticas cuando se ejecutan movimientos y órdenes en tiempo real.</Card>
+  <Card title="Órdenes de Renta Variable" href="/docs/ordenes-renta-variable" icon="fa-duotone fa-chart-line">Ingresa y anula órdenes de compra/venta de instrumentos.</Card>
+  <Card title="Órdenes FX (Spot)" href="/docs/ordenes-fx" icon="fa-duotone fa-money-bill-trend-up">Compra y venta de divisas con liquidación spot.</Card>
+  <Card title="Sistema de Eventos" href="/docs/eventos" icon="fa-duotone fa-bell">Recibe notificaciones automáticas cuando se ejecutan movimientos en tiempo real.</Card>
   <Card title="Operaciones internacionales" href="/docs/introduccion-alpaca" icon="fa-duotone fa-globe">¿Necesitas operar en mercados internacionales? Conoce el módulo Alpaca.</Card>
 </Cards>
