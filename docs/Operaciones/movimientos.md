@@ -20,10 +20,9 @@ El flujo de movimientos depende del modelo de negocio de cada fintech. Un ejempl
 
 1. El cliente realiza un **aporte** sobre su caja
 2. La fintech recibe la notificación a través del **Sistema de Eventos**
-3. El cliente realiza una **compra de divisas** (ver [Órdenes FX](/docs/ordenes-fx))
-4. Ejecuta una **orden de instrumento financiero** (ver [Órdenes de Renta Variable](/docs/ordenes-renta-variable))
-5. Al cerrar la inversión, **vende el instrumento** y **reconvierte la divisa**
-6. Se realiza el **retiro de fondos** desde la caja
+3. El cliente realiza una **compra de divisas** (ver [Órdenes FX](/docs/ordenes-fx)) o ejecuta una **orden de instrumento financiero** (ver [Órdenes de Renta Variable](/docs/ordenes-renta-variable))
+4. Al cerrar la inversión, **vende el instrumento** o **reconvierte la divisa**
+5. Se realiza el **retiro de fondos** desde la caja
 
 ## Operaciones de caja disponibles
 
@@ -31,9 +30,11 @@ El flujo de movimientos depende del modelo de negocio de cada fintech. Un ejempl
   <Card title="Aportes y retiros" href="#aportes-y-retiros" icon="fa-money-bill-transfer">
     Registra movimientos puntuales o masivos de ingreso y salida de fondos.
   </Card>
+
   <Card title="Retiros Shinkansen" href="#retiros-via-shinkansen" icon="fa-building-columns">
     Ejecuta retiros bancarios automáticos a cuentas del mismo cliente.
   </Card>
+
   <Card title="Cuenta remunerada" href="#aporteretiro-con-cuenta-remunerada" icon="fa-piggy-bank">
     Registra inversiones o rescates sobre cuenta remunerada.
   </Card>
@@ -50,22 +51,20 @@ Permite registrar aportes o retiros sobre la caja de un cliente.
 **→ POST** `/api/publicapi/creasys/Movimientos/IngresoAporteRetiroMasivo` — Aportes o retiros masivos (acepta un array)
 
 <Accordion title="Ver parámetros principales" icon="fa-file-lines">
-
-| Parámetro | Tipo | Descripción |
-|---|---|---|
-| `uuid` | string | Identificador único de idempotencia del movimiento |
-| `codTipoMovimiento` | string | `APO_PAT` (aporte) o `RET_PAT` (retiro) |
-| `numCuenta` | string | Número de la cuenta donde se aplica el movimiento |
-| `dscMedioPagoCobro` | string | Medio de pago: `TRANSFERENCIA`, `EFECTIVO`, `CHEQUE`, etc. |
-| `codMoneda` | string | Moneda del movimiento: `CLP`, `USD`, `EUR` |
-| `monto` | decimal | Monto del aporte o retiro |
-| `fechaMovimiento` | date | Fecha del movimiento (ISO 8601) |
-| `fechaLiquidacion` | date | Fecha de liquidación (ISO 8601) |
-| `obsMovimiento` | string | Observación o comentario opcional |
-| `banco` | string | Banco origen/destino (cuando aplica) |
-| `numeroCuenta` | string | Número de cuenta bancaria (cuando aplica) |
-| `tipoCuenta` | string | Tipo de cuenta bancaria (cuando aplica) |
-
+  | Parámetro           | Tipo    | Descripción                                                |
+  | ------------------- | ------- | ---------------------------------------------------------- |
+  | `uuid`              | string  | Identificador único de idempotencia del movimiento         |
+  | `codTipoMovimiento` | string  | `APO_PAT` (aporte) o `RET_PAT` (retiro)                    |
+  | `numCuenta`         | string  | Número de la cuenta donde se aplica el movimiento          |
+  | `dscMedioPagoCobro` | string  | Medio de pago: `TRANSFERENCIA`, `EFECTIVO`, `CHEQUE`, etc. |
+  | `codMoneda`         | string  | Moneda del movimiento: `CLP`, `USD`, `EUR`                 |
+  | `monto`             | decimal | Monto del aporte o retiro                                  |
+  | `fechaMovimiento`   | date    | Fecha del movimiento (ISO 8601)                            |
+  | `fechaLiquidacion`  | date    | Fecha de liquidación (ISO 8601)                            |
+  | `obsMovimiento`     | string  | Observación o comentario opcional                          |
+  | `banco`             | string  | Banco origen/destino (cuando aplica)                       |
+  | `numeroCuenta`      | string  | Número de cuenta bancaria (cuando aplica)                  |
+  | `tipoCuenta`        | string  | Tipo de cuenta bancaria (cuando aplica)                    |
 </Accordion>
 
 ### Tipos de movimientos y trazabilidad
@@ -76,8 +75,8 @@ El campo `codTipoMovimiento` identifica el tipo de movimiento registrado sobre u
 
 Corresponden a movimientos que **no nacen liquidados** y pueden requerir validación o procesamiento posterior antes de quedar en estado final.
 
-| Tipo de movimiento | Código |
-|---|---|
+| Tipo de movimiento | Código    |
+| ------------------ | --------- |
 | Aporte patrimonial | `APO_PAT` |
 | Retiro patrimonial | `RET_PAT` |
 
@@ -95,19 +94,19 @@ En estos casos, el código puede incorporar un identificador adicional de origen
 
 **Ejemplos genéricos:**
 
-- `APO_PAT_XX`
-- `RET_PAT_XX`
+* `APO_PAT_XX`
+* `RET_PAT_XX`
 
 Donde `ORIGEN` corresponde a un identificador interno del sistema, canal o integración que genera el movimiento.
 
 **Otros tipos de movimiento**
 
-| Tipo de movimiento | Código |
-|---|---|
+| Tipo de movimiento     | Código      |
+| ---------------------- | ----------- |
 | Aporte ajuste contable | `APO_AJUST` |
 | Retiro ajuste contable | `RET_AJUST` |
-| Aporte regalo | `APO_GIFT` |
-| Aporte referidos | `APO_REF` |
+| Aporte regalo          | `APO_GIFT`  |
+| Aporte referidos       | `APO_REF`   |
 
 <Callout icon="💡" theme="info">
   Los identificadores de origen utilizados en movimientos liquidados son de uso interno y no forman parte de la documentación pública de la API. No todos los movimientos utilizan sufijo de trazabilidad, ya que su uso depende de la configuración aplicable en cada caso.
@@ -135,25 +134,23 @@ Donde `ORIGEN` corresponde a un identificador interno del sistema, canal o integ
 **Resultado esperado:** el movimiento queda registrado sobre la cuenta con el tipo y trazabilidad correspondiente.
 
 <Accordion title="Catálogo de errores — Aportes/Retiros" icon="fa-duotone fa-circle-exclamation">
-
-| Código | Descripción |
-|---|---|
-| ARP-001 | No se encontró la cuenta `{numCuenta}` |
-| ARP-002 | Falta ingresar `numeroCuenta` de banco |
-| ARP-003 | No se encontró caja vigente `{codMoneda}` para la cuenta `{numCuenta}` |
-| ARP-004 | Tipo origen mov caja `{codTipoMovimiento}` no existe |
-| ARP-005 | Falta ingresar `tipoCuenta` de banco |
-| ARP-006 | Falta ingresar `banco` |
-| ARP-007 | `fechaMovimiento` o `fechaLiquidacion` no es igual a la fecha actual |
-| ARP-008 | Cuando `codMoneda` es CLP el `monto` no puede contener decimales |
-| ARP-009 | La fecha operación debe ser igual a la fecha máxima de las operaciones ingresadas |
-| ARP-010 | Monto máximo permitido para `RET_PAT_BA`: 7.000.000 |
-| ARP-011 | Saldo disponible insuficiente para ejecutar este movimiento |
-| ARP-012 | UUID duplicado en la misma transacción |
-| ARP-013 | UUID ya utilizado con anterioridad en otro movimiento de caja |
-| ARP-014 | La hora actual está fuera del horario permitido |
-| ARP-015 | Excepción del sistema |
-
+  | Código  | Descripción                                                                       |
+  | ------- | --------------------------------------------------------------------------------- |
+  | ARP-001 | No se encontró la cuenta `{numCuenta}`                                            |
+  | ARP-002 | Falta ingresar `numeroCuenta` de banco                                            |
+  | ARP-003 | No se encontró caja vigente `{codMoneda}` para la cuenta `{numCuenta}`            |
+  | ARP-004 | Tipo origen mov caja `{codTipoMovimiento}` no existe                              |
+  | ARP-005 | Falta ingresar `tipoCuenta` de banco                                              |
+  | ARP-006 | Falta ingresar `banco`                                                            |
+  | ARP-007 | `fechaMovimiento` o `fechaLiquidacion` no es igual a la fecha actual              |
+  | ARP-008 | Cuando `codMoneda` es CLP el `monto` no puede contener decimales                  |
+  | ARP-009 | La fecha operación debe ser igual a la fecha máxima de las operaciones ingresadas |
+  | ARP-010 | Monto máximo permitido para `RET_PAT_BA`: 7.000.000                               |
+  | ARP-011 | Saldo disponible insuficiente para ejecutar este movimiento                       |
+  | ARP-012 | UUID duplicado en la misma transacción                                            |
+  | ARP-013 | UUID ya utilizado con anterioridad en otro movimiento de caja                     |
+  | ARP-014 | La hora actual está fuera del horario permitido                                   |
+  | ARP-015 | Excepción del sistema                                                             |
 </Accordion>
 
 <br />
@@ -164,25 +161,23 @@ Donde `ORIGEN` corresponde a un identificador interno del sistema, canal o integ
 
 Los retiros vía Shinkansen permiten transferencias bancarias automáticas a cuentas del mismo cliente:
 
-- **Montos ≤ 5.000.000 CLP** → automáticos e instantáneos
-- **Montos hasta 7.000.000 CLP** → procesamiento aproximado a las 16:00 hrs, requieren firma de apoderado
+* **Montos ≤ 5.000.000 CLP** → automáticos e instantáneos
+* **Montos hasta 7.000.000 CLP** → procesamiento aproximado a las 16:00 hrs, requieren firma de apoderado
 
 <Callout icon="🚨" theme="danger">
   Solo se permiten transferencias **a cuentas bancarias del mismo cliente**, nunca a terceros. El monto total no puede superar las 1.000 UF.
 </Callout>
 
 <Accordion title="Ver parámetros principales" icon="fa-file-lines">
-
-| Parámetro | Descripción |
-|---|---|
-| `uuid` | Identificador único de idempotencia |
-| `codTipoMovimiento` | Retiro patrimonial banco: `RET_PAT_BA` |
-| `numCuenta` | Cuenta del cliente |
-| `codMoneda` | Por el momento solo `CLP` |
-| `banco` | Banco del cliente |
-| `numeroCuenta` | Número de cuenta bancaria del cliente |
-| `tipoCuenta` | Tipo de cuenta bancaria |
-
+  | Parámetro           | Descripción                            |
+  | ------------------- | -------------------------------------- |
+  | `uuid`              | Identificador único de idempotencia    |
+  | `codTipoMovimiento` | Retiro patrimonial banco: `RET_PAT_BA` |
+  | `numCuenta`         | Cuenta del cliente                     |
+  | `codMoneda`         | Por el momento solo `CLP`              |
+  | `banco`             | Banco del cliente                      |
+  | `numeroCuenta`      | Número de cuenta bancaria del cliente  |
+  | `tipoCuenta`        | Tipo de cuenta bancaria                |
 </Accordion>
 
 ```json title="Request Body"
@@ -219,16 +214,14 @@ Ingresa una operación de inversión o rescate sobre una cuenta remunerada. El e
 3. El impacto correspondiente en **cartera y caja del cliente**
 
 <Accordion title="Ver parámetros principales" icon="fa-file-lines">
-
-| Parámetro | Descripción |
-|---|---|
-| `uuid` | Identificador único para la operación (idempotencia) |
-| `numCuenta` | Número de cuenta del cliente |
-| `codTipoOperacion` | `INVERSION` o `RESCATE` |
-| `nemotecnico` | Código bolsa del instrumento |
-| `fechaOperacion` | Fecha de la operación (ISO 8601) |
-| `monto` | Monto total de la operación |
-
+  | Parámetro          | Descripción                                          |
+  | ------------------ | ---------------------------------------------------- |
+  | `uuid`             | Identificador único para la operación (idempotencia) |
+  | `numCuenta`        | Número de cuenta del cliente                         |
+  | `codTipoOperacion` | `INVERSION` o `RESCATE`                              |
+  | `nemotecnico`      | Código bolsa del instrumento                         |
+  | `fechaOperacion`   | Fecha de la operación (ISO 8601)                     |
+  | `monto`            | Monto total de la operación                          |
 </Accordion>
 
 ```json title="Request Body"
@@ -248,17 +241,15 @@ Ingresa una operación de inversión o rescate sobre una cuenta remunerada. El e
 **Resultado esperado:** se genera el movimiento de caja y la orden financiera asociada en la cuenta del cliente.
 
 <Accordion title="Catálogo de errores — Cuenta Remunerada" icon="fa-duotone fa-circle-exclamation">
-
-| Código | Descripción |
-|---|---|
-| OCR-001 | No existe cuenta disponible con `numCuenta` |
-| OCR-002 | No se pudo obtener el precio para la operación |
-| OCR-003 | No existe operación concepto |
-| OCR-004 | No existe instrumento con `nemotecnico` |
-| OCR-005 | No se encontró caja vigente para `numCuenta` |
-| OCR-006 | El `uuid` ya ha sido procesado previamente |
-| OCR-007 | Error en la operación |
-
+  | Código  | Descripción                                    |
+  | ------- | ---------------------------------------------- |
+  | OCR-001 | No existe cuenta disponible con `numCuenta`    |
+  | OCR-002 | No se pudo obtener el precio para la operación |
+  | OCR-003 | No existe operación concepto                   |
+  | OCR-004 | No existe instrumento con `nemotecnico`        |
+  | OCR-005 | No se encontró caja vigente para `numCuenta`   |
+  | OCR-006 | El `uuid` ya ha sido procesado previamente     |
+  | OCR-007 | Error en la operación                          |
 </Accordion>
 
 <br />
