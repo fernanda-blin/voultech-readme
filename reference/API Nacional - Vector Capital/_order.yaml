@@ -3,10 +3,10 @@
 - 03-datos-de-contacto
 - 04-cuentas
 - 05-activos-e-instrumentos
-- 06-órdenes-renta-variable
-- 06b-órdenes-fx
-- 07-movimientos-y-transferencias
-- 08-cartera-y-patrimonio
-- 09-documentos
-- 10-tablas-maestras
-- 11-integraciones-y-sistema
+- 06-órdenes-y-operaciones
+- 07-órdenes-fx
+- 08-movimientos-y-transferencias
+- 09-cartera-y-patrimonio
+- 10-documentos
+- 11-tablas-maestras
+- 12-integraciones-y-sistema

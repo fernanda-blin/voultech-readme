@@ -2,7 +2,8 @@
 - post_api-publicapi-creasys-ordenes-anularorden
 - post_api-publicapi-creasys-ordenes-ingresoordenesintraday
 - post_api-publicapi-creasys-ordenes-registroordenesexterno
+- post_api-publicapi-creasys-operaciones-ingresooperacioncuentaremunerada
+- post_api-operaciones-reporte-enviar
 - get_api-publicapi-creasys-ordenes
 - get_api-publicapi-creasys-ordenes-saldocustodiaintraday
 - get_api-publicapi-creasys-operaciones
-- post_api-operaciones-reporte-enviar
